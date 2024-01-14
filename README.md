@@ -1,3 +1,9 @@
-# mwro-front
+# Mwro App
 
-npx expo start
+### Installing Dependencies
+
+`npm i`
+
+### Starting the App
+
+`npx expo start`
