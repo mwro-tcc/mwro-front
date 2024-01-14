@@ -2,6 +2,7 @@
   "expo": {
     "name": "mwro-front",
     "slug": "mwro-front",
+    "scheme": "mwro-front",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +26,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
