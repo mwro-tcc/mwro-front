@@ -1,8 +1,8 @@
-import { Pressable, Text } from "react-native";
-import { Link } from "expo-router";
+import { Text } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Page() {
-  return (
-    <Text>Criar Conta</Text>
-  );
+  const router = useRouter();
+
+  return <Text>Testing</Text>;
 }
