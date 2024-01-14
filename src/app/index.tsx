@@ -1,8 +1,7 @@
-import { Pressable, Text } from "react-native";
 import { Link } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Button, TamaguiProvider, Text, YStack } from "tamagui";
-import tamaguiConfig from "./tamagui.config";
+import tamaguiConfig from "../../tamagui.config";
 import { useFonts } from "expo-font";
 
 export default function App() {
@@ -11,7 +10,7 @@ export default function App() {
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
 
-  return loaded ? (
+  return loaded && (
     <TamaguiProvider config={tamaguiConfig}>
       <StatusBar style="auto" />
       <YStack fullscreen justifyContent="flex-end" padding="$4" gap="$4">
@@ -28,5 +27,5 @@ export default function App() {
         </Link>
       </YStack>
     </TamaguiProvider>
-  ) : null;
+  );
 }
