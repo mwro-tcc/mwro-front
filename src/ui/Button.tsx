@@ -12,7 +12,7 @@ import spacings from "./config/spacings";
 
 type Variants = {
   primary: ViewStyle;
-  secondary: ViewStyle;
+  default: ViewStyle;
 };
 
 const base_button_variant: ViewStyle = {
@@ -29,7 +29,7 @@ const button_variants = StyleSheet.create<Variants>({
     ...base_button_variant,
     backgroundColor: colors.ui_8,
   },
-  secondary: {
+  default: {
     ...base_button_variant,
     backgroundColor: colors.ui_1,
     borderColor: colors.ui_5,
@@ -44,7 +44,7 @@ const text_variants = StyleSheet.create<Variants>({
     fontWeight: "700",
     color: colors.ui_1,
   },
-  secondary: {
+  default: {
     fontWeight: "700",
     color: colors.ui_7,
   },
@@ -52,7 +52,7 @@ const text_variants = StyleSheet.create<Variants>({
 
 export default ({
   children,
-  variant = "secondary",
+  variant = "default",
   style,
   ...props
 }: TouchableOpacityProps & {

@@ -3,14 +3,17 @@ import {
   StyleShorthands,
   parse_style_shorthands,
 } from "./types/style_shorthands";
+import { ReactNode } from "react";
 
 export default ({
   style,
   componentProps,
+  children,
   ...shorthands
 }: StyleShorthands & {
-  style: ViewStyle;
-  componentProps: ViewProps;
+  children: ReactNode;
+  style?: ViewStyle;
+  componentProps?: ViewProps;
 }) => (
   <View
     {...componentProps}
@@ -20,5 +23,7 @@ export default ({
       ...(style as ViewStyle),
       ...parse_style_shorthands(shorthands),
     }}
-  />
+  >
+    {children}
+  </View>
 );
