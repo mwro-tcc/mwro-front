@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import Button from "../ui/Button";
 import VStack from "../ui/VStack";
-import { Text } from "react-native";
 import { useRouter } from "expo-router";
+import Text from "../ui/Text";
 
 export default function App() {
   const router = useRouter();
@@ -14,12 +14,7 @@ export default function App() {
     <VStack gap={10} p={20} justify="end" flex={1}>
       <StatusBar style="auto" />
       <VStack flex={1} items="center" justify="center">
-        <Text
-          style={{
-            fontSize: 28,
-            fontWeight: "600",
-          }}
-        >
+        <Text size={28} weight="600">
           mwro
         </Text>
       </VStack>

@@ -1,12 +1,15 @@
-import { Form } from "react-hook-form";
 import TextInput from "../../ui/TextInput";
 
 export default function SignUp() {
   return (
     <>
-      <TextInput placeholder="E-Mail" />
-      <TextInput placeholder="Password" />
-      <TextInput placeholder="Confirm Password" />
+      <TextInput label="E-mail" required placeholder="E-Mail" />
+      <TextInput label="Password" required placeholder="Password" />
+      <TextInput
+        label="Confirm Password"
+        required
+        placeholder="Confirm Password"
+      />
     </>
   );
 }

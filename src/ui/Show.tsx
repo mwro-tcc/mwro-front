@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 
 export default ({
   children,
-  when = true,
-  unless = false,
+  when,
+  unless,
 }: {
   children?: ReactNode;
   when?: any;

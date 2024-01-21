@@ -1,4 +1,4 @@
-import { FlexAlignType, ViewStyle } from "react-native";
+import { FlexAlignType, StyleProp, TextStyle, ViewStyle } from "react-native";
 
 type Items = "center" | "end" | "start" | "baseline" | "stretch" | "nil";
 type Justify =
@@ -39,6 +39,20 @@ const justify = {
   | undefined
 >;
 
+export type FontWeight =
+  | "normal"
+  | "bold"
+  | "100"
+  | "200"
+  | "300"
+  | "400"
+  | "500"
+  | "600"
+  | "700"
+  | "800"
+  | "900"
+  | undefined;
+
 export type StyleShorthands = Partial<{
   flex: number;
   gap: number;
@@ -58,6 +72,13 @@ export type StyleShorthands = Partial<{
   mb: number;
   items: Items;
   justify: Justify;
+  size: number;
+}>;
+
+export type TextShorthands = Partial<{
+  size: number;
+  weight: FontWeight;
+  color: string;
 }>;
 
 export const parse_style_shorthands = (
@@ -81,4 +102,12 @@ export const parse_style_shorthands = (
   marginLeft: shorthands?.ml,
   alignItems: items?.[shorthands?.items ?? "nil"],
   justifyContent: justify?.[shorthands?.justify ?? "nil"],
+});
+
+export const parse_text_style_shorthands = (
+  shorthands: TextShorthands,
+): TextStyle => ({
+  fontSize: shorthands.size,
+  fontWeight: shorthands.weight,
+  color: shorthands.color,
 });

@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TextInputProps,
-  ViewStyle,
-} from "react-native";
+import { StyleSheet, TextInput, TextInputProps, ViewStyle } from "react-native";
 import rounded from "./config/rounded";
 import shadows from "./config/shadows";
 import spacings from "./config/spacings";
@@ -12,6 +6,7 @@ import colors from "./config/colors";
 import VStack from "./VStack";
 import Show from "./Show";
 import HStack from "./HStack";
+import Text from "./Text";
 
 type Variants = {
   default: ViewStyle;
@@ -53,11 +48,11 @@ export default ({
       <Show when={label}>
         <VStack gap={3}>
           <HStack px={5} gap={3}>
-            <Text style={{ fontWeight: "600", fontSize: 12 }}>{label}</Text>
+            <Text weight="600" size={12}>
+              {label}
+            </Text>
             <Show when={required}>
-              <Text
-                style={{ color: colors.red_6, fontWeight: "600", fontSize: 12 }}
-              >
+              <Text weight="600" size={12} color={colors.red_6}>
                 *
               </Text>
             </Show>
@@ -71,7 +66,7 @@ export default ({
           />
         </VStack>
       </Show>
-      <Show unless={label}>
+      <Show when={!label}>
         <TextInput
           {...props}
           style={{
