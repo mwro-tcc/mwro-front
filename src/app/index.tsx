@@ -4,6 +4,8 @@ import VStack from "../ui/VStack";
 import { useRouter } from "expo-router";
 import Text from "../ui/Text";
 
+import "../../translations";
+
 export default function App() {
   const router = useRouter();
 

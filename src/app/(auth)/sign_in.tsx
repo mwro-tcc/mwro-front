@@ -1,10 +1,19 @@
+import { t } from "../../../translations";
 import TextInput from "../../ui/TextInput";
 
 export default function SignIn() {
-  return (
-    <>
-      <TextInput label="E-mail" required placeholder="exemplo@email.com" />
-      <TextInput label="Password" required placeholder="seNha_suPer$ecret@" />
-    </>
-  );
+    return (
+        <>
+            <TextInput
+                label={t("email.label")}
+                required
+                placeholder={t("email.placeholder")}
+            />
+            <TextInput
+                label={t("password.label")}
+                required
+                placeholder={t("password.placeholder")}
+            />
+        </>
+    );
 }
