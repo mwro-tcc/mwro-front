@@ -9,8 +9,8 @@ import "../../translations";
 export default function App() {
   const router = useRouter();
 
-  const go_to_signin_page = () => router.push("/auth/sign_in");
-  const go_to_signup_page = () => router.push("/auth/sign_up");
+  const go_to_signin_page = () => router.push("/sign_in");
+  const go_to_signup_page = () => router.push("/sign_up");
 
   return (
     <VStack gap={10} p={20} justify="end" flex={1}>

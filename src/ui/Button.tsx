@@ -56,7 +56,7 @@ export default ({
   style,
   ...props
 }: TouchableOpacityProps & {
-  children: string;
+  children: React.ReactNode;
   variant?: keyof Variants;
 }) => {
   return (
