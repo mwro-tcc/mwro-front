@@ -6,8 +6,8 @@ import React, {
   useCallback,
 } from "react";
 
-import { authGuard } from "../guard/AuthGuard";
-import { reloadServices } from "../services/axiosServer";
+import { authGuard } from "../guards/AuthGuard";
+import { reloadServices } from "../api/axiosServer";
 import { useRouter } from "expo-router";
 
 type User = {
