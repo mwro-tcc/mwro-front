@@ -1,16 +1,18 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import AuthSession from "../local/auth_session";
+import Lib from "../../lib";
 
 const Api = axios.create({
-  baseURL: "localhost",
-}) as AxiosInstance & {
-  [module: string]: any;
-};
+  baseURL: "http://192.168.0.251:3040",
+});
 
 Api.interceptors.request.use(async (config) => {
-  await AuthSession.get()
-    .then((token) => (config.headers.authorization = `Bearer ${token}`))
-    .catch((e) => console.error(e));
+  const token = Lib.error_callback(
+    await Lib.safe_call(AuthSession.get, []),
+    console.error
+  );
+
+  if (token) config.headers.authorization = `Bearer ${token}`;
 
   return config;
 });

@@ -7,11 +7,9 @@ export default (call: () => Promise<any>) => {
 
   useEffect(() => {
     call()
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((e) => setError(e));
+      .then((data) => setData(data))
+      .catch((e) => setError(e))
+      .finally(() => setLoading(false));
   }, []);
 
   return {

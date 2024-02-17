@@ -1,7 +1,7 @@
 import Auth from "./auth";
 
-const MwroApi = {
+const Mwro = {
   Auth,
 };
 
-export default MwroApi;
+export default Mwro;

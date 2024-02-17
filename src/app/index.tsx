@@ -5,12 +5,16 @@ import { useRouter } from "expo-router";
 import Text from "../ui/Text";
 
 import "../../translations";
+import useAuth from "../hooks/useAuth";
 
 export default function App() {
   const router = useRouter();
 
-  const go_to_signin_page = () => router.push("/auth/sign_in");
-  const go_to_signup_page = () => router.push("/auth/sign_up");
+  const { is_authenticated } = useAuth();
+  if (is_authenticated) router.push("/home");
+
+  const go_to_signin_page = () => router.push("/sign_in");
+  const go_to_signup_page = () => router.push("/sign_up");
 
   return (
     <VStack gap={10} p={20} justify="end" flex={1}>

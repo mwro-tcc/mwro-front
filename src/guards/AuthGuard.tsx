@@ -1,11 +1,18 @@
 import { ReactNode, useEffect, useState } from "react";
 import AuthSession from "../api/local/auth_session";
 import useAsync from "../hooks/useAsync";
+import { useRouter } from "expo-router";
+import Text from "../ui/Text";
+import Lib from "../lib";
 
 export default ({ children }: { children: ReactNode }) => {
-  const { loading, data: token } = useAsync(AuthSession.get);
+  const { loading, data: token } = useAsync(async () =>
+    Lib.error_callback(await AuthSession.get(), console.error)
+  );
 
-  if (loading) return <p>Loading</p>;
+  const router = useRouter();
+
+  if (loading) return <Text>Loading</Text>;
   if (token) return children;
-  return <p>Not Authenticated</p>;
+  router.replace("/");
 };
