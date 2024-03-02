@@ -1,10 +1,12 @@
 import { Slot } from "expo-router";
-import { AuthProvider } from "../contexts/AuthContext";
+import ToastProvider from "../ui/toast/ToastProvider";
+import VStack from "../ui/VStack";
 
 export default function Root() {
   return (
-    <AuthProvider>
+    <VStack h="100%">
+      <ToastProvider />
       <Slot />
-    </AuthProvider>
+    </VStack>
   );
 }

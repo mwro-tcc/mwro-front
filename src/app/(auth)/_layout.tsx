@@ -2,7 +2,6 @@ import VStack from "../../ui/VStack";
 import { Slot, useLocalSearchParams, useRouter } from "expo-router";
 import Text from "../../ui/Text";
 import { t } from "../../../translations";
-import useAuth from "../../hooks/useAuth";
 
 const title = {
   sign_up: t("authentication.sign_up.title"),
@@ -13,13 +12,13 @@ export default function AuthLayout() {
   const params = useLocalSearchParams<{ screen: keyof typeof title }>();
 
   return (
-    <VStack gap={10} p={20} flex={1} justify="center">
-      <VStack gap={10} justify="center" items="center">
+    <VStack gap={10} p={20} flex={1} h="100%">
+      <VStack gap={10} justify="center" items="center" h="25%">
         <Text size={28} weight="600">
           {title[params.screen]}
         </Text>
       </VStack>
-      <VStack gap={10} flex={1}>
+      <VStack flex={1}>
         <Slot />
       </VStack>
     </VStack>
