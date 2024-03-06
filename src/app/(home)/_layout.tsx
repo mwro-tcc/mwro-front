@@ -1,6 +1,10 @@
 import { Slot } from "expo-router";
+import AuthGuard from "../../guards/AuthGuard";
 
 export default function HomeLayout() {
-  // TABS
-  return <Slot />;
+  return (
+    <AuthGuard>
+      <Slot />
+    </AuthGuard>
+  );
 }

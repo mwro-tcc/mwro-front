@@ -7,6 +7,7 @@ import VStack from "./VStack";
 import Show from "./Show";
 import HStack from "./HStack";
 import Text from "./Text";
+import { Control, useController } from "react-hook-form";
 
 type Variants = {
   default: ViewStyle;
@@ -37,12 +38,22 @@ export default ({
   label,
   required = false,
   style,
+  name,
+  control,
   ...props
 }: TextInputProps & {
+  name: string;
+  control: Control<any, any>;
   variant?: keyof Variants;
   label?: string;
   required?: boolean;
 }) => {
+  const { field } = useController({
+    control,
+    defaultValue: "",
+    name,
+  });
+
   return (
     <>
       <Show when={label}>
@@ -58,6 +69,8 @@ export default ({
             </Show>
           </HStack>
           <TextInput
+            value={field.value}
+            onChangeText={field.onChange}
             {...props}
             style={{
               ...input_variants[variant],
@@ -68,6 +81,8 @@ export default ({
       </Show>
       <Show when={!label}>
         <TextInput
+          value={field.value}
+          onChangeText={field.onChange}
           {...props}
           style={{
             ...input_variants[variant],
