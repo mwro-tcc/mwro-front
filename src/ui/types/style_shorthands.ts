@@ -66,7 +66,7 @@ export type StyleShorthands = Partial<{
   m: number;
   mx: number;
   my: number;
-  mt: number;
+  mt: number | `${number}%`;
   mr: number;
   ml: number;
   mb: number;
@@ -82,7 +82,7 @@ export type TextShorthands = Partial<{
 }>;
 
 export const parse_style_shorthands = (
-  shorthands: StyleShorthands,
+  shorthands: StyleShorthands
 ): ViewStyle => ({
   flex: shorthands?.flex,
   gap: shorthands?.gap,
@@ -105,7 +105,7 @@ export const parse_style_shorthands = (
 });
 
 export const parse_text_style_shorthands = (
-  shorthands: TextShorthands,
+  shorthands: TextShorthands
 ): TextStyle => ({
   fontSize: shorthands.size,
   fontWeight: shorthands.weight,
