@@ -13,7 +13,7 @@ export default function SignIn() {
     const { sign_in } = useAuth()
 
     return (
-        <VStack justify="between" h="100%">
+        <VStack justify="between" h="100%" gap={10}>
             <VStack gap={10}>
                 <TextInput
                     label={t('authentication.email.label')}

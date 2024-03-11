@@ -6,7 +6,6 @@ import colors from '../config/colors'
 type ToastProps = {
     type: ToastTypes
     message: string
-    duration_in_ms?: number
 }
 
 const toast_color = (type: ToastTypes) => {
