@@ -1,7 +1,9 @@
-import Auth from "./auth";
+import Auth from './auth'
+import Community from './community'
 
 const Mwro = {
-  Auth,
-};
+    Auth,
+    Community,
+}
 
-export default Mwro;
+export default Mwro

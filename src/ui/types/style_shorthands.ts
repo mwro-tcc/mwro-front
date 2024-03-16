@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash';
 import {
     ColorValue,
     DimensionValue,
@@ -80,7 +80,7 @@ export type StyleShorthands = Partial<{
     m: number
     mx: number
     my: number
-    mt: number
+    mt: number | `${number}%`
     mr: number
     ml: number
     mb: number

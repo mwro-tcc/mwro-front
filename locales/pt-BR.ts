@@ -28,4 +28,27 @@ export default {
                 'A senha utilizada deve ser a mesma nos dois campos',
         },
     },
+    community: {
+        create: {
+            title: 'Criar Comunidade',
+        },
+        edit: {
+            title: 'Editar Comunidade',
+        },
+        created: {
+            title: 'Sua comunidade foi criada!',
+            button: 'Visitar Comunidade',
+        },
+        name: 'Nome da Comunidade',
+        description: 'Descrição',
+        visibility: 'Visibilidade',
+        private: 'Privada',
+        public: 'Pública',
+        location: 'Localização',
+        next: 'Próximo',
+        back: 'Voltar',
+        conclude: 'Concluir',
+        cancel: 'Cancelar',
+        save: 'Salvar',
+    },
 }
