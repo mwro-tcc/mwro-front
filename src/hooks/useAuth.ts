@@ -23,19 +23,21 @@ export default () => {
             await Mwro.Auth.sign_in(data),
             Toast.error,
         )
-        if (res) on_success(res.data.jwt)
+        if (res) on_success(res.data.token)
     }
 
     const sign_up = async (data: SignUpForm) => {
-        if (data.password !== data.confirm_password)
+        if (data.password !== data.confirm_password) {
             Toast.error(t('authentication.errors.passwords_dont_match'))
+            return
+        }
 
         const res = Lib.error_callback(
             await Mwro.Auth.sign_up(data),
             Toast.error,
         )
 
-        if (res) on_success(res.data.jwt)
+        if (res) on_success(res.data.token)
     }
 
     const sign_out = async () => {
