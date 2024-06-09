@@ -1,12 +1,16 @@
-import { Slot } from "expo-router";
-import ToastProvider from "../ui/toast/ToastProvider";
-import VStack from "../ui/VStack";
+import { Slot } from 'expo-router'
+import ToastProvider from '../ui/toast/ToastProvider'
+import { SafeAreaView } from 'react-native'
 
 export default function Root() {
   return (
-    <VStack h="100%">
+    <SafeAreaView
+      style={{
+        flex: 1
+      }}
+    >
       <ToastProvider />
       <Slot />
-    </VStack>
-  );
+    </SafeAreaView>
+  )
 }

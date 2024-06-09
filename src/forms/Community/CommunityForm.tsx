@@ -12,7 +12,7 @@ import Text from '@ui/Text'
 import StepsIndicator from '@ui/StepsIndicator'
 import Button from '@ui/Button'
 import { useCommunity } from '@hooks/useCommunity'
-import SafeScrollView from '@ui/SafeScrollView'
+import SafeKeyboardScrollView from '@ui/SafeKeyboardScrollView'
 
 type Props = {
   onCancel: () => void
@@ -56,7 +56,7 @@ export default function CommunityForm(props: Props) {
   }
 
   return (
-    <SafeScrollView>
+    <SafeKeyboardScrollView>
       <VStack p={20} flex={1} gap={30}>
         <VStack items='center' gap={20}>
           <Text size={28} weight='600'>
@@ -82,6 +82,6 @@ export default function CommunityForm(props: Props) {
           </Button>
         </VStack>
       </VStack>
-    </SafeScrollView>
+    </SafeKeyboardScrollView>
   )
 }

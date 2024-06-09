@@ -3,8 +3,6 @@ import { MarkerDragStartEndEvent } from 'react-native-maps'
 import { CommunityForm } from '@src/types/community'
 import MapView from '@ui/MapView'
 import VStack from '@ui/VStack'
-import colors from '@ui/config/colors'
-import rounded from '@ui/config/rounded'
 
 type Props = {
   form: UseFormReturn<CommunityForm, any, CommunityForm>
