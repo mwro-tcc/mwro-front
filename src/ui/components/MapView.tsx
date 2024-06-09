@@ -1,10 +1,10 @@
 import React from "react";
-import MapViewComponent, { Marker } from "react-native-maps";
+import MapViewComponent, { Marker, MarkerDragStartEndEvent } from "react-native-maps";
 
 type MapViewProps = {
   latitude: number;
   longitude: number;
-  onMarkerDragEnd: (e: any) => void;
+  onMarkerDragEnd: (e: MarkerDragStartEndEvent) => void;
 };
 
 const MapView = ({ latitude, longitude, onMarkerDragEnd }: MapViewProps) => {

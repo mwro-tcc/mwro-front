@@ -1,62 +1,61 @@
-import { useForm } from "react-hook-form";
-import TextInput from "../../ui/TextInput";
-import { SignUpForm } from "../../types/user";
-import { useRouter } from "expo-router";
-import useAuth from "../../hooks/useAuth";
-import { t } from "../../../translations";
-import Button from "../../ui/Button";
-import VStack from "../../ui/VStack";
+import { useForm } from 'react-hook-form'
+import TextInput from '../../ui/TextInput'
+import { SignUpForm } from '../../types/user'
+import { useRouter } from 'expo-router'
+import useAuth from '../../hooks/useAuth'
+import Button from '../../ui/Button'
+import VStack from '../../ui/VStack'
 
 export default function SignUp() {
-  const { control, handleSubmit } = useForm<SignUpForm>();
-  const router = useRouter();
-  const { sign_up } = useAuth();
+  const { control, handleSubmit } = useForm<SignUpForm>()
+  const router = useRouter()
+  const { sign_up } = useAuth()
 
   return (
     <VStack justify="between" h="100%">
       <VStack gap={10}>
         <TextInput
-          label={t("authentication.name.label")}
-          placeholder={t("authentication.name.placeholder")}
+          label="Nome"
+          placeholder="Maria João"
           autoComplete="name"
           required
           control={control}
-          name={"name"}
+          name={'name'}
         />
         <TextInput
-          label={t("authentication.email.label")}
-          placeholder={t("authentication.email.placeholder")}
+          label="E-mail"
+          placeholder="exemplo@email.com"
           autoComplete="email"
           keyboardType="email-address"
           required
           control={control}
-          name={"email"}
+          name={'email'}
         />
         <TextInput
-          label={t("authentication.password.label")}
-          placeholder={t("authentication.password.placeholder")}
+          label="Senha"
+          placeholder="seNha_suPer$ecret@"
           autoComplete="current-password"
           secureTextEntry
           required
           control={control}
-          name={"password"}
+          name={'password'}
         />
         <TextInput
-          label={t("authentication.password.confirmation")}
-          placeholder={t("authentication.password.placeholder")}
+          label="Confirmar senha"
+          placeholder="seNha_suPer$ecret@"
           autoComplete="current-password"
           secureTextEntry
           required
           control={control}
-          name={"confirm_password"}
+          name={'confirm_password'}
         />
       </VStack>
       <VStack gap={10}>
         <Button onPress={handleSubmit(sign_up)} variant="primary">
-          {t("authentication.sign_up.button")}
+          Próximo
         </Button>
-        <Button onPress={router.back}>{t("authentication.back")}</Button>
+        <Button onPress={router.back}>Voltar</Button>
       </VStack>
     </VStack>
-  );
+  )
 }

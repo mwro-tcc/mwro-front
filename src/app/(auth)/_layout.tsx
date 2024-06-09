@@ -1,15 +1,14 @@
-import VStack from "../../ui/VStack";
-import { Slot, useLocalSearchParams, useRouter } from "expo-router";
-import Text from "../../ui/Text";
-import { t } from "../../../translations";
+import VStack from '../../ui/VStack'
+import { Slot, useLocalSearchParams } from 'expo-router'
+import Text from '../../ui/Text'
 
 const title = {
-  sign_up: t("authentication.sign_up.title"),
-  sign_in: t("authentication.sign_in.title"),
-};
+  sign_up: 'Criar Conta',
+  sign_in: 'Acessar Conta',
+}
 
 export default function AuthLayout() {
-  const params = useLocalSearchParams<{ screen: keyof typeof title }>();
+  const params = useLocalSearchParams<{ screen: keyof typeof title }>()
 
   return (
     <VStack gap={10} p={20} flex={1} h="100%">
@@ -22,5 +21,5 @@ export default function AuthLayout() {
         <Slot />
       </VStack>
     </VStack>
-  );
+  )
 }

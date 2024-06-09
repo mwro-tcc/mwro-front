@@ -1,4 +1,4 @@
-import Lib from "..";
+import Lib from "../../src/lib";
 
 describe("Lib.safe_call", () => {
   const get_data = async (

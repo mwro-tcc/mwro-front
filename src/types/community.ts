@@ -1,5 +1,5 @@
-export type CommunityData = {
-  id?: number;
+export type Community = {
+  id: number;
   name: string;
   description: string;
   isPrivate: boolean;
@@ -7,12 +7,4 @@ export type CommunityData = {
   longitude: number;
 };
 
-export type CreateCommunityForm = Pick<
-  CommunityData,
-  "name" | "description" | "isPrivate" | "latitude" | "longitude"
->;
-
-export type UpdateCommunityForm = Pick<
-  CommunityData,
-  "name" | "description" | "isPrivate"
->;
+export type CommunityForm = Partial<Omit<Community, 'id'>>

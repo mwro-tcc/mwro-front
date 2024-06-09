@@ -1,13 +1,12 @@
 import {
-    CreateCommunityForm,
-    UpdateCommunityForm,
-    CommunityData,
+    CommunityForm,
+    Community as CommunityType,
 } from '../../types/community'
 import Lib from '../../lib'
 import Api from './api'
 
 type CommunityResponse = {
-    community: CommunityData
+    community: CommunityType
 }
 
 const endpoints = {
@@ -17,13 +16,13 @@ const endpoints = {
 }
 
 const Community = {
-    async create(data: CreateCommunityForm) {
+    async create(data: CommunityForm) {
         return await Lib.safe_call(Api.post<CommunityResponse>, [
             endpoints.create,
             data,
         ])
     },
-    async update(data: UpdateCommunityForm) {
+    async update(data: CommunityForm) {
         return await Lib.safe_call(Api.put<CommunityResponse>, [
             endpoints.update,
             data,
