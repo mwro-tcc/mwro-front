@@ -4,7 +4,7 @@ import Lib from '../lib'
 import { SignInForm, SignUpForm } from '../types/user'
 import { useRouter } from 'expo-router'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
-import Toast from '../ui/toast/toast'
+import Toast from '../lib/toast'
 
 export default () => {
   const router = useRouter()

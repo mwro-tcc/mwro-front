@@ -1,7 +1,7 @@
 import { CommunityForm } from '../types/community'
 import Lib from '../lib'
 import Mwro from '../api/mwro'
-import Toast from '../ui/toast/toast'
+import Toast from '../lib/toast'
 
 export function useCommunity() {
   const create_community = async (data: CommunityForm) => {

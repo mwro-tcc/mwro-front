@@ -1,34 +1,34 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import spacings from "../config/spacings";
-import rounded from "../config/rounded";
-import colors from "../config/colors";
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
+import spacings from './config/spacings'
+import rounded from './config/rounded'
+import colors from './config/colors'
 
 type StepsIndicatorProps = {
-  currentStep: number;
-  totalSteps: number;
-};
+  currentStep: number
+  totalSteps: number
+}
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   step: {
     width: spacings.sm,
     height: spacings.sm,
     borderRadius: rounded.sm,
-    backgroundColor: colors.ui_5,
+    backgroundColor: colors.ui_5
   },
   currentStep: {
-    backgroundColor: colors.ui_7,
-  },
-});
+    backgroundColor: colors.ui_7
+  }
+})
 
 const StepsIndicator = ({ currentStep, totalSteps }: StepsIndicatorProps) => {
-  const steps = Array.from({ length: totalSteps });
+  const steps = Array.from({ length: totalSteps })
 
   return (
     <View style={styles.container}>
@@ -39,7 +39,7 @@ const StepsIndicator = ({ currentStep, totalSteps }: StepsIndicatorProps) => {
         />
       ))}
     </View>
-  );
-};
+  )
+}
 
-export default StepsIndicator;
+export default StepsIndicator

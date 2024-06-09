@@ -9,9 +9,10 @@ import CommunityFormStep2 from './components/CommunityFormStep2'
 import CommunityFormStep3 from './components/CommunityFormStep3'
 import VStack from '@ui/VStack'
 import Text from '@ui/Text'
-import StepsIndicator from '@ui/components/StepsIndicator'
+import StepsIndicator from '@ui/StepsIndicator'
 import Button from '@ui/Button'
 import { useCommunity } from '@hooks/useCommunity'
+import SafeScrollView from '@ui/SafeScrollView'
 
 type Props = {
   onCancel: () => void
@@ -55,9 +56,9 @@ export default function CommunityForm(props: Props) {
   }
 
   return (
-    <>
-      <VStack p={20} flex={1} justify='between'>
-        <VStack items='center' flex={1} gap={20} mt='25%'>
+    <SafeScrollView>
+      <VStack p={20} flex={1} gap={30}>
+        <VStack items='center' gap={20}>
           <Text size={28} weight='600'>
             {props.community ? 'Editar' : 'Criar'} Comunidade
           </Text>
@@ -65,10 +66,10 @@ export default function CommunityForm(props: Props) {
             <StepsIndicator currentStep={step} totalSteps={steps} />
           ) : null}
         </VStack>
-        <VStack flex={3} gap={30}>
+        <VStack gap={30} flex={1}>
           {body()}
         </VStack>
-        <VStack gap={10} flex={1}>
+        <VStack gap={10}>
           <Button
             variant='primary'
             onPress={step < steps ? next : handleSubmit}
@@ -81,6 +82,6 @@ export default function CommunityForm(props: Props) {
           </Button>
         </VStack>
       </VStack>
-    </>
+    </SafeScrollView>
   )
 }

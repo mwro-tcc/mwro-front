@@ -1,5 +1,5 @@
 import { UseFormReturn } from 'react-hook-form'
-import LocationAutoComplete from '../../../ui/components/LocationInput'
+import LocationAutoComplete from '../../../ui/LocationInput'
 import { CommunityForm } from '@src/types/community'
 import { useState } from 'react'
 
