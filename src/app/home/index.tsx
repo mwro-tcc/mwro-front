@@ -1,8 +1,8 @@
+import useAuth from '@hooks/useAuth'
+import Button from '@ui/Button'
+import Text from '@ui/Text'
+import VStack from '@ui/VStack'
 import { useRouter } from 'expo-router'
-import useAuth from '../../hooks/useAuth'
-import Button from '../../ui/Button'
-import Text from '../../ui/Text'
-import VStack from '../../ui/VStack'
 
 export default function Home() {
   const router = useRouter()
