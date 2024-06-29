@@ -8,7 +8,7 @@ import rounded from './config/rounded'
 type MapViewProps = {
   latitude: number
   longitude: number
-  onMarkerDragEnd: (e: MarkerDragStartEndEvent) => void
+  onMarkerDragEnd?: (e: MarkerDragStartEndEvent) => void
 }
 
 const MapView = ({ latitude, longitude, onMarkerDragEnd }: MapViewProps) => {
@@ -33,9 +33,9 @@ const MapView = ({ latitude, longitude, onMarkerDragEnd }: MapViewProps) => {
           latitude,
           longitude
         }}
-        draggable
-        title='Você está aqui?'
-        onDragEnd={onMarkerDragEnd}
+        draggable={onMarkerDragEnd ? true : false}
+        title={onMarkerDragEnd ? 'Você está aqui?' : undefined}
+        onDragEnd={onMarkerDragEnd ?? undefined}
       />
     </MapViewComponent>
   )

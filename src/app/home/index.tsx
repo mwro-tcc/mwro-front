@@ -21,9 +21,15 @@ export default function Home() {
       </Button>
       <Button
         variant='primary'
-        onPress={() => router.push('/community/edit/5')}
+        onPress={() => router.push('/community/edit/5')} // TODO: community.id
       >
         Editar comunidade
+      </Button>
+      <Button
+        variant='primary'
+        onPress={() => router.push('/community/1')} // TODO: community.id
+      >
+        Visitar comunidade
       </Button>
       <Button variant='primary' onPress={sign_out}>
         Sair

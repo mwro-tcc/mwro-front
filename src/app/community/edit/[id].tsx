@@ -12,7 +12,7 @@ const MOCKED_COMMUNITY = {
 
 export default function EditCommunity() {
   const router = useRouter()
-  const handleCancel = () => router.replace('/home')
+  const handleCancel = () => router.back()
 
   return <Form.Community community={MOCKED_COMMUNITY} onCancel={handleCancel} />
 }
