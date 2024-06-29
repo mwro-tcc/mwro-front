@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 export default function useSteps(steps: number, { initialStep = 1 } = {}) {
   const [step, setStep] = useState(initialStep)
