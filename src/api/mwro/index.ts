@@ -1,9 +1,3 @@
-import Auth from './auth'
-import Community from './community'
-
-const Mwro = {
-    Auth,
-    Community,
-}
-
-export default Mwro
+export { default as Community } from './community'
+export { default as Auth } from './auth'
+export { default as Routes } from './routes'

@@ -1,20 +1,17 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios'
+import axios from 'axios'
 import AuthSession from '../local/auth_session'
 import Lib from '../../lib'
 
 const Api = axios.create({
-    baseURL: 'http://192.168.0.85:3040',
+  baseURL: 'http://mwro-api-staging.inkwo.dev/'
 })
 
 Api.interceptors.request.use(async (config) => {
-    const token = Lib.error_callback(
-        await Lib.safe_call(AuthSession.get, []),
-        console.error,
-    )
+  const token = Lib.error_callback(await AuthSession.get(), console.error)
 
-    if (token) config.headers.authorization = `Bearer ${token}`
+  if (token) config.headers.authorization = `${token}`
 
-    return config
+  return config
 })
 
 export default Api

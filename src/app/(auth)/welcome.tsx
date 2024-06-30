@@ -1,20 +1,11 @@
-import { StatusBar } from 'expo-status-bar'
-import Button from '../ui/Button'
-import VStack from '../ui/VStack'
+import Button from '@ui/Button'
+import Text from '@ui/Text'
+import VStack from '@ui/VStack'
 import { useRouter } from 'expo-router'
-import Text from '../ui/Text'
-import useAsync from '@hooks/useAsync'
-import AuthSession from '@api/local/auth_session'
-import Lib from '@lib/index'
+import { StatusBar } from 'expo-status-bar'
 
-export default function App() {
+export default function Welcome() {
   const router = useRouter()
-
-  const { data: token } = useAsync(async () =>
-    Lib.error_callback(await AuthSession.get(), console.error)
-  )
-
-  if (token) router.replace('/home')
 
   return (
     <VStack gap={10} p={20} justify='end' flex={1}>

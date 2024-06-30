@@ -1,7 +1,7 @@
 import { useCommunity } from '@hooks/useCommunity'
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import { Stack, router, useRouter } from 'expo-router'
+import { Stack, router } from 'expo-router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'

@@ -4,7 +4,7 @@ import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 import { useRouter } from 'expo-router'
 
-export default function Home() {
+export default function Main() {
   const router = useRouter()
   const { sign_out } = useAuth()
 
@@ -13,22 +13,22 @@ export default function Home() {
       <Text size={28} weight='600'>
         Home
       </Text>
+      <Button variant='primary' onPress={() => router.push('/communities')}>
+        Comunidades Criadas
+      </Button>
       <Button
         variant='primary'
-        onPress={() => router.push('/community/create/')}
+        onPress={() => router.push('/communities/create/')}
       >
         Criar comunidade
       </Button>
       <Button
         variant='primary'
-        onPress={() => router.push('/community/edit/5')} // TODO: community.id
+        onPress={() => router.push('/communities/5/edit')}
       >
         Editar comunidade
       </Button>
-      <Button
-        variant='primary'
-        onPress={() => router.push('/community/1')} // TODO: community.id
-      >
+      <Button variant='primary' onPress={() => router.push('/communities/1')}>
         Visitar comunidade
       </Button>
       <Button variant='primary' onPress={sign_out}>

@@ -1,7 +1,7 @@
 import { CommunityForm } from '../types/community'
 import Lib from '../lib'
-import Mwro from '../api/mwro'
 import Toast from '../lib/toast'
+import { Community } from '@api/mwro'
 
 const MOCKED_PRODUCT_LIST = [
   {
@@ -64,19 +64,22 @@ const MOCKED_STORE_LIST = [
 ]
 
 export function useCommunity() {
-  const create_community = async (data: CommunityForm) => {
+  const list_user_communities = async () => {
     const res = Lib.error_callback(
-      await Mwro.Community.create(data),
+      await Community.list_user_communities(),
       Toast.error
     )
+
+    return res?.data
+  }
+
+  const create_community = async (data: CommunityForm) => {
+    const res = Lib.error_callback(await Community.create(data), Toast.error)
     if (res) return res.data.community
   }
 
   const update_community = async (data: CommunityForm) => {
-    const res = Lib.error_callback(
-      await Mwro.Community.update(data),
-      Toast.error
-    )
+    const res = Lib.error_callback(await Community.update(data), Toast.error)
     if (res) return res.data.community
   }
 
@@ -93,18 +96,19 @@ export function useCommunity() {
   const get_products = async (id: string) => {
     // TODO: add pagination
     return MOCKED_PRODUCT_LIST
-    // const res = Lib.error_callback(await Mwro.Community.get_products(id), console.error);
+    // const res = Lib.error_callback(await Community.get_products(id), console.error);
     // if (res) return res.data.products;
   }
 
   const get_stores = async (id: string) => {
     // TODO: add pagination
     return MOCKED_STORE_LIST
-    // const res = Lib.error_callback(await Mwro.Community.get_stores(id), console.error);
+    // const res = Lib.error_callback(await Community.get_stores(id), console.error);
     // if (res) return res.data.stores;
   }
 
   return {
+    list_user_communities,
     create_community,
     update_community,
     get_community,

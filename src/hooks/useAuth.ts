@@ -1,10 +1,10 @@
 import Local from '../api/local'
-import Mwro from '../api/mwro'
 import Lib from '../lib'
 import { SignInForm, SignUpForm } from '../types/user'
 import { useRouter } from 'expo-router'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import Toast from '../lib/toast'
+import { Auth } from '@api/mwro'
 
 export default () => {
   const router = useRouter()
@@ -14,11 +14,14 @@ export default () => {
   const on_success = async (token: string) => {
     const [_, err] = await Local.AuthSession.save(token)
     if (err) console.error(err)
-    else router.replace('/home')
+    else router.replace('/(main)')
   }
 
   const sign_in = async (data: SignInForm) => {
-    const res = Lib.error_callback(await Mwro.Auth.sign_in(data), Toast.error)
+    const [res, err] = await Auth.sign_in(data)
+
+    if (err?.response.status === 400) Toast.error('Credenciais Inválidas')
+    else if (err) Toast.error(err?.message)
 
     if (res) on_success(res.data.token)
   }
@@ -29,7 +32,7 @@ export default () => {
       return
     }
 
-    const res = Lib.error_callback(await Mwro.Auth.sign_up(data), Toast.error)
+    const res = Lib.error_callback(await Auth.sign_up(data), Toast.error)
 
     if (res) on_success(res.data.token)
   }
@@ -37,15 +40,15 @@ export default () => {
   const sign_out = async () => {
     Lib.error_callback(
       await Lib.safe_call(Local.AuthSession.destroy, []),
-      console.error,
+      console.error
     )
-    router.replace('/')
+    router.replace('/welcome')
   }
 
   return {
     sign_in,
     sign_up,
     sign_out,
-    is_authenticated: !!getItem(),
+    is_authenticated: !!getItem()
   }
 }

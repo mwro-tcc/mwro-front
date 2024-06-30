@@ -12,49 +12,49 @@ export default function SignUp() {
   const { sign_up } = useAuth()
 
   return (
-    <VStack justify="between" h="100%">
+    <VStack justify='between' h='100%'>
       <VStack gap={10}>
         <TextInput
-          label="Nome"
-          placeholder="Maria João"
-          autoComplete="name"
+          label='Nome'
+          placeholder='Maria João'
+          autoComplete='name'
           required
           control={control}
           name={'name'}
         />
         <TextInput
-          label="E-mail"
-          placeholder="exemplo@email.com"
-          autoComplete="email"
-          keyboardType="email-address"
+          label='E-mail'
+          placeholder='exemplo@email.com'
+          autoComplete='email'
+          keyboardType='email-address'
           required
           control={control}
           name={'email'}
         />
         <TextInput
-          label="Senha"
-          placeholder="seNha_suPer$ecret@"
-          autoComplete="current-password"
+          label='Senha'
+          placeholder='seNha_suPer$ecret@'
+          autoComplete='current-password'
           secureTextEntry
           required
           control={control}
           name={'password'}
         />
         <TextInput
-          label="Confirmar senha"
-          placeholder="seNha_suPer$ecret@"
-          autoComplete="current-password"
+          label='Confirmar senha'
+          placeholder='seNha_suPer$ecret@'
+          autoComplete='current-password'
           secureTextEntry
           required
           control={control}
           name={'confirm_password'}
         />
       </VStack>
-      <VStack gap={10}>
-        <Button onPress={handleSubmit(sign_up)} variant="primary">
+      <VStack gap={10} p={20}>
+        <Button onPress={handleSubmit(sign_up)} variant='primary'>
           Próximo
         </Button>
-        <Button onPress={router.back}>Voltar</Button>
+        <Button onPress={() => router.replace('/welcome')}>Voltar</Button>
       </VStack>
     </VStack>
   )
