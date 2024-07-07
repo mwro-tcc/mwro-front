@@ -74,6 +74,8 @@ export function useCommunity() {
   }
 
   const create_community = async (data: CommunityForm) => {
+    console.log(data)
+
     const res = Lib.error_callback(await Community.create(data), Toast.error)
     if (res) return res.data.community
   }

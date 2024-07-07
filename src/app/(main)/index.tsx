@@ -18,12 +18,6 @@ export default function Main() {
       </Button>
       <Button
         variant='primary'
-        onPress={() => router.push('/communities/create/')}
-      >
-        Criar comunidade
-      </Button>
-      <Button
-        variant='primary'
         onPress={() => router.push('/communities/5/edit')}
       >
         Editar comunidade
