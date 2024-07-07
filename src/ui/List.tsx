@@ -37,7 +37,7 @@ export default function List({
   const renderRow = ({ item }: any) => {
     //TODO: href={`/${itemCategory}/${item.id}`} asChild
     return (
-      <Link href={'/home'} asChild>
+      <Link href={'/(main)'} asChild>
         <TouchableOpacity style={styles.listing}>
           <Image
             source={{ uri: item.image }}

@@ -42,7 +42,7 @@ export default function Communities() {
   if (loading) return <ActivityIndicator size='small' style={{ flex: 1 }} />
 
   if (error) {
-    router.replace('/home')
+    router.replace('/(main)')
     return null
   }
 
