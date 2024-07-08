@@ -20,8 +20,12 @@ export default () => {
   const sign_in = async (data: SignInForm) => {
     const [res, err] = await Auth.sign_in(data)
 
-    if (err?.response.status === 400) Toast.error('Credenciais Inválidas')
-    else if (err) Toast.error(err?.message)
+    if (err?.response.status === 400) {
+      Toast.error('Credenciais Inválidas')
+    } else if (err) {
+      console.error(err)
+      Toast.error(err?.message)
+    }
 
     if (res) on_success(res.data.token)
   }

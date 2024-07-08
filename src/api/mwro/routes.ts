@@ -4,7 +4,7 @@ const Routes = {
     list_user_communities: '/communities/created',
     create: '/communities',
     update: '/communities/:id',
-    get: '/communities/:id'
+    get: (id: number | string | undefined | null) => `/communities/${id}`
   }
 }
 

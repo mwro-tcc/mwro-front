@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react'
-import useAsync from './useAsync'
 import Api from '@api/mwro/api'
-import { Community } from '@api/mwro'
 import safe_call from '@lib/safe_call'
 import { AxiosResponse } from 'axios'
+import { useEffect, useState } from 'react'
 
 type Options = {
   url: string
 }
 
-export default function useCollection<Response>(options: Options) {
+export default function useModel<Response>(options: Options) {
   const [loading, setLoading] = useState(true)
-  const [response, setResponse] = useState<AxiosResponse<Response[]> | null>(
-    null
-  )
+  const [response, setResponse] = useState<AxiosResponse<Response> | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
+  console.log(options.url)
+
   const caller = async () => {
-    return await safe_call(Api.get<Response[]>, [options.url])
+    return await safe_call(Api.get<Response>, [options.url])
   }
 
   const handleFetchData = async () => {
@@ -35,7 +33,7 @@ export default function useCollection<Response>(options: Options) {
   }, [])
 
   return {
-    data: response?.data ?? [],
+    data: response?.data,
     handleRefresh: handleFetchData,
     loading,
     error

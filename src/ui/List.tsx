@@ -35,7 +35,6 @@ export default function List({
   }, [itemCategory])
 
   const renderRow = ({ item }: any) => {
-    //TODO: href={`/${itemCategory}/${item.id}`} asChild
     return (
       <Link href={'/(main)'} asChild>
         <TouchableOpacity style={styles.listing}>
@@ -54,7 +53,7 @@ export default function List({
   }
 
   return (
-    <VStack h='100%'>
+    <VStack flex={1}>
       {loading ? (
         <ActivityIndicator size='large' style={{ marginTop: '60%' }} />
       ) : (
@@ -70,7 +69,7 @@ export default function List({
             paddingHorizontal: 10
           }}
           columnWrapperStyle={{ justifyContent: 'space-between' }}
-          style={{ marginBottom: 200 }}
+          style={{ flex: 1 }}
         />
       )}
     </VStack>

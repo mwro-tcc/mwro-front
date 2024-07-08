@@ -5,7 +5,7 @@ import Button from '@ui/Button'
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import VStack from '@ui/VStack'
-import { useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { FlatList, RefreshControl, TouchableOpacity } from 'react-native'
 
 function CommunityListItem(props: { item: Community }) {
@@ -14,7 +14,7 @@ function CommunityListItem(props: { item: Community }) {
   const router = useRouter()
 
   const handlePress = () => {
-    router.push(`communities/${item.id}`)
+    router.push(`communities/${item.uuid}`)
   }
 
   return (
@@ -42,12 +42,18 @@ export default function Communities() {
   })
 
   if (error) {
+    console.error(error)
     router.replace('/(main)')
     return null
   }
 
   return (
     <VStack gap={10} flex={1}>
+      <Stack.Screen
+        options={{
+          headerTitle: 'Minhas Comunidades'
+        }}
+      />
       <HStack gap={10} pt={10} px={20}>
         <Button
           variant='primary'
@@ -60,13 +66,7 @@ export default function Communities() {
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
         }
-        data={[
-          ...(data ?? []),
-          {
-            id: 123,
-            name: 'Test Community'
-          }
-        ]}
+        data={data}
         renderItem={({ item }) => <CommunityListItem item={item} />}
       />
     </VStack>

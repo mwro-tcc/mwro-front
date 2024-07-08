@@ -1,9 +1,8 @@
-import { Redirect, Slot, Stack, Tabs } from 'expo-router'
+import { Redirect, Tabs } from 'expo-router'
 import useAsync from '@hooks/useAsync'
 import AuthSession from '@api/local/auth_session'
 import { ActivityIndicator } from 'react-native'
 import error_callback from '@lib/error_callback'
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function MainLayout() {
   const { data: token, loading } = useAsync(async () =>

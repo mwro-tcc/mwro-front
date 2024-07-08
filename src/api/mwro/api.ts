@@ -1,6 +1,7 @@
 import axios from 'axios'
 import AuthSession from '../local/auth_session'
 import Lib from '../../lib'
+import Local from '@api/local'
 
 const Api = axios.create({
   baseURL: 'http://mwro-api-staging.inkwo.dev/'

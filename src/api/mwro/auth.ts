@@ -9,8 +9,8 @@ type AuthResponse = {
 }
 
 const endpoints = {
-  sign_up: '/user/sign-up',
-  sign_in: '/user/sign-in'
+  sign_up: '/users/sign-up',
+  sign_in: '/users/sign-in'
 }
 
 const Auth = {

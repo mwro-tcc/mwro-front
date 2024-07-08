@@ -33,7 +33,7 @@ export default function CommunityForm(props: Props) {
     props.community ? update_community : create_community
   )
 
-  const body = () => {
+  const body = (() => {
     if (props.community) {
       switch (step) {
         case 1:
@@ -53,35 +53,33 @@ export default function CommunityForm(props: Props) {
       default:
         return null
     }
-  }
+  })()
 
   return (
-    <SafeKeyboardScrollView>
-      <VStack p={20} flex={1} gap={30}>
-        <VStack items='center' gap={20}>
-          <Text size={28} weight='600'>
-            {props.community ? 'Editar' : 'Criar'} Comunidade
-          </Text>
-          {steps > 1 ? (
-            <StepsIndicator currentStep={step} totalSteps={steps} />
-          ) : null}
-        </VStack>
-        <VStack gap={30} flex={1}>
-          {body()}
-        </VStack>
-        <VStack gap={10}>
-          <Button
-            variant='primary'
-            onPress={step < steps ? next : handleSubmit}
-            disabled={!form.formState.isValid}
-          >
-            {step < steps ? 'Próximo' : 'Concluir'}
-          </Button>
-          <Button onPress={step > 1 ? back : props.onCancel}>
-            {step > 1 ? 'Voltar' : 'Cancelar'}
-          </Button>
-        </VStack>
+    <VStack p={20} flex={1} gap={30}>
+      <VStack items='center' gap={20}>
+        <Text size={28} weight='600'>
+          {props.community ? 'Editar' : 'Criar'} Comunidade
+        </Text>
+        {steps > 1 ? (
+          <StepsIndicator currentStep={step} totalSteps={steps} />
+        ) : null}
       </VStack>
-    </SafeKeyboardScrollView>
+      <VStack gap={30} flex={1}>
+        {body}
+      </VStack>
+      <VStack gap={10}>
+        <Button
+          variant='primary'
+          onPress={step < steps ? next : handleSubmit}
+          disabled={!form.formState.isValid}
+        >
+          {step < steps ? 'Próximo' : 'Concluir'}
+        </Button>
+        <Button onPress={step > 1 ? back : props.onCancel}>
+          {step > 1 ? 'Voltar' : 'Cancelar'}
+        </Button>
+      </VStack>
+    </VStack>
   )
 }
