@@ -22,6 +22,8 @@ export default function CommunityFormStep1(props: Props) {
         control={form.control}
         name={'description'}
         label='Descrição'
+        multiline
+        numberOfLines={3}
         required
         height={150}
       />

@@ -13,6 +13,8 @@ import StepsIndicator from '@ui/StepsIndicator'
 import Button from '@ui/Button'
 import { useCommunity } from '@hooks/useCommunity'
 import SafeKeyboardScrollView from '@ui/SafeKeyboardScrollView'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { Keyboard } from 'react-native'
 
 type Props = {
   onCancel: () => void
