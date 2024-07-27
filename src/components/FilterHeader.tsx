@@ -23,7 +23,7 @@ export default function FilterHeader({
 
   const handleSelectCategory = (index: number) => {
     setActiveIndex(index)
-    if (handleCategoryChange) handleCategoryChange(categories[index])
+    if (handleCategoryChange) handleCategoryChange(categories[index].name)
   }
 
   return (

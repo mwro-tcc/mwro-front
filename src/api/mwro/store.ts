@@ -26,11 +26,7 @@ const Store = {
   async update(data: StoreForm) {
     return await Lib.safe_call(Api.put<StoreResponse>, [
       Routes.Store.update(data.uuid),
-      {
-        communityUuid: data.communityUuid,
-        name: data.name,
-        description: data.description
-      }
+      data
     ])
   },
   async get(id: string) {

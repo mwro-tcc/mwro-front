@@ -51,9 +51,6 @@ export default function Stores() {
     <VStack gap={10} flex={1}>
       <Stack.Screen
         options={{
-          headerBackVisible: false,
-          headerBackTitleVisible: false,
-          headerBackButtonMenuEnabled: false,
           headerTitle: 'Minhas lojas',
           title: 'Lojas'
         }}
