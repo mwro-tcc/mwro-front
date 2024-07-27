@@ -1,0 +1,51 @@
+import Lib from '../../lib'
+import Api from './api'
+import Routes from './routes'
+import { Store as StoreType, StoreForm } from '@src/types/store'
+
+type StoreResponse = {
+  store: StoreType
+}
+
+type ProductResponse = {
+  products: any[] // TODO
+}
+
+const Store = {
+  async list_user_stores() {
+    return await Lib.safe_call(Api.get<StoreResponse[]>, [
+      Routes.Store.list_user_stores
+    ])
+  },
+  async create(data: StoreForm) {
+    return await Lib.safe_call(Api.post<StoreResponse>, [
+      Routes.Store.create,
+      data
+    ])
+  },
+  async update(data: StoreForm) {
+    return await Lib.safe_call(Api.put<StoreResponse>, [
+      Routes.Store.update(data.uuid),
+      {
+        communityUuid: data.communityUuid,
+        name: data.name,
+        description: data.description
+      }
+    ])
+  },
+  async get(id: string) {
+    return await Lib.safe_call(Api.get<StoreResponse>, [Routes.Store.get(id)])
+  },
+  async get_products(id: string) {
+    return await Lib.safe_call(Api.get<ProductResponse[]>, [
+      Routes.Store.get_store_products(id)
+    ])
+  },
+  async delete(id: string) {
+    return await Lib.safe_call(Api.delete<StoreResponse>, [
+      Routes.Store.delete(id)
+    ])
+  }
+}
+
+export default Store

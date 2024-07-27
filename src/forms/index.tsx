@@ -1,7 +1,9 @@
 import Community from './Community'
+import Store from './Store'
 
 const Form = {
-  Community
+  Community,
+  Store
 }
 
 export default Form

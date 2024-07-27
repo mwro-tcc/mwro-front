@@ -1,25 +1,19 @@
-import { useCommunity } from '@hooks/useCommunity'
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import {
-  Redirect,
-  Stack,
-  router,
-  useGlobalSearchParams,
-  useLocalSearchParams
-} from 'expo-router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Stack, router, useLocalSearchParams } from 'expo-router'
+import { useCallback, useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native'
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import List from '@ui/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
+import { useStore } from '@hooks/useStore'
 import FilterHeader from 'components/FilterHeader'
 
 const MOCKED_CATEGORIES = [
@@ -27,46 +21,31 @@ const MOCKED_CATEGORIES = [
     id: 1,
     name: 'Produtos',
     icon: 'shopping-outline'
-  },
-  {
-    id: 2,
-    name: 'Lojas',
-    icon: 'storefront-outline'
   }
 ]
 
-type CommunityCategories = 'Produtos' | 'Lojas'
+type StoreCategories = 'Produtos'
 
-export default function Community() {
+export default function Stores() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
   const { data, loading, error, handleRefresh } = useModel<CommunityType>({
-    url: Routes.Community.get(id)
+    url: Routes.Store.get(id)
   })
 
-  const { get_products, get_stores } = useCommunity()
+  const { get_products } = useStore()
 
-  const [category, setCategory] = useState<CommunityCategories>('Produtos')
+  const [category, setCategory] = useState<StoreCategories>('Produtos')
   const [listing, setListing] = useState([])
-
-  const handleCategoryChange = async (category: CommunityCategories) => {
-    setCategory(category)
-  }
 
   useEffect(() => {
     fetchData()
-  }, [category])
-
-  const dataToFetchByCategory: Record<string, any> = {
-    Produtos: get_products,
-    Lojas: get_stores
-  }
+  }, [])
 
   const fetchData = useCallback(async () => {
-    const fetchFunction = dataToFetchByCategory[category]
-    const data = await fetchFunction(id)
-    setListing(data)
-  }, [category])
+    const data = await get_products(id as string)
+    setListing(data as any) // TODO: ProductType
+  }, [])
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
   if (error || !data) return <Text>{error?.message}</Text>
@@ -79,36 +58,33 @@ export default function Community() {
     >
       <Stack.Screen
         options={{
-          headerBackTitle: 'Voltar',
-          headerTitle: 'Comunidade',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.replace('/stores')}>
+              <HStack items='center' gap={2}>
+                <MaterialCommunityIcons name='arrow-left' size={22} />
+                <Text size={16}>Voltar</Text>
+              </HStack>
+            </TouchableOpacity>
+          ),
           headerRight: () => (
             <TouchableOpacity
-              onPress={() => router.push(`/communities/${id}/edit`)}
+              onPress={() => router.replace(`/stores/${id}/edit`)}
             >
               <MaterialCommunityIcons name='pencil-outline' size={24} />
             </TouchableOpacity>
-          )
+          ),
+          headerTitle: 'Loja'
         }}
       />
       <View style={styles.container}>
         <HStack justify='between' pt={20} pr={20} items='center'>
-          <Text style={{ fontSize: 20, fontWeight: '600' }}>{data.name}</Text>
-
-          <HStack gap={10}>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => router.push(`/communities/${id}/map`)}
-            >
-              <MaterialIcons name='location-on' size={24} color='black' />
-            </TouchableOpacity>
-          </HStack>
+          <Text style={{ fontSize: 20, fontWeight: '600', marginBottom: 32 }}>
+            {data.name}
+          </Text>
         </HStack>
         <Text>{data.description}</Text>
       </View>
-      <FilterHeader
-        handleCategoryChange={handleCategoryChange}
-        categories={MOCKED_CATEGORIES}
-      />
+      <FilterHeader categories={MOCKED_CATEGORIES} />
       <List itemCategory={category} listing={listing} numOfColumns={2} />
     </View>
   )

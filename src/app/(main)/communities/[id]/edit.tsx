@@ -2,7 +2,7 @@ import Form from '@forms/index'
 import { useRouter } from 'expo-router'
 
 const MOCKED_COMMUNITY = {
-  id: 1,
+  uuid: 1,
   name: 'HUEHEUE',
   description: 'SHUASHUHAS',
   isPrivate: true,

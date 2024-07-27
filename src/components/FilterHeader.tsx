@@ -4,31 +4,32 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Text from '@ui/Text'
 
-const MOCKED_CATEGORIES = [
-  {
-    id: 1,
-    name: 'Produtos',
-    icon: 'shopping-outline'
-  },
-  {
-    id: 2,
-    name: 'Lojas',
-    icon: 'storefront-outline'
-  }
-]
+interface Category {
+  id: number
+  name: string
+  icon: string
+}
 
-export default function CommunityFilterHeader({ handleCategoryChange }: any) {
+type FilterHeaderProps = {
+  handleCategoryChange?: (category: any) => Promise<void>
+  categories: Category[]
+}
+
+export default function FilterHeader({
+  handleCategoryChange,
+  categories
+}: FilterHeaderProps) {
   const [activeIndex, setActiveIndex] = useState(0)
 
-  const selectCategory = (index: number) => {
+  const handleSelectCategory = (index: number) => {
     setActiveIndex(index)
-    handleCategoryChange(MOCKED_CATEGORIES[index].name)
+    if (handleCategoryChange) handleCategoryChange(categories[index])
   }
 
   return (
     <View style={styles.container}>
       <HStack style={styles.categoryRow}>
-        {MOCKED_CATEGORIES.map((category, index) => (
+        {categories.map((category, index) => (
           <TouchableOpacity
             key={index}
             style={
@@ -36,7 +37,7 @@ export default function CommunityFilterHeader({ handleCategoryChange }: any) {
                 ? styles.categoriesBtnActive
                 : styles.categoriesBtn
             }
-            onPress={() => selectCategory(index)}
+            onPress={() => handleSelectCategory(index)}
           >
             <MaterialCommunityIcons
               name={category.icon as any}
