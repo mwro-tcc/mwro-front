@@ -47,7 +47,7 @@ export default ({
   variant?: keyof Variants
   label?: string
   required?: boolean
-  height?: number // CREATE DS TEXT AREA
+  height?: number
 }) => {
   const { field } = useController({
     control,

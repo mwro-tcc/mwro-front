@@ -12,8 +12,6 @@ export default function useModel<Response>(options: Options) {
   const [response, setResponse] = useState<AxiosResponse<Response> | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
-  console.log(options.url)
-
   const caller = async () => {
     return await safe_call(Api.get<Response>, [options.url])
   }

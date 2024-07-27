@@ -3,6 +3,7 @@ import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { useEffect } from 'react'
 
 export default function Welcome() {
   const router = useRouter()

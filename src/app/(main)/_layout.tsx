@@ -28,7 +28,13 @@ export default function MainLayout() {
       <Tabs.Screen
         name='communities'
         options={{
-          title: 'Communities'
+          title: 'Comunidades'
+        }}
+      />
+      <Tabs.Screen
+        name='stores'
+        options={{
+          title: 'Lojas'
         }}
       />
     </Tabs>

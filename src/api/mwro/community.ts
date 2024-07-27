@@ -30,7 +30,7 @@ const Community = {
   },
   async get(id: string) {
     return await Lib.safe_call(Api.get<CommunityResponse>, [
-      Routes.Community.get.replace(':id', id) // REVIEW
+      Routes.Community.get(id)
     ])
   }
 }

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import AuthSession from '../local/auth_session'
 import Lib from '../../lib'
-import Local from '@api/local'
 
 const Api = axios.create({
   baseURL: 'http://mwro-api-staging.inkwo.dev/'
@@ -9,7 +8,6 @@ const Api = axios.create({
 
 Api.interceptors.request.use(async (config) => {
   const token = Lib.error_callback(await AuthSession.get(), console.error)
-
   if (token) config.headers.authorization = `${token}`
 
   return config
