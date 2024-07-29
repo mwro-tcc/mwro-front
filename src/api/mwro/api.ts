@@ -8,6 +8,7 @@ const Api = axios.create({
 
 Api.interceptors.request.use(async (config) => {
   const token = Lib.error_callback(await AuthSession.get(), console.error)
+
   if (token) config.headers.authorization = `${token}`
 
   return config

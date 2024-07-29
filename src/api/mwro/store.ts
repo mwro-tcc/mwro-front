@@ -2,13 +2,14 @@ import Lib from '../../lib'
 import Api from './api'
 import Routes from './routes'
 import { Store as StoreType, StoreForm } from '@src/types/store'
+import { Product as ProductType } from '@src/types/product'
 
 type StoreResponse = {
   store: StoreType
 }
 
 type ProductResponse = {
-  products: any[] // TODO
+  product: ProductType
 }
 
 const Store = {

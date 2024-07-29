@@ -35,7 +35,7 @@ const MOCKED_CATEGORIES = [
   }
 ]
 
-type CommunityCategories = 'Produtos' | 'Lojas'
+type CommunityCategories = 'products' | 'stores'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -44,28 +44,21 @@ export default function Community() {
     url: Routes.Community.get(id)
   })
 
-  const { get_products, get_stores } = useCommunity()
-
-  const [category, setCategory] = useState<CommunityCategories>('Produtos')
-  const [listing, setListing] = useState([])
+  const [urlToFetch, setUrlToFetch] = useState<string>(
+    Routes.Community.get_community_products(id)
+  )
+  const [category, setCategory] = useState<CommunityCategories>('products')
 
   const handleCategoryChange = async (category: CommunityCategories) => {
     setCategory(category)
   }
 
   useEffect(() => {
-    fetchData()
-  }, [category])
-
-  const dataToFetchByCategory: Record<string, any> = {
-    Produtos: get_products,
-    Lojas: get_stores
-  }
-
-  const fetchData = useCallback(async () => {
-    const fetchFunction = dataToFetchByCategory[category]
-    const data = await fetchFunction(id)
-    setListing(data)
+    setUrlToFetch(
+      category === 'products'
+        ? Routes.Community.get_community_products(id)
+        : Routes.Community.get_community_stores(id)
+    )
   }, [category])
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
@@ -109,7 +102,7 @@ export default function Community() {
         handleCategoryChange={handleCategoryChange}
         categories={MOCKED_CATEGORIES}
       />
-      <List itemCategory={category} listing={listing} numOfColumns={2} />
+      <List itemCategory={category} numOfColumns={2} url={urlToFetch} />
     </View>
   )
 }

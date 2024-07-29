@@ -15,23 +15,23 @@ type Props = {
 }
 
 export default function StoreForm(props: Props) {
-  const form = useForm<StoreFormType>({
-    defaultValues: props.store
-  })
-
   const router = useRouter()
-
-  useEffect(() => {
-    form.reset(props.store)
-  }, [props.store])
 
   const store_created = props.store
 
   const { create_store, update_store } = useStore()
 
+  const form = useForm<StoreFormType>({
+    defaultValues: props.store
+  })
+
+  useEffect(() => {
+    form.reset(props.store)
+  }, [props.store])
+
   const handleUpdate = async (storeData: StoreFormType) => {
-    await update_store(storeData)
-    router.replace(`/stores/${storeData.uuid}`)
+    const { data }: any = await update_store(storeData)
+    router.replace(`/stores/${data.uuid}`)
   }
 
   const handleCreate = async (storeData: StoreFormType) => {

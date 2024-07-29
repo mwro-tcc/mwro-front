@@ -4,48 +4,49 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  RefreshControl,
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
 import VStack from './VStack'
 import Text from './Text'
+import useCollection from '@hooks/useCollection'
+import { priceFormatter } from 'utils'
 
 type ListProps = {
-  listing: any
   itemCategory: string
   numOfColumns: number
+  url: string
 }
 
-export default function List({
-  listing,
-  itemCategory,
-  numOfColumns
-}: ListProps) {
-  const [loading, setLoading] = useState(false)
-
+export default function List({ itemCategory, numOfColumns, url }: ListProps) {
   const listRef = useRef<FlatList>(null)
 
-  useEffect(() => {
-    setLoading(true)
-
-    setTimeout(() => {
-      // TODO: Backend call
-      setLoading(false)
-    }, 200)
-  }, [itemCategory])
+  const { data, loading, error, handleRefresh } = useCollection<any>({
+    url: url
+  })
 
   const renderRow = ({ item }: any) => {
     return (
-      <Link href={'/(main)'} asChild>
+      <Link
+        href={{
+          pathname: `/${itemCategory}/${item.uuid}`
+        }}
+        asChild
+      >
         <TouchableOpacity style={styles.listing}>
           <Image
-            source={{ uri: item.image }}
+            source={{
+              uri:
+                item.image ??
+                'https://www.proclinic-products.com/build/static/default-product.30484205.png'
+            }}
             resizeMode='cover'
             style={styles.image}
           />
           <VStack ml={5}>
-            <Text weight='600'>{item.title}</Text>
-            <Text>{item.price}</Text>
+            <Text weight='600'>{item.name}</Text>
+            <Text>{priceFormatter(item.price)} </Text>
           </VStack>
         </TouchableOpacity>
       </Link>
@@ -60,14 +61,17 @@ export default function List({
         <FlatList
           renderItem={renderRow}
           ref={listRef}
-          data={listing}
-          keyExtractor={(item) => item.id.toString()}
+          data={data}
+          keyExtractor={(item) => item.uuid}
           numColumns={numOfColumns}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingBottom: 10,
             paddingHorizontal: 10
           }}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
+          }
           columnWrapperStyle={{ justifyContent: 'space-between' }}
           style={{ flex: 1 }}
         />
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '80%',
-    borderTopLeftRadius: 10, // TODO
+    borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0

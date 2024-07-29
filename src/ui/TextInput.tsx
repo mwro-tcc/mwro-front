@@ -71,7 +71,7 @@ export default ({
             </Show>
           </HStack>
           <TextInput
-            value={field.value}
+            value={field.value.toString()}
             onChangeText={field.onChange}
             {...props}
             style={{
@@ -83,7 +83,7 @@ export default ({
       </Show>
       <Show when={!label}>
         <TextInput
-          value={field.value}
+          value={field.value.toString()}
           onChangeText={field.onChange}
           {...props}
           style={{

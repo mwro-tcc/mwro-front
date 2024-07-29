@@ -1,29 +1,29 @@
 import { Routes } from '@api/mwro'
 import Form from '@forms/index'
-import { Store } from '@src/types/store'
+import { Product } from '@src/types/product'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useStore } from '@hooks/useStore'
+import { useProduct } from '@hooks/useProduct'
 import useModel from '@hooks/useModel'
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 
-export default function EditStore() {
+export default function EditProduct() {
   const router = useRouter()
-  const handleCancel = () => router.replace(`/stores/${id}`)
+  const handleCancel = () => router.replace(`/products/${id}`)
 
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const { data, loading, handleRefresh, error } = useModel<Store>({
-    url: Routes.Store.get(id)
+  const { data, loading, handleRefresh, error } = useModel<Product>({
+    url: Routes.Product.get(id)
   })
 
-  const { delete_store } = useStore()
+  const { delete_product } = useProduct()
 
   const handleDelete = async () => {
-    await delete_store(id as string)
-    router.replace('/stores')
+    await delete_product(id as string)
+    router.replace(`/stores/${data?.storeUuid}`)
   }
 
   return (
@@ -34,14 +34,14 @@ export default function EditStore() {
     >
       <Stack.Screen
         options={{
-          headerTitle: 'Loja',
+          headerTitle: 'Produto',
           headerRight: () => (
             <TouchableOpacity onPress={() => handleDelete()}>
               <MaterialCommunityIcons name='trash-can' size={24} />
             </TouchableOpacity>
           ),
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.replace(`/stores/${id}`)}>
+            <TouchableOpacity onPress={() => router.replace(`/products/${id}`)}>
               <HStack items='center' gap={2}>
                 <MaterialCommunityIcons name='arrow-left' size={22} />
                 <Text size={16}>Voltar</Text>
@@ -50,7 +50,7 @@ export default function EditStore() {
           )
         }}
       />
-      <Form.Store store={data} onCancel={handleCancel} />
+      <Form.Product product={data} onCancel={handleCancel} />
     </View>
   )
 }
