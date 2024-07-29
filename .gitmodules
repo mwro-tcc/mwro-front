@@ -1,0 +1,3 @@
+[submodule "mwro-ts"]
+	path = mwro-ts
+	url = git@github.com:mwro-tcc/mwro-ts.git
