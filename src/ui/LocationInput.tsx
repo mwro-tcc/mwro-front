@@ -102,7 +102,7 @@ const LocationAutoComplete = ({
           longitudeField.onChange(details?.geometry.location.lng)
         }}
         query={{
-          key: process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY,
+          key: 'AIzaSyA2kZeMMjLn4lec-3aNY3QQpis25J7WZns',
           language: 'pt-BR',
           components: 'country:br'
         }}

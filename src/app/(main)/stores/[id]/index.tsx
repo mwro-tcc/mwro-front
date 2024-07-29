@@ -12,9 +12,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import List from '@ui/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
-import { Community as CommunityType } from '@src/types/community'
+import { Store as StoreType } from '@src/types/store'
 import { useStore } from '@hooks/useStore'
 import FilterHeader from 'components/FilterHeader'
+import { Ionicons } from '@expo/vector-icons'
+import useCollection from '@hooks/useCollection'
 
 const MOCKED_CATEGORIES = [
   {
@@ -24,28 +26,16 @@ const MOCKED_CATEGORIES = [
   }
 ]
 
-type StoreCategories = 'Produtos'
+type StoreCategories = 'products'
 
 export default function Stores() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const { data, loading, error, handleRefresh } = useModel<CommunityType>({
+  const { data, loading, error, handleRefresh } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
 
-  const { get_products } = useStore()
-
-  const [category, setCategory] = useState<StoreCategories>('Produtos')
-  const [listing, setListing] = useState([])
-
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = useCallback(async () => {
-    const data = await get_products(id as string)
-    setListing(data as any) // TODO: ProductType
-  }, [])
+  const [category, setCategory] = useState<StoreCategories>('products')
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
   if (error || !data) return <Text>{error?.message}</Text>
@@ -81,11 +71,21 @@ export default function Stores() {
           <Text style={{ fontSize: 20, fontWeight: '600', marginBottom: 32 }}>
             {data.name}
           </Text>
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={() => router.replace(`/products/create?store_id=${id}`)}
+          >
+            <MaterialCommunityIcons name='briefcase-plus-outline' size={24} />
+          </TouchableOpacity>
         </HStack>
         <Text>{data.description}</Text>
       </View>
       <FilterHeader categories={MOCKED_CATEGORIES} />
-      <List itemCategory={category} listing={listing} numOfColumns={2} />
+      <List
+        itemCategory={category}
+        numOfColumns={2}
+        url={Routes.Store.get_store_products(id)}
+      />
     </View>
   )
 }

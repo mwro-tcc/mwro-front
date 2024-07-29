@@ -18,7 +18,7 @@ export default function useModel<Response>(options: Options) {
 
   const handleFetchData = async () => {
     setLoading(true)
-    caller().then((result) => {
+    await caller().then((result) => {
       const [response, error] = result
       if (response) setResponse(response)
       if (error) setError(error)
@@ -27,6 +27,7 @@ export default function useModel<Response>(options: Options) {
   }
 
   useEffect(() => {
+    console.log('dando fetch')
     handleFetchData()
   }, [])
 

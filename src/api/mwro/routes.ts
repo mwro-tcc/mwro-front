@@ -10,16 +10,24 @@ const Routes = {
     update: '/communities/:id',
     get: (id: number | string | undefined | null) => `/communities/${id}`,
     get_community_products: (id: number | string | undefined | null) =>
-      `/communities/${id}/products`
+      `/communities/${id}/products`,
+    get_community_stores: (id: number | string | undefined | null) =>
+      `/communities/${id}/stores`
   },
   Store: {
     list_user_stores: '/stores/mine',
     create: '/stores',
     update: (uuid: number | string | undefined | null) => `/stores/${uuid}`,
-    get: (id: number | string | undefined | null) => `/stores/${id}`,
+    get: (uuid: number | string | undefined | null) => `/stores/${uuid}`,
     get_store_products: (id: number | string | undefined | null) =>
       `/stores/${id}/products`,
     delete: (uuid: number | string | undefined | null) => `/stores/${uuid}`
+  },
+  Product: {
+    create: '/products',
+    get: (uuid: number | string | undefined | null) => `/products/${uuid}`,
+    update: (uuid: number | string | undefined | null) => `/products/${uuid}`,
+    delete: (uuid: number | string | undefined | null) => `/products/${uuid}`
   }
 }
 

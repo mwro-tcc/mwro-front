@@ -18,14 +18,15 @@ export default () => {
   }
 
   const sign_in = async (data: SignInForm) => {
+    // console.log('chamando')
     const [res, err] = await Auth.sign_in(data)
-
-    if (err?.response.status === 400) {
-      Toast.error('Credenciais Inválidas')
-    } else if (err) {
-      console.error(err)
-      Toast.error(err?.message)
-    }
+    //console.log('AQUI sign_in')
+    // if (err?.response.status === 400) {
+    //   Toast.error('Credenciais Inválidas')
+    // } else if (err) {
+    //   console.error(err)
+    //   Toast.error(err?.message)
+    // }
 
     if (res) on_success(res.data.token)
   }
