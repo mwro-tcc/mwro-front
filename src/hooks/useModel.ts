@@ -27,7 +27,6 @@ export default function useModel<Response>(options: Options) {
   }
 
   useEffect(() => {
-    console.log('dando fetch')
     handleFetchData()
   }, [])
 
