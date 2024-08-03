@@ -72,10 +72,7 @@ export default function Product() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderButton
-              icon='pencil-outline'
-              onPress={() => router.replace(`/products/${data.uuid}/edit`)}
-            />
+            <HeaderButton icon='pencil-outline' onPress={handleEdit} />
           ),
           headerTitle: 'Produto'
         }}
