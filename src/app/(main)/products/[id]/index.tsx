@@ -15,8 +15,10 @@ import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Product as ProductType } from '@src/types/product'
 import { priceFormatter } from 'utils'
+import HeaderButton from '@ui/HeaderButton'
+import useCache from '@hooks/useCache'
 
-export default function Products() {
+export default function Product() {
   const { id } = useLocalSearchParams<{
     id: string
   }>()
@@ -38,6 +40,15 @@ export default function Products() {
   }
 
   const totalPrice = priceFormatter((data?.price ?? 0) * quantity)
+
+  const { add } = useCache()
+
+  const handleEdit = () => {
+    if (!data || !id) return
+
+    add(id, data)
+    router.replace(`/products/${data.uuid}/edit`)
+  }
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
   if (error || !data) return <Text>{error?.message}</Text>
@@ -61,11 +72,10 @@ export default function Products() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity
+            <HeaderButton
+              icon='pencil-outline'
               onPress={() => router.replace(`/products/${data.uuid}/edit`)}
-            >
-              <MaterialCommunityIcons name='pencil-outline' size={24} />
-            </TouchableOpacity>
+            />
           ),
           headerTitle: 'Produto'
         }}

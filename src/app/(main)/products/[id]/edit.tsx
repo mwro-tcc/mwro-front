@@ -1,13 +1,12 @@
-import { Routes } from '@api/mwro'
 import Form from '@forms/index'
 import { Product } from '@src/types/product'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useProduct } from '@hooks/useProduct'
-import useModel from '@hooks/useModel'
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
+import useCache from '@hooks/useCache'
 
 export default function EditProduct() {
   const router = useRouter()
@@ -15,15 +14,16 @@ export default function EditProduct() {
 
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const { data, loading, handleRefresh, error } = useModel<Product>({
-    url: Routes.Product.get(id)
-  })
+  if (!id) return <Redirect href='/(main)' />
+
+  const { get } = useCache<Product>()
+  const product = get(id)
 
   const { delete_product } = useProduct()
 
   const handleDelete = async () => {
     await delete_product(id as string)
-    router.replace(`/stores/${data?.storeUuid}`)
+    router.replace(`/stores/${product?.storeUuid}`)
   }
 
   return (
@@ -36,7 +36,7 @@ export default function EditProduct() {
         options={{
           headerTitle: 'Produto',
           headerRight: () => (
-            <TouchableOpacity onPress={() => handleDelete()}>
+            <TouchableOpacity onPress={handleDelete}>
               <MaterialCommunityIcons name='trash-can' size={24} />
             </TouchableOpacity>
           ),
@@ -50,7 +50,7 @@ export default function EditProduct() {
           )
         }}
       />
-      <Form.Product product={data} onCancel={handleCancel} />
+      {!!product && <Form.Product product={product} onCancel={handleCancel} />}
     </View>
   )
 }
