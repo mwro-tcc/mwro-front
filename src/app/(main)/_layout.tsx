@@ -3,6 +3,7 @@ import useAsync from '@hooks/useAsync'
 import AuthSession from '@api/local/auth_session'
 import { ActivityIndicator } from 'react-native'
 import error_callback from '@lib/error_callback'
+import { MaterialIcons } from '@expo/vector-icons'
 
 export default function MainLayout() {
   const { data: token, loading } = useAsync(async () =>
@@ -22,19 +23,28 @@ export default function MainLayout() {
       <Tabs.Screen
         name='index'
         options={{
-          title: 'Home'
+          title: 'Home',
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name='home' size={size} color={color} />
+          )
         }}
       />
       <Tabs.Screen
         name='communities'
         options={{
-          title: 'Comunidades'
+          title: 'Comunidades',
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name='people-alt' size={size} color={color} />
+          )
         }}
       />
       <Tabs.Screen
         name='stores'
         options={{
-          title: 'Lojas'
+          title: 'Lojas',
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name='store' size={size} color={color} />
+          )
         }}
       />
       <Tabs.Screen

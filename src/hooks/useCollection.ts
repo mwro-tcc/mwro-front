@@ -4,6 +4,7 @@ import Api from '@api/mwro/api'
 import { Community } from '@api/mwro'
 import safe_call from '@lib/safe_call'
 import { AxiosResponse } from 'axios'
+import error_callback from '@lib/error_callback'
 
 type Options = {
   url: string
@@ -23,9 +24,12 @@ export default function useCollection<Response>(options: Options) {
   const handleFetchData = async () => {
     setLoading(true)
     caller().then((result) => {
-      const [response, error] = result
-      if (response) setResponse(response)
-      if (error) setError(error)
+      const response = error_callback(result, () => {
+        console.error(error)
+        setError(error)
+      })
+      setResponse(response)
+    }).finally(() => {
       setLoading(false)
     })
   }

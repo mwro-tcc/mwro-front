@@ -1,18 +1,18 @@
 import Form from '@forms/index'
-import { useRouter } from 'expo-router'
-
-const MOCKED_COMMUNITY = {
-  uuid: 1,
-  name: 'HUEHEUE',
-  description: 'SHUASHUHAS',
-  isPrivate: true,
-  latitude: 300,
-  longitude: 300
-}
+import useCache from '@hooks/useCache'
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router'
+import { Community } from '@src/types/community'
 
 export default function EditCommunity() {
-  const router = useRouter()
-  const handleCancel = () => router.back()
+  const { id } = useLocalSearchParams<{ id: string }>()
 
-  return <Form.Community community={MOCKED_COMMUNITY} onCancel={handleCancel} />
+  if (!id) return <Redirect href='/(main)' />
+
+  const { get } = useCache<Community>()
+
+  const community = get(id)
+
+  if (!community) return <Redirect href='/(main)' />
+
+  return <Form.Community community={community} />
 }

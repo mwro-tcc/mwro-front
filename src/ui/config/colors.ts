@@ -16,6 +16,15 @@ enum colors {
     red_6 = '#D42121',
     red_7 = '#a81616',
     red_8 = '#6e0909',
+    blue_1 = '#edf9ff',
+    blue_2 = '#d7f0ff',
+    blue_3 = '#b9e7ff',
+    blue_4 = '#88daff',
+    blue_5 = '#50c3ff',
+    blue_6 = '#28a5ff',
+    blue_7 = '#0a84ff',
+    blue_8 = '#0a6feb',
+    blue_9 = '#0f58be',
 }
 
 export default colors

@@ -8,7 +8,7 @@ type Options = {
 }
 
 export default function useModel<Response>(options: Options) {
-  const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [response, setResponse] = useState<AxiosResponse<Response> | null>(null)
   const [error, setError] = useState<Error | null>(null)
 
@@ -17,12 +17,15 @@ export default function useModel<Response>(options: Options) {
   }
 
   const handleFetchData = async () => {
-    setLoading(true)
+    if (response) {
+      setRefreshing(true)
+    }
+
     await caller().then((result) => {
       const [response, error] = result
       if (response) setResponse(response)
       if (error) setError(error)
-      setLoading(false)
+      setRefreshing(false)
     })
   }
 
@@ -33,7 +36,8 @@ export default function useModel<Response>(options: Options) {
   return {
     data: response?.data,
     handleRefresh: handleFetchData,
-    loading,
+    loading: !response && !error,
+    refreshing,
     error
   }
 }

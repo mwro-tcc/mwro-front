@@ -9,6 +9,7 @@ const Routes = {
     create: '/communities',
     update: '/communities/:id',
     get: (id: number | string | undefined | null) => `/communities/${id}`,
+    delete: (id: number | string | undefined | null) => `/communities/${id}`,
     get_community_products: (id: number | string | undefined | null) =>
       `/communities/${id}/products`,
     get_community_stores: (id: number | string | undefined | null) =>

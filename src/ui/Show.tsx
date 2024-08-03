@@ -1,15 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
 export default ({
   children,
-  when,
-  unless,
+  when = true,
+  unless = false
 }: {
-  children?: ReactNode;
-  when?: any;
-  unless?: any;
+  children?: ReactNode
+  when?: any
+  unless?: any
 }) => {
-  if (Boolean(unless)) return null;
-  if (Boolean(when)) return children;
-  return null;
-};
+  if (Boolean(unless)) return null
+  if (Boolean(when)) return children
+  return null
+}

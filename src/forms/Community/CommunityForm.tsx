@@ -12,28 +12,32 @@ import Text from '@ui/Text'
 import StepsIndicator from '@ui/StepsIndicator'
 import Button from '@ui/Button'
 import { useCommunity } from '@hooks/useCommunity'
-import SafeKeyboardScrollView from '@ui/SafeKeyboardScrollView'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import { Keyboard } from 'react-native'
+import { ScrollView } from 'react-native'
+import { Stack, useRouter } from 'expo-router'
 
 type Props = {
-  onCancel: () => void
   community?: Community
 }
 
 export default function CommunityForm(props: Props) {
+  const { community } = props
+  const router = useRouter()
   const form = useForm<CommunityFormType>({
-    defaultValues: props.community
+    defaultValues: community
   })
 
-  const steps = props.community ? 1 : 3
+  const steps = community ? 1 : 3
 
   const { step, next, back } = useSteps(steps)
   const { create_community, update_community } = useCommunity()
 
-  const handleSubmit = form.handleSubmit(
-    props.community ? update_community : create_community
-  )
+  const handleSubmit = (value: any) => {
+    form.handleSubmit(props.community ? update_community : create_community)(
+      value
+    )
+
+    router.back()
+  }
 
   const body = (() => {
     if (props.community) {
@@ -58,11 +62,21 @@ export default function CommunityForm(props: Props) {
   })()
 
   return (
-    <SafeKeyboardScrollView>
+    <ScrollView
+      keyboardDismissMode='on-drag'
+      keyboardShouldPersistTaps='never'
+      style={{ flex: 1 }}
+    >
+      <Stack.Screen
+        options={{
+          headerTitle: `${community?.uuid ? 'Editar' : 'Criar'} Comunidade`,
+          headerBackTitle: 'Voltar'
+        }}
+      />
       <VStack p={20} flex={1} gap={30}>
         <VStack items='center' gap={20}>
           <Text size={28} weight='600'>
-            {props.community ? 'Editar' : 'Criar'} Comunidade
+            {community ? 'Editar' : 'Criar'} Comunidade
           </Text>
           {steps > 1 ? (
             <StepsIndicator currentStep={step} totalSteps={steps} />
@@ -79,11 +93,11 @@ export default function CommunityForm(props: Props) {
           >
             {step < steps ? 'Próximo' : 'Concluir'}
           </Button>
-          <Button onPress={step > 1 ? back : props.onCancel}>
+          <Button onPress={step > 1 ? back : router.back}>
             {step > 1 ? 'Voltar' : 'Cancelar'}
           </Button>
         </VStack>
       </VStack>
-    </SafeKeyboardScrollView>
+    </ScrollView>
   )
 }
