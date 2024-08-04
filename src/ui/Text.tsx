@@ -1,32 +1,38 @@
-import { Text, TextProps, TextStyle } from "react-native";
+import {
+  Text,
+  TextProps as ReactNativeTextProps,
+  TextStyle
+} from 'react-native'
 import {
   TextShorthands,
-  parse_text_style_shorthands,
-} from "./types/style_shorthands";
-import { ReactNode } from "react";
+  parse_text_style_shorthands
+} from './types/style_shorthands'
+import { ReactNode } from 'react'
+
+export type TextProps = TextShorthands &
+  Partial<{
+    children: ReactNode
+    variant: string
+    style: TextStyle
+    componentProps: ReactNativeTextProps
+  }>
 
 export default ({
-  variant = "default",
+  variant = 'default',
   style,
   children,
   componentProps,
   ...shorthands
-}: TextShorthands &
-  Partial<{
-    children: ReactNode;
-    variant: string;
-    style: TextStyle;
-    componentProps: TextProps;
-  }>) => {
+}: TextProps) => {
   return (
     <Text
       {...componentProps}
       style={{
         ...parse_text_style_shorthands(shorthands),
-        ...(style as TextStyle),
+        ...(style as TextStyle)
       }}
     >
       {children}
     </Text>
-  );
-};
+  )
+}

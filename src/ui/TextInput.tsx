@@ -18,17 +18,13 @@ const base_form_variant: ViewStyle = {
   padding: spacings.md,
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
-  ...shadows.sm
+  alignItems: 'center'
 }
 
 const input_variants = StyleSheet.create<Variants>({
   default: {
     ...base_form_variant,
-    backgroundColor: colors.ui_1,
-    borderColor: colors.ui_5,
-    borderStyle: 'solid',
-    borderWidth: 1,
+    backgroundColor: colors.ui_2,
     borderRadius: rounded.sm
   }
 })
@@ -60,7 +56,7 @@ export default ({
     <>
       <Show when={label}>
         <VStack gap={3}>
-          <HStack px={5} gap={3}>
+          <HStack px={8} gap={3}>
             <Text weight='600' size={12}>
               {label}
             </Text>

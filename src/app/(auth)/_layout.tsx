@@ -17,26 +17,13 @@ export default function AuthLayout() {
     error_callback(await AuthSession.get(), console.error)
   )
 
-  const params = useLocalSearchParams<{ screen: keyof typeof title }>()
-
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
 
   if (token) return <Redirect href='/(main)' />
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <SafeKeyboardScrollView>
-        <VStack gap={10} p={20} flex={1} h='100%'>
-          <VStack gap={10} justify='center' items='center' h='25%'>
-            <Text size={28} weight='600'>
-              {title[params.screen]}
-            </Text>
-          </VStack>
-          <VStack flex={1}>
-            <Slot />
-          </VStack>
-        </VStack>
-      </SafeKeyboardScrollView>
+      <Slot />
     </SafeAreaView>
   )
 }

@@ -10,20 +10,54 @@ import AppleStyleSwipeableRow from '@ui/SwipeableRow'
 import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 import { Redirect, Stack, useRouter } from 'expo-router'
-import { FlatList, RefreshControl, TouchableOpacity } from 'react-native'
+import {
+  FlatList,
+  RefreshControl,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native'
 import HeaderButton from '@ui/HeaderButton'
+import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
 
 export default function Communities() {
   const router = useRouter()
 
-  const { data, loading, handleRefresh, error } = useCollection<Community>({
+  const {
+    data: communities,
+    loading,
+    handleRefresh,
+    error
+  } = useCollection<Community>({
     url: Routes.Community.list_user_communities
   })
 
   if (error) return <Redirect href='/(main)' />
 
+  const data: ActionType[] = communities.map((item) => ({
+    id: item.uuid,
+    title: item.name,
+    onPress: () => router.push(`communities/${item.uuid}`)
+  }))
+
+  const handleDelete = async (id: string) => {
+    Lib.error_callback(
+      await Lib.safe_call(Api.delete, [Routes.Community.delete(id)]),
+      Toast.error
+    )
+
+    handleRefresh()
+  }
+
+  const swipeActions: ActionListSwipeAction = (item) => [
+    {
+      label: 'Excluir',
+      color: colors.red_5,
+      onPress: () => handleDelete(item.id as string)
+    }
+  ]
+
   return (
-    <VStack gap={10} flex={1}>
+    <VStack gap={10} flex={1} p={16}>
       <Stack.Screen
         options={{
           headerTitle: 'Minhas Comunidades',
@@ -35,19 +69,14 @@ export default function Communities() {
           )
         }}
       />
-      <FlatList
+      <ScrollView
+        style={{ flex: 1 }}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
         }
-        data={data}
-        renderItem={({ item }) => (
-          <CommunityListItem
-            key={item.uuid}
-            item={item}
-            onRefresh={handleRefresh}
-          />
-        )}
-      />
+      >
+        <ActionList data={data} swipeActions={swipeActions} keyFrom='id' />
+      </ScrollView>
     </VStack>
   )
 }

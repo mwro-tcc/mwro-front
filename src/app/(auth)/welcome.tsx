@@ -11,7 +11,7 @@ export default function Welcome() {
     <VStack gap={10} p={20} justify='end' flex={1}>
       <StatusBar style='auto' />
       <VStack flex={1} items='center' justify='center'>
-        <Text size={28} weight='600'>
+        <Text size={72} weight='600'>
           mwro
         </Text>
       </VStack>

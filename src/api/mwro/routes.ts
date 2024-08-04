@@ -8,27 +8,27 @@ const Routes = {
     list_user_communities: '/communities/created',
     create: '/communities',
     update: '/communities/:id',
-    get: (id: number | string | undefined | null) => `/communities/${id}`,
-    delete: (id: number | string | undefined | null) => `/communities/${id}`,
-    get_community_products: (id: number | string | undefined | null) =>
+    get: (id: string | undefined | null) => `/communities/${id}`,
+    delete: (id: string | undefined | null) => `/communities/${id}`,
+    get_community_products: (id: string | undefined | null) =>
       `/communities/${id}/products`,
-    get_community_stores: (id: number | string | undefined | null) =>
+    get_community_stores: (id: string | undefined | null) =>
       `/communities/${id}/stores`
   },
   Store: {
     list_user_stores: '/stores/mine',
     create: '/stores',
-    update: (uuid: number | string | undefined | null) => `/stores/${uuid}`,
-    get: (uuid: number | string | undefined | null) => `/stores/${uuid}`,
-    get_store_products: (id: number | string | undefined | null) =>
+    update: (uuid: string | undefined | null) => `/stores/${uuid}`,
+    get: (uuid: string | undefined | null) => `/stores/${uuid}`,
+    get_store_products: (id: string | undefined | null) =>
       `/stores/${id}/products`,
-    delete: (uuid: number | string | undefined | null) => `/stores/${uuid}`
+    delete: (uuid: string | undefined | null) => `/stores/${uuid}`
   },
   Product: {
     create: '/products',
-    get: (uuid: number | string | undefined | null) => `/products/${uuid}`,
-    update: (uuid: number | string | undefined | null) => `/products/${uuid}`,
-    delete: (uuid: number | string | undefined | null) => `/products/${uuid}`
+    get: (uuid: string | undefined | null) => `/products/${uuid}`,
+    update: (uuid: string | undefined | null) => `/products/${uuid}`,
+    delete: (uuid: string | undefined | null) => `/products/${uuid}`
   }
 }
 

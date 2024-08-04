@@ -1,5 +1,5 @@
 export type Community = {
-  uuid: number
+  uuid: string
   name: string
   description: string
   isPrivate: boolean

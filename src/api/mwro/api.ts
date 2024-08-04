@@ -14,4 +14,15 @@ Api.interceptors.request.use(async (config) => {
   return config
 })
 
+Api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      AuthSession.destroy()
+    }
+
+    return Promise.reject(error)
+  }
+)
+
 export default Api

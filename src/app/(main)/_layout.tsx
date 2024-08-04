@@ -48,6 +48,15 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
+        name='account'
+        options={{
+          title: 'Conta',
+          tabBarIcon: ({ size, color }) => (
+            <MaterialIcons name='person' size={size} color={color} />
+          )
+        }}
+      />
+      <Tabs.Screen
         name='products'
         options={{
           href: null
