@@ -1,5 +1,5 @@
 import { Link } from 'expo-router'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import {
   ActivityIndicator,
   FlatList,
@@ -22,7 +22,7 @@ type ListProps = {
 export default function List({ itemCategory, numOfColumns, url }: ListProps) {
   const listRef = useRef<FlatList>(null)
 
-  const { data, loading, error, handleRefresh } = useCollection<any>({
+  const { data, refreshing, loading, handleRefresh } = useCollection<any>({
     url: url
   })
 
@@ -70,7 +70,7 @@ export default function List({ itemCategory, numOfColumns, url }: ListProps) {
             paddingHorizontal: 10
           }}
           refreshControl={
-            <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
           }
           columnWrapperStyle={{ justifyContent: 'space-between' }}
           style={{ flex: 1 }}

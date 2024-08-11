@@ -5,31 +5,31 @@ import Text from '@ui/Text'
 import Button from '@ui/Button'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
-import SafeKeyboardScrollView from '@ui/SafeKeyboardScrollView'
 import { useEffect } from 'react'
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { ScrollView, TouchableOpacity } from 'react-native'
+import HStack from '@ui/HStack'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import Show from '@ui/Show'
 
 type Props = {
-  onCancel: () => void
   product?: Product
 }
 
 export default function ProductForm(props: Props) {
   const { store_id } = useLocalSearchParams()
-
+  const { product } = props
   const router = useRouter()
 
   const form = useForm<ProductFormType>({
-    defaultValues: props.product
+    defaultValues: product
   })
 
-  const { create_product, update_product } = useProduct()
-
-  const product_created = props.product
+  const { create_product, update_product, delete_product } = useProduct()
 
   useEffect(() => {
-    form.reset(props.product)
-  }, [props.product])
+    form.reset(product)
+  }, [product])
 
   const handleUpdate = async (productData: any) => {
     await update_product({
@@ -52,20 +52,58 @@ export default function ProductForm(props: Props) {
     router.replace(`/stores/${store_id}`)
   }
 
-  const handleSubmit = form.handleSubmit(
-    product_created ? handleUpdate : handleCreate
-  )
+  const handleSubmit = form.handleSubmit(product ? handleUpdate : handleCreate)
+
+  const handleDelete = async () => {
+    if (!product) return
+    await delete_product(product.uuid)
+    router.replace(`/stores/${product.storeUuid}`)
+  }
 
   const body = (() => {
     return <ProductFormStep1 form={form} />
   })()
 
   return (
-    <SafeKeyboardScrollView>
+    <ScrollView
+      keyboardDismissMode='on-drag'
+      keyboardShouldPersistTaps='never'
+      style={{ flex: 1 }}
+    >
+      <Stack.Screen
+        options={{
+          headerTitle: 'Produto',
+          headerRight: () => {
+            return (
+              <>
+                {product && (
+                  <TouchableOpacity onPress={handleDelete}>
+                    <MaterialCommunityIcons name='trash-can' size={24} />
+                  </TouchableOpacity>
+                )}
+              </>
+            )
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() =>
+                product
+                  ? router.replace(`/products/${product?.uuid}`)
+                  : router.replace(`/stores/${store_id}`)
+              }
+            >
+              <HStack items='center' gap={2}>
+                <MaterialCommunityIcons name='arrow-left' size={22} />
+                <Text size={16}>Voltar</Text>
+              </HStack>
+            </TouchableOpacity>
+          )
+        }}
+      />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
         <VStack items='center' gap={20}>
           <Text size={28} weight='600'>
-            {props.product ? 'Editar' : 'Criar'} Produto
+            {product ? 'Editar' : 'Criar'} Produto
           </Text>
         </VStack>
         <VStack gap={30} flex={1}>
@@ -79,9 +117,17 @@ export default function ProductForm(props: Props) {
           >
             Concluir
           </Button>
-          <Button onPress={props.onCancel}>Cancelar</Button>
+          <Button
+            onPress={() =>
+              product
+                ? router.replace(`/products/${product.uuid}`)
+                : router.replace(`/stores/${store_id}`)
+            }
+          >
+            Cancelar
+          </Button>
         </VStack>
       </VStack>
-    </SafeKeyboardScrollView>
+    </ScrollView>
   )
 }

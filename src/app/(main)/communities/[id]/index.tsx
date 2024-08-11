@@ -53,8 +53,6 @@ export default function Community() {
       url: Routes.Community.get(id)
     })
 
-  const navigation = useNavigation()
-
   const [urlToFetch, setUrlToFetch] = useState<string>(
     Routes.Community.get_community_products(id)
   )

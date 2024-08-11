@@ -1,24 +1,18 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import { Stack, router, useLocalSearchParams } from 'expo-router'
-import { useCallback, useEffect, useState } from 'react'
-import {
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import List from '@ui/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
-import { useStore } from '@hooks/useStore'
 import FilterHeader from 'components/FilterHeader'
-import { Ionicons } from '@expo/vector-icons'
-import useCollection from '@hooks/useCollection'
+import useCache from '@hooks/useCache'
+import Toast from '@lib/toast'
+import HeaderButton from '@ui/HeaderButton'
 
-const MOCKED_CATEGORIES = [
+const CATEGORIES = [
   {
     id: 1,
     name: 'Produtos',
@@ -26,26 +20,28 @@ const MOCKED_CATEGORIES = [
   }
 ]
 
-type StoreCategories = 'products'
-
 export default function Stores() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const { data, loading, error, handleRefresh } = useModel<StoreType>({
+  const { add } = useCache()
+
+  const { data, error } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
 
-  const [category, setCategory] = useState<StoreCategories>('products')
+  const handleEdit = () => {
+    if (id) {
+      add(id, data)
+      router.replace(`/stores/${id}/edit`)
+    } else {
+      Toast.error('Nenhum ID encontrado')
+    }
+  }
 
-  if (loading) return <ActivityIndicator style={{ flex: 1 }} />
-  if (error || !data) return <Text>{error?.message}</Text>
+  if (error) return <Redirect href='/(main)' />
 
   return (
-    <View
-      style={{
-        flex: 1
-      }}
-    >
+    <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
           headerLeft: () => (
@@ -57,32 +53,33 @@ export default function Stores() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => router.replace(`/stores/${id}/edit`)}
-            >
-              <MaterialCommunityIcons name='pencil-outline' size={24} />
-            </TouchableOpacity>
+            <HeaderButton icon='pencil-outline' onPress={handleEdit} />
           ),
           headerTitle: 'Loja'
         }}
       />
+
       <View style={styles.container}>
         <HStack justify='between' pt={20} pr={20} items='center'>
-          <Text style={{ fontSize: 20, fontWeight: '600', marginBottom: 32 }}>
-            {data.name}
-          </Text>
-          <TouchableOpacity
-            style={styles.iconContainer}
-            onPress={() => router.replace(`/products/create?store_id=${id}`)}
-          >
-            <MaterialCommunityIcons name='briefcase-plus-outline' size={24} />
-          </TouchableOpacity>
+          <Text style={{ fontSize: 20, fontWeight: '600' }}>{data?.name}</Text>
+          <HStack gap={10}>
+            <TouchableOpacity
+              style={styles.iconContainer}
+              onPress={() => router.replace(`/products/create?store_id=${id}`)}
+            >
+              <MaterialCommunityIcons
+                name='briefcase-plus-outline'
+                size={24}
+                color='black'
+              />
+            </TouchableOpacity>
+          </HStack>
         </HStack>
-        <Text>{data.description}</Text>
+        <Text>{data?.description}</Text>
       </View>
-      <FilterHeader categories={MOCKED_CATEGORIES} />
+      <FilterHeader categories={CATEGORIES} />
       <List
-        itemCategory={category}
+        itemCategory={'products'}
         numOfColumns={2}
         url={Routes.Store.get_store_products(id)}
       />

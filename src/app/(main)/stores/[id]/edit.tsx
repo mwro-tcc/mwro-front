@@ -1,56 +1,24 @@
 import { Routes } from '@api/mwro'
 import Form from '@forms/index'
 import { Store } from '@src/types/store'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { TouchableOpacity, View } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useStore } from '@hooks/useStore'
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router'
 import useModel from '@hooks/useModel'
-import HStack from '@ui/HStack'
-import Text from '@ui/Text'
+import useCache from '@hooks/useCache'
 
 export default function EditStore() {
-  const router = useRouter()
-  const handleCancel = () => router.replace(`/stores/${id}`)
-
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const { data, loading, handleRefresh, error } = useModel<Store>({
+  const { data } = useModel<Store>({
     url: Routes.Store.get(id)
   })
 
-  const { delete_store } = useStore()
+  if (!id) return <Redirect href='/(main)' />
 
-  const handleDelete = async () => {
-    await delete_store(id as string)
-    router.replace('/stores')
-  }
+  const { get } = useCache<Store>()
 
-  return (
-    <View
-      style={{
-        flex: 1
-      }}
-    >
-      <Stack.Screen
-        options={{
-          headerTitle: 'Loja',
-          headerRight: () => (
-            <TouchableOpacity onPress={() => handleDelete()}>
-              <MaterialCommunityIcons name='trash-can' size={24} />
-            </TouchableOpacity>
-          ),
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.replace(`/stores/${id}`)}>
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          )
-        }}
-      />
-      <Form.Store store={data} onCancel={handleCancel} />
-    </View>
-  )
+  const store = get(id)
+
+  if (!store) return <Redirect href='/(main)' />
+
+  return <Form.Store store={data} />
 }

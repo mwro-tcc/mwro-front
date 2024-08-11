@@ -54,11 +54,7 @@ export default function Product() {
   if (error || !data) return <Text>{error?.message}</Text>
 
   return (
-    <View
-      style={{
-        flex: 1
-      }}
-    >
+    <>
       <Stack.Screen
         options={{
           headerLeft: () => (
@@ -109,7 +105,7 @@ export default function Product() {
           </HStack>
         </View>
       </ScrollView>
-    </View>
+    </>
   )
 }
 

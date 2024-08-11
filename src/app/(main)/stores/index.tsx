@@ -1,75 +1,75 @@
 import { Routes } from '@api/mwro'
+import Api from '@api/mwro/api'
 import useCollection from '@hooks/useCollection'
+import Lib from '@lib/index'
+import Toast from '@lib/toast'
 import { Store } from '@src/types/store'
-import Button from '@ui/Button'
-import HStack from '@ui/HStack'
-import Text from '@ui/Text'
+import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
+import HeaderButton from '@ui/HeaderButton'
 import VStack from '@ui/VStack'
-import { Stack, useRouter } from 'expo-router'
-import { FlatList, RefreshControl, TouchableOpacity } from 'react-native'
-
-function StoresListItem(props: { item: Store }) {
-  const { item } = props
-
-  const router = useRouter()
-
-  const handlePress = () => {
-    router.replace(`stores/${item.uuid}`)
-  }
-
-  return (
-    <TouchableOpacity onPress={handlePress}>
-      <HStack
-        px={24}
-        py={12}
-        bg='#fff'
-        style={{
-          borderBottomColor: '#ddd',
-          borderBottomWidth: 0.5
-        }}
-      >
-        <Text size={16}>{item.name}</Text>
-      </HStack>
-    </TouchableOpacity>
-  )
-}
+import colors from '@ui/config/colors'
+import { Redirect, Stack, useRouter } from 'expo-router'
+import { RefreshControl, ScrollView } from 'react-native'
 
 export default function Stores() {
   const router = useRouter()
 
-  const { data, loading, handleRefresh, error } = useCollection<Store>({
+  const {
+    data: stores,
+    loading,
+    handleRefresh,
+    error
+  } = useCollection<Store>({
     url: Routes.Store.list_user_stores
   })
 
-  if (error) {
-    console.error(error)
-    router.replace('/(main)')
-    return null
+  if (error) return <Redirect href='/(main)' />
+
+  const data: ActionType[] =
+    stores?.map((item) => ({
+      id: item.uuid,
+      title: item.name,
+      onPress: () => router.replace(`stores/${item.uuid}`)
+    })) || []
+
+  const handleDelete = async (id: string) => {
+    Lib.error_callback(
+      await Lib.safe_call(Api.delete, [Routes.Store.delete(id)]),
+      Toast.error
+    )
+
+    handleRefresh()
   }
 
+  const swipeActions: ActionListSwipeAction = (item) => [
+    {
+      label: 'Excluir',
+      color: colors.red_5,
+      onPress: () => handleDelete(item.id as string)
+    }
+  ]
+
   return (
-    <VStack gap={10} flex={1}>
+    <VStack gap={10} flex={1} p={16}>
       <Stack.Screen
         options={{
-          headerTitle: 'Minhas lojas',
-          title: 'Lojas'
+          headerTitle: 'Minhas Lojas',
+          headerRight: () => (
+            <HeaderButton
+              onPress={() => router.replace('/stores/create/')}
+              icon='plus'
+            />
+          )
         }}
       />
-      <HStack gap={10} pt={10} px={20}>
-        <Button
-          variant='primary'
-          onPress={() => router.replace('/stores/create/')}
-        >
-          Criar Loja
-        </Button>
-      </HStack>
-      <FlatList
+      <ScrollView
+        style={{ flex: 1 }}
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
         }
-        data={data}
-        renderItem={({ item }) => <StoresListItem item={item} />}
-      />
+      >
+        <ActionList data={data} swipeActions={swipeActions} keyFrom='id' />
+      </ScrollView>
     </VStack>
   )
 }
