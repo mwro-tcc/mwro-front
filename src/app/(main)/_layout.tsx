@@ -31,7 +31,7 @@ export default function MainLayout() {
               icon='home'
               size={size}
               color={color}
-              onPress={() => router.replace('/home')}
+              onPress={() => router.replace('/')}
             />
           )
         }}

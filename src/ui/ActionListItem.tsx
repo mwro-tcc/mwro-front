@@ -54,6 +54,7 @@ function ActionListItem({
           name='keyboard-arrow-right'
           size={24}
           color={colors.ui_6}
+          style={{ marginLeft: 24 }}
         />
       )}
     </TouchableOpacity>

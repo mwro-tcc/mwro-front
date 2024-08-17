@@ -42,7 +42,12 @@ const AddStoreModal = ({
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>Adicionar Loja</Text>
             <Text>
-              <ActionList data={data} keyFrom='id' textSize={14} />
+              <ActionList
+                data={data}
+                keyFrom='id'
+                textSize={14}
+                scrollEnabled={true}
+              />
             </Text>
             <TouchableOpacity
               style={styles.button}
@@ -63,13 +68,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '60%',
-    maxHeight: 300
+    maxHeight: 300,
+    overflow: 'hidden'
   },
   modalView: {
     margin: 20,
     backgroundColor: 'white',
     padding: 10,
     paddingTop: 30,
+    paddingBottom: 80,
     borderRadius: 20,
     width: '60%',
     alignItems: 'center',
