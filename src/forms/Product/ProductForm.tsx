@@ -22,14 +22,11 @@ export default function ProductForm(props: Props) {
   const router = useRouter()
 
   const form = useForm<ProductFormType>({
-    defaultValues: product
+    defaultValues: product,
+    values: product
   })
 
   const { create_product, update_product, delete_product } = useProduct()
-
-  useEffect(() => {
-    form.reset(product)
-  }, [product])
 
   const handleUpdate = async (productData: any) => {
     await update_product({

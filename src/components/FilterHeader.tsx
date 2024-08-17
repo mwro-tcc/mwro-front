@@ -7,11 +7,12 @@ import Text from '@ui/Text'
 interface Category {
   id: number
   name: string
+  route: string
   icon: string
 }
 
 type FilterHeaderProps = {
-  handleCategoryChange?: (category: any) => Promise<void>
+  handleCategoryChange?: (category: any) => void
   categories: Category[]
 }
 
@@ -23,7 +24,10 @@ export default function FilterHeader({
 
   const handleSelectCategory = (index: number) => {
     setActiveIndex(index)
-    if (handleCategoryChange) handleCategoryChange(categories[index].name)
+    if (handleCategoryChange) {
+      const category = categories[index]
+      handleCategoryChange(category)
+    }
   }
 
   return (

@@ -24,7 +24,7 @@ export default function useCollection<Response>(options: Options) {
     }
     await caller().then((result) => {
       const [response, error] = result
-      if (response) setResponse(response)
+      setResponse(response)
       if (error) setError(error)
       setRefreshing(false)
     })
@@ -32,7 +32,7 @@ export default function useCollection<Response>(options: Options) {
 
   useEffect(() => {
     handleFetchData()
-  }, [])
+  }, [options.url])
 
   return {
     data: response?.data,

@@ -25,11 +25,13 @@ function ActionListItem({
   children,
   style,
   disabled = false,
+  textSize = 16,
   ...props
 }: TouchableOpacityProps & {
   hasArrow?: boolean
   children: React.ReactNode
   color?: string
+  textSize?: number
 }) {
   return (
     <TouchableOpacity
@@ -41,7 +43,7 @@ function ActionListItem({
       }}
     >
       {typeof children === 'string' ? (
-        <Text size={16} color={color}>
+        <Text size={textSize} color={color}>
           {children}
         </Text>
       ) : (

@@ -5,10 +5,11 @@ import { UseFormReturn } from 'react-hook-form'
 
 type Props = {
   form: UseFormReturn<StoreForm, any, StoreForm>
+  storeCommunity: any
 }
 
 export default function StoreFormStep1(props: Props) {
-  const { form } = props
+  const { form, storeCommunity } = props
 
   return (
     <>

@@ -1,16 +1,12 @@
 import { Routes } from '@api/mwro'
 import Form from '@forms/index'
 import { Store } from '@src/types/store'
-import { Redirect, useLocalSearchParams, useRouter } from 'expo-router'
+import { Redirect, useLocalSearchParams } from 'expo-router'
 import useModel from '@hooks/useModel'
 import useCache from '@hooks/useCache'
 
 export default function EditStore() {
   const { id } = useLocalSearchParams<{ id: string }>()
-
-  const { data } = useModel<Store>({
-    url: Routes.Store.get(id)
-  })
 
   if (!id) return <Redirect href='/(main)' />
 
@@ -18,7 +14,11 @@ export default function EditStore() {
 
   const store = get(id)
 
+  const { data: community } = useModel<any>({
+    url: Routes.Community.get(store?.communityUuid)
+  })
+
   if (!store) return <Redirect href='/(main)' />
 
-  return <Form.Store store={data} />
+  return <Form.Store store={store} community={community} />
 }

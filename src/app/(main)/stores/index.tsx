@@ -5,7 +5,7 @@ import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { Store } from '@src/types/store'
 import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
-import HeaderButton from '@ui/HeaderButton'
+import IconButton from '@ui/IconButton'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
 import { Redirect, Stack, useRouter } from 'expo-router'
@@ -55,7 +55,7 @@ export default function Stores() {
         options={{
           headerTitle: 'Minhas Lojas',
           headerRight: () => (
-            <HeaderButton
+            <IconButton
               onPress={() => router.replace('/stores/create/')}
               icon='plus'
             />

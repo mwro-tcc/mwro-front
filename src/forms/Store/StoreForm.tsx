@@ -5,7 +5,6 @@ import Text from '@ui/Text'
 import Button from '@ui/Button'
 import StoreFormStep1 from './components/StoreFormStep1'
 import { useStore } from '@hooks/useStore'
-import { useEffect } from 'react'
 import { Stack, useRouter } from 'expo-router'
 import { ScrollView, TouchableOpacity } from 'react-native'
 
@@ -14,22 +13,20 @@ import HStack from '@ui/HStack'
 
 type Props = {
   store?: Store
+  community?: any
 }
 
 export default function StoreForm(props: Props) {
   const router = useRouter()
 
-  const { store } = props
+  const { store, community } = props
 
   const { create_store, update_store } = useStore()
 
   const form = useForm<StoreFormType>({
-    defaultValues: store
+    defaultValues: store,
+    values: store
   })
-
-  useEffect(() => {
-    form.reset(store)
-  }, [store])
 
   const handleUpdate = async (storeData: StoreFormType) => {
     const { data }: any = await update_store(storeData)
@@ -44,7 +41,7 @@ export default function StoreForm(props: Props) {
   const handleSubmit = form.handleSubmit(store ? handleUpdate : handleCreate)
 
   const body = (() => {
-    return <StoreFormStep1 form={form} />
+    return <StoreFormStep1 form={form} storeCommunity={community} />
   })()
 
   return (

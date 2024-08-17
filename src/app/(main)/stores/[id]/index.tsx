@@ -3,19 +3,20 @@ import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import List from '@ui/List'
+import List from 'components/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
 import FilterHeader from 'components/FilterHeader'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
-import HeaderButton from '@ui/HeaderButton'
+import IconButton from '@ui/IconButton'
 
-const CATEGORIES = [
+const storeCategories = [
   {
     id: 1,
     name: 'Produtos',
+    route: 'products',
     icon: 'shopping-outline'
   }
 ]
@@ -53,7 +54,7 @@ export default function Stores() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderButton icon='pencil-outline' onPress={handleEdit} />
+            <IconButton icon='pencil-outline' onPress={handleEdit} />
           ),
           headerTitle: 'Loja'
         }}
@@ -63,23 +64,19 @@ export default function Stores() {
         <HStack justify='between' pt={20} pr={20} items='center'>
           <Text style={{ fontSize: 20, fontWeight: '600' }}>{data?.name}</Text>
           <HStack gap={10}>
-            <TouchableOpacity
+            <IconButton
               style={styles.iconContainer}
               onPress={() => router.replace(`/products/create?store_id=${id}`)}
-            >
-              <MaterialCommunityIcons
-                name='briefcase-plus-outline'
-                size={24}
-                color='black'
-              />
-            </TouchableOpacity>
+              icon='briefcase-plus-outline'
+              color='black'
+            />
           </HStack>
         </HStack>
         <Text>{data?.description}</Text>
       </View>
-      <FilterHeader categories={CATEGORIES} />
+      <FilterHeader categories={storeCategories} />
       <List
-        itemCategory={'products'}
+        route={'products'}
         numOfColumns={2}
         url={Routes.Store.get_store_products(id)}
       />

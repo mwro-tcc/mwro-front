@@ -25,6 +25,7 @@ function ActionList({
   keyFrom?: keyof ActionType
   swipeActions?: ActionListSwipeAction
   label?: string
+  textSize?: number
 }) {
   return (
     <VStack gap={8}>
@@ -47,6 +48,7 @@ function ActionList({
               color={item.color}
               disabled={item.disabled}
               onPress={item.onPress}
+              textSize={props.textSize}
             >
               {item.title}
             </ActionListItem>

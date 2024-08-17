@@ -1,14 +1,16 @@
-import { Redirect, Tabs } from 'expo-router'
+import { Redirect, Tabs, useRouter } from 'expo-router'
 import useAsync from '@hooks/useAsync'
 import AuthSession from '@api/local/auth_session'
 import { ActivityIndicator } from 'react-native'
 import error_callback from '@lib/error_callback'
-import { MaterialIcons } from '@expo/vector-icons'
+import IconButton from '@ui/IconButton'
 
 export default function MainLayout() {
   const { data: token, loading } = useAsync(async () =>
     error_callback(await AuthSession.get(), console.error)
   )
+
+  const router = useRouter()
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
 
@@ -25,7 +27,12 @@ export default function MainLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='home' size={size} color={color} />
+            <IconButton
+              icon='home'
+              size={size}
+              color={color}
+              onPress={() => router.replace('/home')}
+            />
           )
         }}
       />
@@ -34,7 +41,13 @@ export default function MainLayout() {
         options={{
           title: 'Comunidades',
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='people-alt' size={size} color={color} />
+            <IconButton
+              icon='people-alt'
+              size={size}
+              fromCommunity={false}
+              color={color}
+              onPress={() => router.replace('/communities')}
+            />
           )
         }}
       />
@@ -43,7 +56,12 @@ export default function MainLayout() {
         options={{
           title: 'Lojas',
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='store' size={size} color={color} />
+            <IconButton
+              icon='store'
+              size={size}
+              color={color}
+              onPress={() => router.replace('/stores')}
+            />
           )
         }}
       />
@@ -52,7 +70,13 @@ export default function MainLayout() {
         options={{
           title: 'Conta',
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='person' size={size} color={color} />
+            <IconButton
+              icon='person'
+              size={size}
+              fromCommunity={false}
+              color={color}
+              onPress={() => router.replace('/account')}
+            />
           )
         }}
       />
