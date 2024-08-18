@@ -12,8 +12,8 @@ const Routes = {
     delete: (id: string | undefined | null) => `/communities/${id}`,
     get_community_products: (id: string | undefined | null) =>
       `/communities/${id}/products`,
-    get_community_stores: (id: string | undefined | null) =>
-      `/communities/${id}/stores`
+    get_community_stores: (uuid: string | undefined | null) =>
+      `/communities/${uuid}/stores`
   },
   Store: {
     list_user_stores: '/stores/mine',

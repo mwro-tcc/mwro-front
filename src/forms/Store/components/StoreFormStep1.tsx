@@ -1,5 +1,4 @@
 import { StoreForm } from '@src/types/store'
-import Switch from '@ui/Switch'
 import TextInput from '@ui/TextInput'
 import { UseFormReturn } from 'react-hook-form'
 

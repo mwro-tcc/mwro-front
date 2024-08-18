@@ -15,7 +15,7 @@ import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Product as ProductType } from '@src/types/product'
 import { priceFormatter } from 'utils'
-import HeaderButton from '@ui/HeaderButton'
+import IconButton from '@ui/IconButton'
 import useCache from '@hooks/useCache'
 
 export default function Product() {
@@ -23,7 +23,7 @@ export default function Product() {
     id: string
   }>()
 
-  const { data, loading, error, handleRefresh } = useModel<ProductType>({
+  const { data, loading, error } = useModel<ProductType>({
     url: Routes.Product.get(id)
   })
 
@@ -68,7 +68,7 @@ export default function Product() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderButton icon='pencil-outline' onPress={handleEdit} />
+            <IconButton icon='pencil-outline' onPress={handleEdit} />
           ),
           headerTitle: 'Produto'
         }}

@@ -2,7 +2,7 @@ export type Store = {
   uuid: string
   name: string
   description: string
-  communityUuid?: string
+  communityUuid?: string | null
   createdAt?: string
   userUuid?: string
 }

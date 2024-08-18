@@ -5,25 +5,17 @@ import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { Community } from '@src/types/community'
 import colors from '@ui/config/colors'
-import HStack from '@ui/HStack'
-import AppleStyleSwipeableRow from '@ui/SwipeableRow'
-import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 import { Redirect, Stack, useRouter } from 'expo-router'
-import {
-  FlatList,
-  RefreshControl,
-  ScrollView,
-  TouchableOpacity
-} from 'react-native'
-import HeaderButton from '@ui/HeaderButton'
+import { RefreshControl, ScrollView } from 'react-native'
+import IconButton from '@ui/IconButton'
 import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
 
 export default function Communities() {
   const router = useRouter()
 
   const {
-    data: communities,
+    data: communities = [],
     loading,
     handleRefresh,
     error
@@ -62,7 +54,7 @@ export default function Communities() {
         options={{
           headerTitle: 'Minhas Comunidades',
           headerRight: () => (
-            <HeaderButton
+            <IconButton
               onPress={() => router.push('/communities/create/')}
               icon='plus'
             />

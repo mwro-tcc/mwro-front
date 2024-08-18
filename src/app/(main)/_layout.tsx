@@ -1,4 +1,4 @@
-import { Redirect, Tabs } from 'expo-router'
+import { Redirect, Tabs, useRouter } from 'expo-router'
 import useAsync from '@hooks/useAsync'
 import AuthSession from '@api/local/auth_session'
 import { ActivityIndicator } from 'react-native'

@@ -1,47 +1,50 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import {
-  Redirect,
-  Stack,
-  router,
-  useLocalSearchParams,
-  useNavigation
-} from 'expo-router'
+import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View
 } from 'react-native'
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
 import FilterHeader from 'components/FilterHeader'
 import Show from '@ui/Show'
 import VStack from '@ui/VStack'
-import HeaderButton from '@ui/HeaderButton'
+import IconButton from '@ui/IconButton'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
-import List from '@ui/List'
+import List from 'components/List'
+import AddStoreModal from 'components/AddStoreModal'
+import colors from '@ui/config/colors'
+import { createURL } from 'expo-linking'
+import * as Clipboard from 'expo-clipboard'
 
-const MOCKED_CATEGORIES = [
+const communityCategories = [
   {
     id: 1,
     name: 'Produtos',
+    route: 'products',
     icon: 'shopping-outline'
   },
   {
     id: 2,
     name: 'Lojas',
+    route: 'stores',
     icon: 'storefront-outline'
   }
 ]
 
-type CommunityCategories = 'products' | 'stores'
+type CommunityCategories = {
+  id: number
+  name: string
+  route: string
+  icon: string
+}
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -56,19 +59,24 @@ export default function Community() {
   const [urlToFetch, setUrlToFetch] = useState<string>(
     Routes.Community.get_community_products(id)
   )
-  const [category, setCategory] = useState<CommunityCategories>('products')
 
-  const handleCategoryChange = async (category: CommunityCategories) => {
-    setCategory(category)
-  }
+  const [category, setCategory] = useState<CommunityCategories>(
+    communityCategories[0]
+  )
+
+  const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
 
   useEffect(() => {
     setUrlToFetch(
-      category === 'products'
+      category.route === 'products'
         ? Routes.Community.get_community_products(id)
         : Routes.Community.get_community_stores(id)
     )
   }, [category])
+
+  const handleCategoryChange = (category: CommunityCategories) => {
+    setCategory(category)
+  }
 
   const handleEdit = () => {
     if (id) {
@@ -77,6 +85,14 @@ export default function Community() {
     } else {
       Toast.error('Nenhum ID encontrado')
     }
+  }
+
+  const communityLink = createURL(`/communities/${id}`)
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(communityLink)
+
+    Toast.success('O link foi copiado para sua área de transferência!')
   }
 
   if (error) return <Redirect href='/(main)' />
@@ -93,7 +109,7 @@ export default function Community() {
           headerBackTitle: 'Voltar',
           headerTitle: 'Comunidade',
           headerRight: () => (
-            <HeaderButton icon='pencil-outline' onPress={handleEdit} />
+            <IconButton icon='pencil-outline' onPress={handleEdit} />
           )
         }}
       />
@@ -105,26 +121,46 @@ export default function Community() {
       <Show unless={loading}>
         <View style={styles.container}>
           <HStack justify='between' pt={20} pr={20} items='center'>
-            <Text style={{ fontSize: 20, fontWeight: '600' }}>
-              {data?.name}
-            </Text>
-
             <HStack gap={10}>
-              <TouchableOpacity
+              <Text style={{ fontSize: 20, fontWeight: '600', gap: 4 }}>
+                {data?.name}
+              </Text>
+              <IconButton
+                icon='link'
+                onPress={() => copyToClipboard()}
+                color={colors.ui_6}
+              />
+            </HStack>
+            <HStack gap={10}>
+              <IconButton
+                icon='store-plus-outline'
+                onPress={() => setAddStoreModalVisible(true)}
                 style={styles.iconContainer}
+                color='black'
+              />
+              <IconButton
+                icon='location-on'
                 onPress={() => router.push(`/communities/${id}/map`)}
-              >
-                <MaterialIcons name='location-on' size={24} color='black' />
-              </TouchableOpacity>
+                style={styles.iconContainer}
+                color='black'
+                fromCommunity={false}
+              />
             </HStack>
           </HStack>
           <Text>{data?.description}</Text>
         </View>
         <FilterHeader
           handleCategoryChange={handleCategoryChange}
-          categories={MOCKED_CATEGORIES}
+          categories={communityCategories}
         />
-        <List itemCategory={category} numOfColumns={2} url={urlToFetch} />
+        <List route={category.route} numOfColumns={2} url={urlToFetch} />
+      </Show>
+      <Show when={addStoreModalVisible}>
+        <AddStoreModal
+          modalVisible={addStoreModalVisible}
+          setModalVisible={setAddStoreModalVisible}
+          communityUuid={id}
+        />
       </Show>
     </ScrollView>
   )

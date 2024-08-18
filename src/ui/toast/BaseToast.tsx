@@ -13,9 +13,9 @@ type ToastProps = {
 const toast_color = (type: ToastTypes) => {
   switch (type) {
     case 'success':
-      return colors.red_6
+      return colors.green_5
     case 'warning':
-      return colors.red_6
+      return colors.yellow_5
     case 'error':
       return colors.red_6
   }
@@ -30,7 +30,7 @@ export default ({ type, message }: ToastProps) => {
         py={12}
         bg={toast_color(type)}
         rounded={7}
-        border={[colors.red_7]}
+        border={[toast_color(type)]}
         shadow={[0, 3, 10, colors.ui_9, 0.3]}
       >
         <Text size={16} color={colors.ui_1}>

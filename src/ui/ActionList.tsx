@@ -25,13 +25,15 @@ function ActionList({
   keyFrom?: keyof ActionType
   swipeActions?: ActionListSwipeAction
   label?: string
+  textSize?: number
+  scrollEnabled?: boolean
 }) {
   return (
     <VStack gap={8}>
       {!!props.label && <ListLabel>{props.label}</ListLabel>}
       <FlatList
         data={props.data}
-        scrollEnabled={false}
+        scrollEnabled={props.scrollEnabled ?? false}
         ItemSeparatorComponent={() => (
           <HStack border={[0.3, 'solid', colors.ui_3]} ml={16} />
         )}
@@ -47,6 +49,7 @@ function ActionList({
               color={item.color}
               disabled={item.disabled}
               onPress={item.onPress}
+              textSize={props.textSize}
             >
               {item.title}
             </ActionListItem>

@@ -1,5 +1,3 @@
-import useAuth from '@hooks/useAuth'
-import Button from '@ui/Button'
 import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 

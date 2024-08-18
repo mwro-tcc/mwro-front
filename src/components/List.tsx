@@ -8,18 +8,18 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native'
-import VStack from './VStack'
-import Text from './Text'
+import VStack from '../ui/VStack'
+import Text from '../ui/Text'
 import useCollection from '@hooks/useCollection'
 import { priceFormatter } from 'utils'
 
 type ListProps = {
-  itemCategory: string
+  route: string
   numOfColumns: number
   url: string
 }
 
-export default function List({ itemCategory, numOfColumns, url }: ListProps) {
+export default function List({ route, numOfColumns, url }: ListProps) {
   const listRef = useRef<FlatList>(null)
 
   const { data, refreshing, loading, handleRefresh } = useCollection<any>({
@@ -30,7 +30,7 @@ export default function List({ itemCategory, numOfColumns, url }: ListProps) {
     return (
       <Link
         href={{
-          pathname: `/${itemCategory}/${item.uuid}`
+          pathname: `/${route}/${item.uuid}`
         }}
         asChild
       >
@@ -46,7 +46,7 @@ export default function List({ itemCategory, numOfColumns, url }: ListProps) {
           />
           <VStack ml={5}>
             <Text weight='600'>{item.name}</Text>
-            <Text>{priceFormatter(item.price)} </Text>
+            {item?.price && <Text>{priceFormatter(item.price)} </Text>}
           </VStack>
         </TouchableOpacity>
       </Link>
