@@ -15,8 +15,7 @@ const MapView = ({ latitude, longitude, onMarkerDragEnd }: MapViewProps) => {
   return (
     <MapViewComponent
       style={{
-        height: '100%',
-        width: '100%',
+        flex: 1,
         borderRadius: rounded.sm,
         borderColor: '#00000030',
         borderWidth: 1

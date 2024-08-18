@@ -8,12 +8,12 @@ import CommunityFormStep1 from './components/CommunityFormStep1'
 import CommunityFormStep2 from './components/CommunityFormStep2'
 import CommunityFormStep3 from './components/CommunityFormStep3'
 import VStack from '@ui/VStack'
-import Text from '@ui/Text'
 import StepsIndicator from '@ui/StepsIndicator'
 import Button from '@ui/Button'
 import { useCommunity } from '@hooks/useCommunity'
 import { ScrollView } from 'react-native'
 import { Stack, useRouter } from 'expo-router'
+import colors from '@ui/config/colors'
 
 type Props = {
   community?: Community
@@ -65,19 +65,19 @@ export default function CommunityForm(props: Props) {
     <ScrollView
       keyboardDismissMode='on-drag'
       keyboardShouldPersistTaps='never'
-      style={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1 }}
     >
       <Stack.Screen
         options={{
           headerTitle: `${community?.uuid ? 'Editar' : 'Criar'} Comunidade`,
+          contentStyle: {
+            backgroundColor: colors.ui_1
+          },
           headerBackTitle: 'Voltar'
         }}
       />
       <VStack p={20} flex={1} gap={30}>
         <VStack items='center' gap={20}>
-          <Text size={28} weight='600'>
-            {community ? 'Editar' : 'Criar'} Comunidade
-          </Text>
           {steps > 1 ? (
             <StepsIndicator currentStep={step} totalSteps={steps} />
           ) : null}

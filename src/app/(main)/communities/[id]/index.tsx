@@ -102,7 +102,7 @@ export default function Community() {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
       }
-      style={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1 }}
     >
       <Stack.Screen
         options={{
