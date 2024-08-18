@@ -1,9 +1,6 @@
-import Button from '@ui/Button'
 import colors from '@ui/config/colors'
-import ActionListItem from '@ui/ActionListItem'
-import ListLabel from '@ui/ListLabel'
 import VStack from '@ui/VStack'
-import { Stack, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import ActionList from '@ui/ActionList'
 import useAuth from '@hooks/useAuth'
 
