@@ -23,7 +23,7 @@ export default function Product() {
     id: string
   }>()
 
-  const { data, loading, error, handleRefresh } = useModel<ProductType>({
+  const { data, loading, error } = useModel<ProductType>({
     url: Routes.Product.get(id)
   })
 

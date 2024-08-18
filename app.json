@@ -2,7 +2,7 @@
   "expo": {
     "name": "mwro-front",
     "slug": "mwro-front",
-    "scheme": "mwro-front",
+    "scheme": "mwro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.inkwo.mwro"
@@ -32,9 +30,6 @@
     "experiments": {
       "typedRoutes": true
     },
-    "plugins": [
-      "expo-router",
-      "expo-localization"
-    ]
+    "plugins": ["expo-router", "expo-localization"]
   }
 }

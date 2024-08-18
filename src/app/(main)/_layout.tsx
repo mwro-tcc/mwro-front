@@ -3,14 +3,12 @@ import useAsync from '@hooks/useAsync'
 import AuthSession from '@api/local/auth_session'
 import { ActivityIndicator } from 'react-native'
 import error_callback from '@lib/error_callback'
-import IconButton from '@ui/IconButton'
+import { MaterialIcons } from '@expo/vector-icons'
 
 export default function MainLayout() {
   const { data: token, loading } = useAsync(async () =>
     error_callback(await AuthSession.get(), console.error)
   )
-
-  const router = useRouter()
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
 
@@ -27,12 +25,7 @@ export default function MainLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ size, color }) => (
-            <IconButton
-              icon='home'
-              size={size}
-              color={color}
-              onPress={() => router.replace('/')}
-            />
+            <MaterialIcons name='home' size={size} color={color} />
           )
         }}
       />
@@ -41,13 +34,7 @@ export default function MainLayout() {
         options={{
           title: 'Comunidades',
           tabBarIcon: ({ size, color }) => (
-            <IconButton
-              icon='people-alt'
-              size={size}
-              fromCommunity={false}
-              color={color}
-              onPress={() => router.replace('/communities')}
-            />
+            <MaterialIcons name='people-alt' size={size} color={color} />
           )
         }}
       />
@@ -56,12 +43,7 @@ export default function MainLayout() {
         options={{
           title: 'Lojas',
           tabBarIcon: ({ size, color }) => (
-            <IconButton
-              icon='store'
-              size={size}
-              color={color}
-              onPress={() => router.replace('/stores')}
-            />
+            <MaterialIcons name='store' size={size} color={color} />
           )
         }}
       />
@@ -70,13 +52,7 @@ export default function MainLayout() {
         options={{
           title: 'Conta',
           tabBarIcon: ({ size, color }) => (
-            <IconButton
-              icon='person'
-              size={size}
-              fromCommunity={false}
-              color={color}
-              onPress={() => router.replace('/account')}
-            />
+            <MaterialIcons name='person' size={size} color={color} />
           )
         }}
       />

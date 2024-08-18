@@ -20,6 +20,9 @@ import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
 import List from 'components/List'
 import AddStoreModal from 'components/AddStoreModal'
+import colors from '@ui/config/colors'
+import { createURL } from 'expo-linking'
+import * as Clipboard from 'expo-clipboard'
 
 const communityCategories = [
   {
@@ -84,6 +87,14 @@ export default function Community() {
     }
   }
 
+  const communityLink = createURL(`/communities/${id}`)
+
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(communityLink)
+
+    Toast.success('O link foi copiado para sua área de transferência!')
+  }
+
   if (error) return <Redirect href='/(main)' />
 
   return (
@@ -110,9 +121,16 @@ export default function Community() {
       <Show unless={loading}>
         <View style={styles.container}>
           <HStack justify='between' pt={20} pr={20} items='center'>
-            <Text style={{ fontSize: 20, fontWeight: '600' }}>
-              {data?.name}
-            </Text>
+            <HStack gap={10}>
+              <Text style={{ fontSize: 20, fontWeight: '600', gap: 4 }}>
+                {data?.name}
+              </Text>
+              <IconButton
+                icon='link'
+                onPress={() => copyToClipboard()}
+                color={colors.ui_6}
+              />
+            </HStack>
             <HStack gap={10}>
               <IconButton
                 icon='store-plus-outline'
