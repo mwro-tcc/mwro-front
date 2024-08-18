@@ -8,6 +8,17 @@ export default function Account() {
   const router = useRouter()
   const { sign_out } = useAuth()
 
+  const name = 'name'
+
+  const handleEditName = () => {
+    router.push({
+      pathname: '/account/edit_name',
+      params: {
+        name
+      }
+    })
+  }
+
   return (
     <VStack p={20} gap={20}>
       <ActionList
@@ -23,8 +34,8 @@ export default function Account() {
         label='Nome'
         data={[
           {
-            title: 'Vítor Barroso',
-            onPress: () => router.push('/account/edit_name')
+            title: name,
+            onPress: handleEditName
           }
         ]}
       />

@@ -5,6 +5,8 @@ import { TextInput } from 'react-native'
 export default function EditName() {
   const { name } = useLocalSearchParams()
 
+  console.log(name)
+
   return (
     <VStack p={16}>
       <TextInput value='abc' />
