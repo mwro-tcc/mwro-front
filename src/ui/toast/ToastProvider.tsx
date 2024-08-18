@@ -6,7 +6,7 @@ export default () => {
   const [toasts] = useToast((state) => [state.toasts])
 
   return (
-    <VStack absolute p={10} b={40} z={2} w='100%' gap={10}>
+    <VStack absolute p={10} b={70} z={2} w='100%' gap={10}>
       {toasts.map((toastProps) => (
         <BaseToast {...toastProps} />
       ))}
