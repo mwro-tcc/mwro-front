@@ -1,3 +1,4 @@
+import Text from '@ui/Text'
 import { Stack } from 'expo-router'
 
 export default function AccountLayout() {
@@ -12,7 +13,6 @@ export default function AccountLayout() {
       <Stack.Screen
         name='edit_name'
         options={{
-          headerTitle: 'Editar nome',
           presentation: 'modal'
         }}
       />

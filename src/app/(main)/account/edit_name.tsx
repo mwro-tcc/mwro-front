@@ -1,15 +1,15 @@
-import VStack from '@ui/VStack'
+import FormModal from '@ui/FormModal'
 import { useLocalSearchParams } from 'expo-router'
-import { TextInput } from 'react-native'
 
 export default function EditName() {
   const { name } = useLocalSearchParams()
 
-  console.log(name)
-
   return (
-    <VStack p={16}>
-      <TextInput value='abc' />
-    </VStack>
+    <FormModal
+      actionLabel='Salvar'
+      cancelLabel='Cancelar'
+      initialValue={name as string}
+      onSubmit={() => {}}
+    />
   )
 }
