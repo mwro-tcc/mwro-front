@@ -6,8 +6,8 @@ import Toast from '@lib/toast'
 import { Community } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { useMemo } from 'react'
-import { Stack, useRouter } from 'expo-router'
+import { useCallback, useMemo } from 'react'
+import { Stack, useFocusEffect, useRouter } from 'expo-router'
 import {
   RefreshControl,
   ScrollView,
@@ -42,6 +42,8 @@ export default function Communities() {
     title: item.name,
     onPress: () => router.push(`communities/${item.uuid}`)
   }))
+
+  useFocusEffect(useCallback(() => void handleRefresh(), []))
 
   const handleDelete = async (id: string) => {
     Lib.error_callback(

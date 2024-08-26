@@ -44,7 +44,7 @@ function ActionList({
         }}
         keyExtractor={(item) => item[keyFrom] as string}
         renderItem={({ item }) => (
-          <AppleStyleSwipeableRow actions={swipeActions(item)}>
+          <AppleStyleSwipeableRow actions={swipeActions(item)} key={item?.id}>
             <ActionListItem
               color={item.color}
               disabled={item.disabled}

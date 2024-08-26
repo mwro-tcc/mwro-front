@@ -11,6 +11,7 @@ import { ScrollView, TouchableOpacity } from 'react-native'
 import HStack from '@ui/HStack'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Show from '@ui/Show'
+import colors from '@ui/config/colors'
 
 type Props = {
   product?: Product
@@ -69,7 +70,10 @@ export default function ProductForm(props: Props) {
     >
       <Stack.Screen
         options={{
-          headerTitle: 'Produto',
+          headerTitle: `${product ? 'Editar' : 'Criar'} produto`,
+          contentStyle: {
+            backgroundColor: colors.ui_1
+          },
           headerRight: () => {
             return (
               <>
@@ -98,11 +102,7 @@ export default function ProductForm(props: Props) {
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
-        <VStack items='center' gap={20}>
-          <Text size={28} weight='600'>
-            {product ? 'Editar' : 'Criar'} Produto
-          </Text>
-        </VStack>
+        <VStack items='center' gap={20}></VStack>
         <VStack gap={30} flex={1}>
           {body}
         </VStack>

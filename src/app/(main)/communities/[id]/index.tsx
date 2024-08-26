@@ -24,7 +24,7 @@ import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
 
-const communityCategories = [
+const COMMUNITY_CATEGORIES = [
   {
     id: 1,
     name: 'Produtos',
@@ -61,7 +61,7 @@ export default function Community() {
   )
 
   const [category, setCategory] = useState<CommunityCategories>(
-    communityCategories[0]
+    COMMUNITY_CATEGORIES[0]
   )
 
   const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
@@ -98,12 +98,7 @@ export default function Community() {
   if (error) return <Redirect href='/(main)' />
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-      }
-      contentContainerStyle={{ flex: 1 }}
-    >
+    <>
       <Stack.Screen
         options={{
           headerBackTitle: 'Voltar',
@@ -151,7 +146,7 @@ export default function Community() {
         </View>
         <FilterHeader
           handleCategoryChange={handleCategoryChange}
-          categories={communityCategories}
+          categories={COMMUNITY_CATEGORIES}
         />
         <List route={category.route} numOfColumns={2} url={urlToFetch} />
       </Show>
@@ -162,7 +157,7 @@ export default function Community() {
           communityUuid={id}
         />
       </Show>
-    </ScrollView>
+    </>
   )
 }
 
