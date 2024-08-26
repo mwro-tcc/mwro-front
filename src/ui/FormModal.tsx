@@ -9,18 +9,26 @@ export default function FormModal(props: {
   initialValue: string
   actionLabel: string
   cancelLabel: string
-  onSubmit?: (value: string) => void
+  onSubmit?: (value: string) => Promise<any>
 }) {
   const { initialValue, actionLabel, cancelLabel, onSubmit } = props
 
   const [value, setValue] = useState<string>(initialValue)
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const handleChange = (e: any) => {
-    setValue(e.target.value)
+  const handleChange = (_value: any) => {
+    setValue(_value)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setLoading(true)
     onSubmit?.(value)
+      .then(() => {
+        router.back()
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   return (
@@ -30,6 +38,7 @@ export default function FormModal(props: {
           headerTitle: 'Editar nome',
           headerLeft: () => (
             <HeaderTextButton
+              disabled={loading}
               onPress={() => {
                 router.back()
               }}
@@ -39,6 +48,7 @@ export default function FormModal(props: {
           ),
           headerRight: () => (
             <HeaderTextButton
+              disabled={loading}
               onPress={handleSubmit}
               style={{
                 fontWeight: 600
@@ -59,8 +69,8 @@ export default function FormModal(props: {
           flex: 1,
           borderRadius: 8
         }}
-        value={value}
-        onChange={handleChange}
+        defaultValue={value}
+        onChangeText={handleChange}
       />
     </VStack>
   )

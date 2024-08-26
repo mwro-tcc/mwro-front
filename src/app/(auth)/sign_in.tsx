@@ -3,15 +3,14 @@ import Button from '@ui/Button'
 import TextInput from '@ui/TextInput'
 import { useForm } from 'react-hook-form'
 import { SignInForm } from '@src/types/user'
-import useAuth from '@hooks/useAuth'
 import VStack from '@ui/VStack'
 import Text from '@ui/Text'
 import { KeyboardAvoidingView } from 'react-native'
+import { Auth } from '@api/mwro'
 
 export default function SignIn() {
   const { control, handleSubmit } = useForm<SignInForm>()
   const router = useRouter()
-  const { sign_in } = useAuth()
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
@@ -45,7 +44,7 @@ export default function SignIn() {
           />
         </VStack>
         <VStack gap={10}>
-          <Button onPress={handleSubmit(sign_in)} variant='primary'>
+          <Button onPress={handleSubmit(Auth.signIn)} variant='primary'>
             Próximo
           </Button>
           <Button onPress={() => router.replace('/welcome')}>Voltar</Button>

@@ -1,13 +1,14 @@
 import axios from 'axios'
-import AuthSession from '../local/auth_session'
-import Lib from '../../lib'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Storage from 'storage'
+import { router } from 'expo-router'
 
 const Api = axios.create({
   baseURL: 'http://mwro-api-staging.inkwo.dev/'
 })
 
 Api.interceptors.request.use(async (config) => {
-  const token = Lib.error_callback(await AuthSession.get(), console.error)
+  const token = await AsyncStorage.getItem(Storage.AUTH_TOKEN)
 
   if (token) config.headers.authorization = `${token}`
 
@@ -18,7 +19,8 @@ Api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      AuthSession.destroy()
+      AsyncStorage.removeItem(Storage.AUTH_TOKEN)
+      router.replace('/(auth)/welcome')
     }
 
     return Promise.reject(error)

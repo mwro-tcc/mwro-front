@@ -2,7 +2,6 @@ import { ToastTypes } from './types'
 import Text from '../Text'
 import VStack from '../VStack'
 import colors from '../config/colors'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 type ToastProps = {
   type: ToastTypes
@@ -17,26 +16,25 @@ const toast_color = (type: ToastTypes) => {
     case 'warning':
       return colors.yellow_5
     case 'error':
-      return colors.red_6
+      return colors.ui_9
   }
 }
 
 export default ({ type, message }: ToastProps) => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <VStack
-        w='100%'
-        px={10}
-        py={12}
-        bg={toast_color(type)}
-        rounded={7}
-        border={[toast_color(type)]}
-        shadow={[0, 3, 10, colors.ui_9, 0.3]}
-      >
-        <Text size={16} color={colors.ui_1}>
-          {message}
-        </Text>
-      </VStack>
-    </SafeAreaView>
+    <VStack
+      w='100%'
+      px={10}
+      py={12}
+      bg={toast_color(type)}
+      items='center'
+      rounded={12}
+      border={[toast_color(type)]}
+      shadow={[0, 3, 10, colors.ui_9, 0.3]}
+    >
+      <Text size={16} color={colors.ui_1}>
+        {message}
+      </Text>
+    </VStack>
   )
 }

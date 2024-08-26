@@ -2,18 +2,15 @@ import { useForm } from 'react-hook-form'
 import TextInput from '../../ui/TextInput'
 import { SignUpForm } from '../../types/user'
 import { useRouter } from 'expo-router'
-import useAuth from '../../hooks/useAuth'
 import Button from '../../ui/Button'
 import VStack from '../../ui/VStack'
-import { KeyboardAvoidingView, ScrollView } from 'react-native'
 import Text from '@ui/Text'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import colors from '@ui/config/colors'
+import { Auth } from '@api/mwro'
 
 export default function SignUp() {
   const { control, handleSubmit } = useForm<SignUpForm>()
   const router = useRouter()
-  const { sign_up } = useAuth()
 
   return (
     <VStack flex={1} p={20}>
@@ -60,7 +57,7 @@ export default function SignUp() {
         />
       </VStack>
       <VStack gap={10} bg={colors.ui_1} pt={20}>
-        <Button onPress={handleSubmit(sign_up)} variant='primary'>
+        <Button onPress={handleSubmit(Auth.signUp)} variant='primary'>
           Próximo
         </Button>
         <Button onPress={() => router.replace('/welcome')}>Voltar</Button>
