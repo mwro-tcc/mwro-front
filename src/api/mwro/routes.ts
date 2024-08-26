@@ -1,5 +1,10 @@
 const Routes = {
+  User: {
+    update: '/users',
+    delete: '/users'
+  },
   Auth: {
+    me: '/users/me',
     sign_up: '/users/sign-up',
     sign_in: '/users/sign-in'
   },

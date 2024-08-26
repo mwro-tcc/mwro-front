@@ -1,18 +1,13 @@
-import { Redirect, Tabs, useRouter } from 'expo-router'
-import useAsync from '@hooks/useAsync'
-import AuthSession from '@api/local/auth_session'
+import { Tabs, router } from 'expo-router'
 import { ActivityIndicator } from 'react-native'
-import error_callback from '@lib/error_callback'
 import { MaterialIcons } from '@expo/vector-icons'
+import useAuth from '@hooks/useAuth'
 
 export default function MainLayout() {
-  const { data: token, loading } = useAsync(async () =>
-    error_callback(await AuthSession.get(), console.error)
-  )
+  const { token, loading } = useAuth()
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
-
-  if (!token) return <Redirect href='/welcome' />
+  if (!token) router.replace('/(auth)/welcome')
 
   return (
     <Tabs

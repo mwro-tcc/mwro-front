@@ -1,29 +1,60 @@
 import { SignInForm, SignUpForm, User } from '../../types/user'
-import Lib from '../../lib'
-import AuthSession from '../local/auth_session'
 import Api from './api'
 import Routes from './routes'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Toast from '@lib/toast'
+import { AxiosError, AxiosResponse } from 'axios'
+import { create } from 'zustand'
+import { router } from 'expo-router'
+import Storage from 'storage'
 
 type AuthResponse = {
   user: User
   token: string
 }
 
-const Auth = {
-  async sign_up(data: SignUpForm) {
-    return await Lib.safe_call(Api.post<AuthResponse>, [
-      Routes.Auth.sign_up,
-      data
-    ])
-  },
-  async sign_in(data: SignInForm) {
-    return await Lib.safe_call(Api.post<AuthResponse>, [
-      Routes.Auth.sign_in,
-      data
-    ])
-  },
-  async sign_out() {
-    return await Lib.safe_call(AuthSession.destroy, [])
+const UserStore = create<{
+  user: User | null
+}>(() => ({
+  user: null
+}))
+
+class Auth {
+  static async signUp(data: SignUpForm) {
+    if (data.password !== data.confirm_password) {
+      Toast.error('A senha utilizada deve ser a mesma nos dois campos')
+      return
+    }
+
+    Api.post<AuthResponse>(Routes.Auth.sign_up, data)
+      .then(Auth.onSuccess)
+      .catch((error: AxiosError) => {
+        Toast.error(error?.message)
+      })
+  }
+
+  static async signIn(data: SignInForm) {
+    Api.post<AuthResponse>(Routes.Auth.sign_in, data)
+      .then(Auth.onSuccess)
+      .catch((error: AxiosError) => {
+        Toast.error(error?.message)
+      })
+  }
+
+  static async signOut() {
+    await AsyncStorage.removeItem(Storage.AUTH_TOKEN).catch(console.error)
+    router.replace('/(auth)/welcome')
+  }
+
+  static async getToken() {
+    return AsyncStorage.getItem(Storage.AUTH_TOKEN).catch(console.error)
+  }
+
+  static onSuccess(response: AxiosResponse<AuthResponse>) {
+    AsyncStorage.setItem(Storage.AUTH_TOKEN, response?.data?.token).catch(
+      console.error
+    )
+    router.replace('/(main)')
   }
 }
 

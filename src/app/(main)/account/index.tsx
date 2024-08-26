@@ -1,20 +1,90 @@
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { useRouter } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
 import ActionList from '@ui/ActionList'
-import useAuth from '@hooks/useAuth'
+import { Auth, Routes } from '@api/mwro'
+import useModel from '@hooks/useModel'
+import {
+  ActivityIndicator,
+  Alert,
+  RefreshControl,
+  ScrollView
+} from 'react-native'
+import Toast from '@lib/toast'
+import { User as UserType } from '@src/types/user'
+import { useCallback } from 'react'
+import User from '@api/mwro/user'
 
 export default function Account() {
   const router = useRouter()
-  const { sign_out } = useAuth()
+
+  const {
+    data: user,
+    loading,
+    refreshing,
+    handleRefresh,
+    error
+  } = useModel<UserType>({
+    url: Routes.Auth.me
+  })
+
+  useFocusEffect(useCallback(() => void handleRefresh(), []))
+
+  if (loading)
+    return (
+      <VStack flex={1} items='center' justify='center'>
+        <ActivityIndicator />
+      </VStack>
+    )
+
+  if (!user || error) {
+    Toast.error(error?.message as string)
+  }
+
+  const name = user?.name
+
+  const handleEditName = () => {
+    router.push({
+      pathname: '/account/edit_name',
+      params: {
+        name
+      }
+    })
+  }
+
+  const handleDeleteAccount = () => {
+    const title = 'Deletar conta'
+    const description =
+      'Tem certeza que deseja deletar essa conta e todos os seus dados? Essa ação é irreversível.'
+    Alert.alert(title, description, [
+      {
+        text: 'Cancel',
+        style: 'cancel'
+      },
+      {
+        text: 'OK',
+        onPress: async () => void (await User.delete()),
+        style: 'destructive'
+      }
+    ])
+  }
 
   return (
-    <VStack p={20} gap={20}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+      }
+      contentContainerStyle={{
+        padding: 20,
+        gap: 20,
+        flex: 1
+      }}
+    >
       <ActionList
         label='Email'
         data={[
           {
-            title: 'accounts@owozsh.dev',
+            title: user?.email ?? '',
             disabled: true
           }
         ]}
@@ -23,8 +93,8 @@ export default function Account() {
         label='Nome'
         data={[
           {
-            title: 'Vítor Barroso',
-            onPress: () => router.push('/account/edit_name')
+            title: user?.name ?? '',
+            onPress: handleEditName
           }
         ]}
       />
@@ -32,14 +102,15 @@ export default function Account() {
         data={[
           {
             title: 'Encerrar Sessão',
-            onPress: sign_out
+            onPress: Auth.signOut
           },
           {
             title: 'Deletar Conta',
+            onPress: handleDeleteAccount,
             color: colors.red_5
           }
         ]}
       />
-    </VStack>
+    </ScrollView>
   )
 }

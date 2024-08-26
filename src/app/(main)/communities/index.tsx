@@ -6,10 +6,11 @@ import Toast from '@lib/toast'
 import { Community } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { Redirect, Stack, useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { RefreshControl, ScrollView } from 'react-native'
 import IconButton from '@ui/IconButton'
 import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
+import { useMemo } from 'react'
 
 export default function Communities() {
   const router = useRouter()
@@ -20,10 +21,12 @@ export default function Communities() {
     handleRefresh,
     error
   } = useCollection<Community>({
-    url: Routes.Community.list_user_communities
+    url: useMemo(() => Routes.Community.list_user_communities, [])
   })
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) {
+    Toast.error(error.message)
+  }
 
   const data: ActionType[] = communities.map((item) => ({
     id: item.uuid,

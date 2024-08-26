@@ -31,7 +31,7 @@ export default function useModel<Response>(options: Options) {
 
   useEffect(() => {
     handleFetchData()
-  }, [])
+  }, [options.url])
 
   return {
     data: response?.data,
