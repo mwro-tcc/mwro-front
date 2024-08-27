@@ -34,7 +34,7 @@ export default function Stores() {
   const handleEdit = () => {
     if (id) {
       add(id, data)
-      router.replace(`/stores/${id}/edit`)
+      router.push(`/stores/${id}/edit`)
     } else {
       Toast.error('Nenhum ID encontrado')
     }
@@ -46,14 +46,6 @@ export default function Stores() {
     <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.replace('/stores')}>
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          ),
           headerRight: () => (
             <IconButton icon='pencil-outline' onPress={handleEdit} />
           ),

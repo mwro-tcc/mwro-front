@@ -14,9 +14,8 @@ import {
   Text as TextRN
 } from 'react-native'
 
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import HStack from '@ui/HStack'
 import { useState } from 'react'
+import colors from '@ui/config/colors'
 
 type Props = {
   store?: Store
@@ -45,13 +44,13 @@ export default function StoreForm(props: Props) {
     if (pendingLeave) {
       storeData.communityUuid = null
     }
-    const { data }: any = await update_store(storeData)
-    router.replace(`/stores/${data.uuid}`)
+    await update_store(storeData)
+    router.back()
   }
 
   const handleCreate = async (storeData: StoreFormType) => {
-    const { data }: any = await create_store(storeData)
-    router.replace(`/stores/${data.uuid}`)
+    await create_store(storeData)
+    router.back()
   }
 
   const handleSubmit = form.handleSubmit(store ? handleUpdate : handleCreate)
@@ -102,29 +101,13 @@ export default function StoreForm(props: Props) {
     >
       <Stack.Screen
         options={{
-          headerTitle: 'Loja',
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() =>
-                store
-                  ? router.replace(`/stores/${store.uuid}`)
-                  : router.replace(`/stores/`)
-              }
-            >
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          )
+          headerTitle: `${store ? 'Editar' : 'Criar'} Loja`,
+          contentStyle: {
+            backgroundColor: colors.ui_1
+          }
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
-        <VStack items='center' gap={20}>
-          <Text size={28} weight='600'>
-            {store ? 'Editar' : 'Criar'} Loja
-          </Text>
-        </VStack>
         <VStack gap={30} flex={1}>
           {body}
         </VStack>
@@ -136,15 +119,7 @@ export default function StoreForm(props: Props) {
           >
             Concluir
           </Button>
-          <Button
-            onPress={() =>
-              store
-                ? router.replace(`/stores/${store.uuid}`)
-                : router.replace(`/stores`)
-            }
-          >
-            Cancelar
-          </Button>
+          <Button onPress={router.back}>Cancelar</Button>
         </VStack>
       </VStack>
     </ScrollView>

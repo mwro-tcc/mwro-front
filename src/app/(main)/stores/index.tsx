@@ -29,7 +29,7 @@ export default function Stores() {
     stores?.map((item) => ({
       id: item.uuid,
       title: item.name,
-      onPress: () => router.replace(`stores/${item.uuid}`)
+      onPress: () => router.push(`/stores/${item.uuid}`)
     })) || []
 
   const handleDelete = async (id: string) => {
@@ -56,7 +56,7 @@ export default function Stores() {
           headerTitle: 'Minhas Lojas',
           headerRight: () => (
             <IconButton
-              onPress={() => router.replace('/stores/create/')}
+              onPress={() => router.push('/stores/create/')}
               icon='plus'
             />
           )

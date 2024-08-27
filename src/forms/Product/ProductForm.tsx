@@ -5,12 +5,10 @@ import Text from '@ui/Text'
 import Button from '@ui/Button'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
-import { useEffect } from 'react'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import HStack from '@ui/HStack'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import Show from '@ui/Show'
 import colors from '@ui/config/colors'
 
 type Props = {
