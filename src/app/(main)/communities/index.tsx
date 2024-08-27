@@ -30,7 +30,7 @@ export default function Communities() {
     handleRefresh,
     error
   } = useCollection<Community>({
-    url: useMemo(() => Routes.Community.list_user_communities, [])
+    url: Routes.Community.list_user_communities
   })
 
   if (error) {
