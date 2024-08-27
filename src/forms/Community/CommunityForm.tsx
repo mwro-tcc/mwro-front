@@ -31,10 +31,10 @@ export default function CommunityForm(props: Props) {
   const { step, next, back } = useSteps(steps)
   const { create_community, update_community } = useCommunity()
 
-  const handleSubmit = (value: any) => {
-    form.handleSubmit(props.community ? update_community : create_community)(
-      value
-    )
+  const handleSubmit = async (value: any) => {
+    await form.handleSubmit(
+      props.community ? update_community : create_community
+    )(value)
 
     router.back()
   }

@@ -23,7 +23,7 @@ export default function CommunitiesMapView() {
         options={{
           headerTitle: 'Mapa de Comunidades',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.replace(`/communities/`)}>
+            <TouchableOpacity onPress={router.back}>
               <HStack items='center' gap={2}>
                 <MaterialCommunityIcons name='arrow-left' size={22} />
               </HStack>
@@ -35,6 +35,7 @@ export default function CommunitiesMapView() {
         communities={communities}
         latitude={parseFloat(lat as string)}
         longitude={parseFloat(long as string)}
+        fullscreen
       />
     </>
   )

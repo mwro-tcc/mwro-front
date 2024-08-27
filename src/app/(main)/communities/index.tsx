@@ -71,8 +71,8 @@ export default function Communities() {
 
     const location = await Location.getCurrentPositionAsync({})
 
-    router.replace({
-      pathname: 'communities/map/',
+    router.push({
+      pathname: '/communities/map/',
       params: {
         lat: location.coords.latitude,
         long: location.coords.longitude

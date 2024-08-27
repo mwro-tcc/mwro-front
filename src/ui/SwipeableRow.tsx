@@ -1,3 +1,4 @@
+import { random } from 'lodash'
 import React, { Component, PropsWithChildren } from 'react'
 import { Animated, StyleSheet, Text, View, I18nManager } from 'react-native'
 
@@ -40,6 +41,7 @@ export default class AppleStyleSwipeableRow extends Component<
   }
 
   private renderRightAction = (
+    index: number,
     text: string,
     color: string,
     x: number,
@@ -57,7 +59,10 @@ export default class AppleStyleSwipeableRow extends Component<
     }
 
     return (
-      <Animated.View style={{ flex: 1, transform: [{ translateX: trans }] }}>
+      <Animated.View
+        key={index}
+        style={{ flex: 1, transform: [{ translateX: trans }] }}
+      >
         <RectButton
           style={[styles.rightAction, { backgroundColor: color }]}
           onPress={pressHandler}
@@ -82,6 +87,7 @@ export default class AppleStyleSwipeableRow extends Component<
       >
         {actions.map((action, index) =>
           this.renderRightAction(
+            index,
             action.label,
             action.color,
             64 * (index + 1),
@@ -100,6 +106,7 @@ export default class AppleStyleSwipeableRow extends Component<
   private close = () => {
     this.swipeableRow?.close()
   }
+
   render() {
     const { children, actions } = this.props
     return (

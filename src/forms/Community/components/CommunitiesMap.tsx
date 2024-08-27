@@ -6,16 +6,26 @@ type MapViewProps = {
   communities: Community[]
   latitude: number
   longitude: number
+  fullscreen?: boolean
 }
 
-const CommunitiesMap = ({ communities, latitude, longitude }: MapViewProps) => {
+const CommunitiesMap = ({
+  communities,
+  latitude,
+  longitude,
+  fullscreen = false
+}: MapViewProps) => {
   return (
     <MapViewComponent
       style={{
         flex: 1,
-        borderRadius: 6,
-        borderColor: '#00000030',
-        borderWidth: 1
+        ...(fullscreen
+          ? {}
+          : {
+              borderRadius: 6,
+              borderColor: '#00000030',
+              borderWidth: 1
+            })
       }}
       initialRegion={{
         latitude: latitude,
