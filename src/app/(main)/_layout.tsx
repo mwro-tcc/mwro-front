@@ -53,12 +53,6 @@ export default function MainLayout() {
           )
         }}
       />
-      <Tabs.Screen
-        name='products'
-        options={{
-          href: null
-        }}
-      />
     </Tabs>
   )
 }

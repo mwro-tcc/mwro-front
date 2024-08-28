@@ -1,23 +1,21 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { StyleSheet, View } from 'react-native'
 import List from 'components/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
-import FilterHeader from 'components/FilterHeader'
+import FilterHeader, { Tab } from 'components/FilterHeader'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
 import IconButton from '@ui/IconButton'
 import WhatsAppIcon from 'components/WhatsAppIcon'
 
-const storeCategories = [
+const tabs: Tab[] = [
   {
-    id: 1,
-    name: 'Produtos',
-    route: 'products',
+    id: 'products',
+    label: 'Produtos',
     icon: 'shopping-outline'
   }
 ]
@@ -67,7 +65,9 @@ export default function Stores() {
           <HStack gap={10}>
             <IconButton
               style={styles.iconContainer}
-              onPress={() => router.replace(`/products/create?store_id=${id}`)}
+              onPress={() =>
+                router.push(`/stores/${id}/products/create?store_id=${id}`)
+              }
               icon='briefcase-plus-outline'
               color='black'
             />
@@ -75,9 +75,9 @@ export default function Stores() {
         </HStack>
         <Text>{data?.description}</Text>
       </View>
-      <FilterHeader categories={storeCategories} />
+      <FilterHeader activeTab={tabs[0].id} tabs={tabs} />
       <List
-        route={'products'}
+        route={`stores/${id}/products`}
         numOfColumns={2}
         url={Routes.Store.get_store_products(id)}
       />

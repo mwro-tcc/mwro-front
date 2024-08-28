@@ -34,7 +34,7 @@ export default function ProductForm(props: Props) {
       price: parseInt(productData.price),
       stock: parseInt(productData.stock)
     })
-    router.replace(`/products/${productData.uuid}`)
+    router.replace(`/stores/${store_id}`)
   }
 
   const handleCreate = async (productData: any) => {
@@ -53,7 +53,7 @@ export default function ProductForm(props: Props) {
   const handleDelete = async () => {
     if (!product) return
     await delete_product(product.uuid)
-    router.replace(`/stores/${product.storeUuid}`)
+    router.back()
   }
 
   const body = (() => {
@@ -82,21 +82,7 @@ export default function ProductForm(props: Props) {
                 )}
               </>
             )
-          },
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() =>
-                product
-                  ? router.replace(`/products/${product?.uuid}`)
-                  : router.replace(`/stores/${store_id}`)
-              }
-            >
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          )
+          }
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
@@ -112,13 +98,7 @@ export default function ProductForm(props: Props) {
           >
             Concluir
           </Button>
-          <Button
-            onPress={() =>
-              product
-                ? router.replace(`/products/${product.uuid}`)
-                : router.replace(`/stores/${store_id}`)
-            }
-          >
+          <Button onPress={() => router.replace(`/stores/${store_id}`)}>
             Cancelar
           </Button>
         </VStack>

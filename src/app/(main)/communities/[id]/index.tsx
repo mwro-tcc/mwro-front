@@ -1,18 +1,12 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
-import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View
-} from 'react-native'
+import { useState } from 'react'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
-import FilterHeader from 'components/FilterHeader'
+import FilterHeader, { Tab } from 'components/FilterHeader'
 import Show from '@ui/Show'
 import VStack from '@ui/VStack'
 import IconButton from '@ui/IconButton'
@@ -23,28 +17,22 @@ import AddStoreModal from 'components/AddStoreModal'
 import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
+import scope from '@lib/scope'
+import { Product } from '@src/types/product'
+import { Store } from '@src/types/store'
 
-const COMMUNITY_CATEGORIES = [
+const TABS: Tab[] = [
   {
-    id: 1,
-    name: 'Produtos',
-    route: 'products',
+    id: 'products',
+    label: 'Produtos',
     icon: 'shopping-outline'
   },
   {
-    id: 2,
-    name: 'Lojas',
-    route: 'stores',
+    id: 'stores',
+    label: 'Lojas',
     icon: 'storefront-outline'
   }
 ]
-
-type CommunityCategories = {
-  id: number
-  name: string
-  route: string
-  icon: string
-}
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -56,27 +44,9 @@ export default function Community() {
       url: Routes.Community.get(id)
     })
 
-  const [urlToFetch, setUrlToFetch] = useState<string>(
-    Routes.Community.get_community_products(id)
-  )
-
-  const [category, setCategory] = useState<CommunityCategories>(
-    COMMUNITY_CATEGORIES[0]
-  )
+  const [tab, setTab] = useState<string>(TABS[0]?.id)
 
   const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
-
-  useEffect(() => {
-    setUrlToFetch(
-      category.route === 'products'
-        ? Routes.Community.get_community_products(id)
-        : Routes.Community.get_community_stores(id)
-    )
-  }, [category])
-
-  const handleCategoryChange = (category: CommunityCategories) => {
-    setCategory(category)
-  }
 
   const handleEdit = () => {
     if (id) {
@@ -96,6 +66,38 @@ export default function Community() {
   }
 
   if (error) return <Redirect href='/(main)' />
+
+  const list = scope(() => {
+    switch (tab) {
+      case 'stores':
+        return (
+          <List
+            getItemRoute={(item: Store) => {
+              return {
+                pathname: `stores/${item.uuid}`
+              }
+            }}
+            numOfColumns={2}
+            url={Routes.Community.get_community_stores(id)}
+          />
+        )
+      case 'products':
+        return (
+          <List
+            getItemRoute={(item: Product) => ({
+              pathname: `/communities/${id}/product`,
+              params: {
+                productId: item.uuid
+              }
+            })}
+            numOfColumns={2}
+            url={Routes.Community.get_community_products(id)}
+          />
+        )
+      default:
+        return null
+    }
+  })
 
   return (
     <>
@@ -144,11 +146,8 @@ export default function Community() {
           </HStack>
           <Text>{data?.description}</Text>
         </View>
-        <FilterHeader
-          handleCategoryChange={handleCategoryChange}
-          categories={COMMUNITY_CATEGORIES}
-        />
-        <List route={category.route} numOfColumns={2} url={urlToFetch} />
+        <FilterHeader activeTab={tab} onTabChange={setTab} tabs={TABS} />
+        {list}
       </Show>
       <Show when={addStoreModalVisible}>
         <AddStoreModal

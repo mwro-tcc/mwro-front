@@ -14,12 +14,21 @@ import useCollection from '@hooks/useCollection'
 import { priceFormatter } from 'utils'
 
 type ListProps = {
-  route: string
   numOfColumns: number
   url: string
+  route?: string
+  getItemRoute?: (item: any) => {
+    pathname: string
+    params?: Record<string, string>
+  }
 }
 
-export default function List({ route, numOfColumns, url }: ListProps) {
+export default function List({
+  route,
+  numOfColumns,
+  url,
+  getItemRoute = undefined
+}: ListProps) {
   const listRef = useRef<FlatList>(null)
 
   const { data, refreshing, loading, handleRefresh } = useCollection<any>({
@@ -29,9 +38,12 @@ export default function List({ route, numOfColumns, url }: ListProps) {
   const renderRow = ({ item }: any) => {
     return (
       <Link
-        href={{
-          pathname: `/${route}/${item.uuid}`
-        }}
+        href={
+          getItemRoute?.(item) ?? {
+            pathname: `/${route}/${item.uuid}`
+          }
+        }
+        replace
         asChild
       >
         <TouchableOpacity style={styles.listing}>
