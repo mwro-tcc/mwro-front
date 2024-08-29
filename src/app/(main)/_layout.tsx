@@ -27,7 +27,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='communities'
+        name='(communities)'
         options={{
           title: 'Comunidades',
           tabBarIcon: ({ size, color }) => (
@@ -36,7 +36,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='stores'
+        name='(stores)'
         options={{
           title: 'Lojas',
           tabBarIcon: ({ size, color }) => (
@@ -45,7 +45,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='account'
+        name='(account)'
         options={{
           title: 'Conta',
           tabBarIcon: ({ size, color }) => (

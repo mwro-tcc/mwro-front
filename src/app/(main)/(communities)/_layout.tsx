@@ -7,9 +7,8 @@ export default function CommunitiesLayout() {
       <Stack.Screen name='create' />
       <Stack.Screen name='[id]/index' />
       <Stack.Screen
-        name='[id]/product'
+        name='products/[id]'
         options={{
-          headerTitle: 'Produto',
           presentation: 'modal'
         }}
       />

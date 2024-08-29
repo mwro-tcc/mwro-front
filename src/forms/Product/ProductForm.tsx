@@ -1,24 +1,23 @@
 import { useForm } from 'react-hook-form'
 import { Product, ProductForm as ProductFormType } from '@src/types/product'
 import VStack from '@ui/VStack'
-import Text from '@ui/Text'
 import Button from '@ui/Button'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { Stack } from 'expo-router'
 import { ScrollView, TouchableOpacity } from 'react-native'
-import HStack from '@ui/HStack'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import colors from '@ui/config/colors'
 
 type Props = {
+  onCancel: () => void
+  onFinish: () => void
+  storeId: string
   product?: Product
 }
 
 export default function ProductForm(props: Props) {
-  const { store_id } = useLocalSearchParams()
-  const { product } = props
-  const router = useRouter()
+  const { storeId, product, onCancel, onFinish } = props
 
   const form = useForm<ProductFormType>({
     defaultValues: product,
@@ -30,22 +29,21 @@ export default function ProductForm(props: Props) {
   const handleUpdate = async (productData: any) => {
     await update_product({
       ...productData,
-      storeUuid: store_id as string,
+      storeUuid: storeId,
       price: parseInt(productData.price),
       stock: parseInt(productData.stock)
     })
-    router.replace(`/stores/${store_id}`)
+    onFinish()
   }
 
   const handleCreate = async (productData: any) => {
     await create_product({
       ...productData,
-      storeUuid: store_id as string,
+      storeUuid: storeId,
       price: parseInt(productData.price),
       stock: parseInt(productData.stock)
     })
-    form.reset()
-    router.replace(`/stores/${store_id}`)
+    onFinish()
   }
 
   const handleSubmit = form.handleSubmit(product ? handleUpdate : handleCreate)
@@ -53,7 +51,7 @@ export default function ProductForm(props: Props) {
   const handleDelete = async () => {
     if (!product) return
     await delete_product(product.uuid)
-    router.back()
+    onFinish()
   }
 
   const body = (() => {
@@ -72,6 +70,7 @@ export default function ProductForm(props: Props) {
           contentStyle: {
             backgroundColor: colors.ui_1
           },
+          headerLeft: () => null,
           headerRight: () => {
             return (
               <>
@@ -98,9 +97,7 @@ export default function ProductForm(props: Props) {
           >
             Concluir
           </Button>
-          <Button onPress={() => router.replace(`/stores/${store_id}`)}>
-            Cancelar
-          </Button>
+          <Button onPress={onCancel}>Cancelar</Button>
         </VStack>
       </VStack>
     </ScrollView>

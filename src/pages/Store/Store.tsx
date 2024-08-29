@@ -1,16 +1,18 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
+import { Redirect, Stack, router, useFocusEffect } from 'expo-router'
 import { StyleSheet, View } from 'react-native'
 import List from 'components/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
 import FilterHeader, { Tab } from 'components/FilterHeader'
-import useCache from '@hooks/useCache'
-import Toast from '@lib/toast'
 import IconButton from '@ui/IconButton'
 import WhatsAppIcon from 'components/WhatsAppIcon'
+import Form from '@forms/index'
+import useBoolean from '@hooks/useBoolean'
+import { Product } from '@src/types/product'
+import { useCallback } from 'react'
 
 const tabs: Tab[] = [
   {
@@ -20,22 +22,29 @@ const tabs: Tab[] = [
   }
 ]
 
-export default function Stores() {
-  const { id } = useLocalSearchParams<{ id: string }>()
+export default function Store(props: { id: string }) {
+  const { id } = props
 
-  const { add } = useCache()
-
-  const { data, error } = useModel<StoreType>({
+  const { data, error, handleRefresh } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
 
-  const handleEdit = () => {
-    if (id) {
-      add(id, data)
-      router.push(`/stores/${id}/edit`)
-    } else {
-      Toast.error('Nenhum ID encontrado')
-    }
+  useFocusEffect(useCallback(() => void handleRefresh(), []))
+
+  const {
+    value: edit,
+    setTrue: enableEditMode,
+    setFalse: disabledEditMode
+  } = useBoolean(false)
+
+  if (edit) {
+    return (
+      <Form.Store
+        store={data}
+        onCancel={disabledEditMode}
+        onFinish={disabledEditMode}
+      />
+    )
   }
 
   if (error) return <Redirect href='/(main)' />
@@ -44,8 +53,9 @@ export default function Stores() {
     <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
+          headerLeft: () => null,
           headerRight: () => (
-            <IconButton icon='pencil-outline' onPress={handleEdit} />
+            <IconButton icon='pencil-outline' onPress={enableEditMode} />
           ),
           headerTitle: 'Loja'
         }}
@@ -66,7 +76,7 @@ export default function Stores() {
             <IconButton
               style={styles.iconContainer}
               onPress={() =>
-                router.push(`/stores/${id}/products/create?store_id=${id}`)
+                router.push(`/(stores)/products/create?store=${id}`)
               }
               icon='briefcase-plus-outline'
               color='black'
@@ -77,7 +87,9 @@ export default function Stores() {
       </View>
       <FilterHeader activeTab={tabs[0].id} tabs={tabs} />
       <List
-        route={`stores/${id}/products`}
+        getItemRoute={(product: Product) => ({
+          pathname: `/(communities)/products/${product.uuid}`
+        })}
         numOfColumns={2}
         url={Routes.Store.get_store_products(id)}
       />

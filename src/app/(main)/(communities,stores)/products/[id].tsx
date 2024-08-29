@@ -1,7 +1,7 @@
 import { Product } from '@pages/Product'
 import { Redirect, useLocalSearchParams } from 'expo-router'
 
-export default function ProductId() {
+export default function CommunityProduct() {
   const { id } = useLocalSearchParams<{
     id: string
   }>()

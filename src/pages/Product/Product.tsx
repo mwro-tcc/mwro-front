@@ -1,6 +1,6 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import { Stack, router } from 'expo-router'
+import { Stack } from 'expo-router'
 import { useState } from 'react'
 import {
   ActivityIndicator,
@@ -15,7 +15,9 @@ import { Routes } from '@api/mwro'
 import { Product as ProductType } from '@src/types/product'
 import { priceFormatter } from 'utils'
 import IconButton from '@ui/IconButton'
-import useCache from '@hooks/useCache'
+import Form from '@forms/index'
+import useBoolean from '@hooks/useBoolean'
+import { isNil } from 'lodash'
 
 type Props = {
   id: string
@@ -30,6 +32,25 @@ export default function Product(props: Props) {
 
   const [quantity, setQuantity] = useState(1)
 
+  const {
+    value: edit,
+    setTrue: enableEditMode,
+    setFalse: disabledEditMode
+  } = useBoolean(false)
+
+  if (edit) {
+    if (isNil(data?.storeUuid)) return
+
+    return (
+      <Form.Product
+        product={data}
+        storeId={data.storeUuid}
+        onCancel={disabledEditMode}
+        onFinish={disabledEditMode}
+      />
+    )
+  }
+
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1)
   }
@@ -42,13 +63,10 @@ export default function Product(props: Props) {
 
   const totalPrice = priceFormatter((data?.price ?? 0) * quantity)
 
-  const { add } = useCache()
-
   const handleEdit = () => {
     if (!data || !id) return
 
-    add(id, data)
-    router.push(`/stores/${data?.storeUuid}/products/${data.uuid}/edit`)
+    enableEditMode()
   }
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />

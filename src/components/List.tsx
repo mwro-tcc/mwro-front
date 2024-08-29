@@ -12,6 +12,7 @@ import VStack from '../ui/VStack'
 import Text from '../ui/Text'
 import useCollection from '@hooks/useCollection'
 import { priceFormatter } from 'utils'
+import colors from '@ui/config/colors'
 
 type ListProps = {
   numOfColumns: number
@@ -43,7 +44,6 @@ export default function List({
             pathname: `/${route}/${item.uuid}`
           }
         }
-        replace
         asChild
       >
         <TouchableOpacity style={styles.listing}>
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 0.8,
     borderColor: 'lightgrey',
+    backgroundColor: colors.ui_1,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2
   },

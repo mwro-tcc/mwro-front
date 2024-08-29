@@ -40,7 +40,7 @@ export default function Communities() {
   const data: ActionType[] = communities.map((item) => ({
     id: item.uuid,
     title: item.name,
-    onPress: () => router.push(`communities/${item.uuid}`)
+    onPress: () => router.push(`(communities)/${item.uuid}`)
   }))
 
   useFocusEffect(useCallback(() => void handleRefresh(), []))
@@ -72,7 +72,7 @@ export default function Communities() {
     const location = await Location.getCurrentPositionAsync({})
 
     router.push({
-      pathname: '/communities/map/',
+      pathname: '/(communities)/map/',
       params: {
         lat: location.coords.latitude,
         long: location.coords.longitude
@@ -87,7 +87,7 @@ export default function Communities() {
           headerTitle: 'Minhas Comunidades',
           headerRight: () => (
             <IconButton
-              onPress={() => router.push('/communities/create/')}
+              onPress={() => router.push('/(communities)/create/')}
               icon='plus'
             />
           )

@@ -51,13 +51,13 @@ export default function Community() {
   const handleEdit = () => {
     if (id) {
       add(id, data)
-      router.push(`/communities/${id}/edit`)
+      router.push(`/(communities)/${id}/edit`)
     } else {
       Toast.error('Nenhum ID encontrado')
     }
   }
 
-  const communityLink = createURL(`/communities/${id}`)
+  const communityLink = createURL(`/(communities)/${id}`)
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(communityLink)
@@ -74,7 +74,10 @@ export default function Community() {
           <List
             getItemRoute={(item: Store) => {
               return {
-                pathname: `stores/${item.uuid}`
+                pathname: `/(communities)/${id}/store`,
+                params: {
+                  storeId: item.uuid
+                }
               }
             }}
             numOfColumns={2}
@@ -85,10 +88,7 @@ export default function Community() {
         return (
           <List
             getItemRoute={(item: Product) => ({
-              pathname: `/communities/${id}/product`,
-              params: {
-                productId: item.uuid
-              }
+              pathname: `/(communities)/products/${item.uuid}`
             })}
             numOfColumns={2}
             url={Routes.Community.get_community_products(id)}
@@ -137,7 +137,7 @@ export default function Community() {
               />
               <IconButton
                 icon='location-on'
-                onPress={() => router.push(`/communities/${id}/map`)}
+                onPress={() => router.push(`/(communities)/${id}/map`)}
                 style={styles.iconContainer}
                 color='black'
                 fromCommunity={false}

@@ -5,7 +5,7 @@ import Text from '@ui/Text'
 import Button from '@ui/Button'
 import StoreFormStep1 from './components/StoreFormStep1'
 import { useStore } from '@hooks/useStore'
-import { Stack, useRouter } from 'expo-router'
+import { Stack } from 'expo-router'
 import {
   ScrollView,
   StyleSheet,
@@ -18,14 +18,14 @@ import { useState } from 'react'
 import colors from '@ui/config/colors'
 
 type Props = {
+  onCancel: () => void
+  onFinish: () => void
   store?: Store
   community?: any
 }
 
 export default function StoreForm(props: Props) {
-  const router = useRouter()
-
-  const { store, community } = props
+  const { store, community, onCancel, onFinish } = props
 
   const { create_store, update_store } = useStore()
 
@@ -45,12 +45,12 @@ export default function StoreForm(props: Props) {
       storeData.communityUuid = null
     }
     await update_store(storeData)
-    router.back()
+    onFinish()
   }
 
   const handleCreate = async (storeData: StoreFormType) => {
     await create_store(storeData)
-    router.back()
+    onFinish()
   }
 
   const handleSubmit = form.handleSubmit(store ? handleUpdate : handleCreate)
@@ -97,11 +97,13 @@ export default function StoreForm(props: Props) {
     <ScrollView
       keyboardDismissMode='on-drag'
       keyboardShouldPersistTaps='never'
-      style={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1 }}
     >
       <Stack.Screen
         options={{
           headerTitle: `${store ? 'Editar' : 'Criar'} Loja`,
+          headerLeft: () => <Text></Text>,
+          headerRight: () => null,
           contentStyle: {
             backgroundColor: colors.ui_1
           }
@@ -119,7 +121,7 @@ export default function StoreForm(props: Props) {
           >
             Concluir
           </Button>
-          <Button onPress={router.back}>Cancelar</Button>
+          <Button onPress={onCancel}>Cancelar</Button>
         </VStack>
       </VStack>
     </ScrollView>
