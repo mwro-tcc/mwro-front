@@ -11,6 +11,7 @@ import FilterHeader from 'components/FilterHeader'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
 import IconButton from '@ui/IconButton'
+import WhatsAppIcon from 'components/WhatsAppIcon'
 
 const storeCategories = [
   {
@@ -62,7 +63,14 @@ export default function Stores() {
 
       <View style={styles.container}>
         <HStack justify='between' pt={20} pr={20} items='center'>
-          <Text style={{ fontSize: 20, fontWeight: '600' }}>{data?.name}</Text>
+          <HStack gap={8}>
+            <Text style={{ fontSize: 20, fontWeight: '600' }}>
+              {data?.name}
+            </Text>
+            <WhatsAppIcon
+              phoneNumber={'5521997025550'} //data?.phone
+            />
+          </HStack>
           <HStack gap={10}>
             <IconButton
               style={styles.iconContainer}
