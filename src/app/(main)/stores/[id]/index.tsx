@@ -69,6 +69,7 @@ export default function Stores() {
             </Text>
             <WhatsAppIcon
               phoneNumber={'5521997025550'} //data?.phone
+              message='Olá, gostaria de fazer um pedido.'
             />
           </HStack>
           <HStack gap={10}>
