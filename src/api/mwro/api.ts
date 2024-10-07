@@ -4,7 +4,7 @@ import Storage from 'storage'
 import { router } from 'expo-router'
 
 const Api = axios.create({
-  baseURL: 'http://mwro-api-staging.inkwo.dev/'
+  baseURL: 'http://mwro-stg.inkwo.dev/'
 })
 
 Api.interceptors.request.use(async (config) => {
