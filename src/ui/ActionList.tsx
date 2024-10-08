@@ -35,14 +35,16 @@ function ActionList({
         data={props.data}
         scrollEnabled={props.scrollEnabled ?? false}
         ItemSeparatorComponent={() => (
-          <HStack border={[0.3, 'solid', colors.ui_3]} ml={16} />
+          <HStack border={[0.5, 'solid', colors.ui_3]} ml={16} />
         )}
         contentContainerStyle={{
           backgroundColor: colors.ui_1,
           borderRadius: 8,
           display: 'flex'
         }}
-        keyExtractor={(item) => item[keyFrom] as string}
+        keyExtractor={(item) => {
+          return item[keyFrom] as string
+        }}
         renderItem={({ item }) => (
           <AppleStyleSwipeableRow actions={swipeActions(item)}>
             <ActionListItem

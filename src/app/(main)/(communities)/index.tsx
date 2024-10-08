@@ -6,8 +6,8 @@ import Toast from '@lib/toast'
 import { Community } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { useMemo } from 'react'
-import { Stack, useRouter } from 'expo-router'
+import { useCallback, useMemo } from 'react'
+import { Stack, useFocusEffect, useRouter } from 'expo-router'
 import {
   RefreshControl,
   ScrollView,
@@ -30,7 +30,7 @@ export default function Communities() {
     handleRefresh,
     error
   } = useCollection<Community>({
-    url: useMemo(() => Routes.Community.list_user_communities, [])
+    url: Routes.Community.list_user_communities
   })
 
   if (error) {
@@ -40,8 +40,10 @@ export default function Communities() {
   const data: ActionType[] = communities.map((item) => ({
     id: item.uuid,
     title: item.name,
-    onPress: () => router.push(`communities/${item.uuid}`)
+    onPress: () => router.push(`(communities)/${item.uuid}`)
   }))
+
+  useFocusEffect(useCallback(() => void handleRefresh(), []))
 
   const handleDelete = async (id: string) => {
     Lib.error_callback(
@@ -69,8 +71,8 @@ export default function Communities() {
 
     const location = await Location.getCurrentPositionAsync({})
 
-    router.replace({
-      pathname: 'communities/map/',
+    router.push({
+      pathname: '/(communities)/map/',
       params: {
         lat: location.coords.latitude,
         long: location.coords.longitude
@@ -85,7 +87,7 @@ export default function Communities() {
           headerTitle: 'Minhas Comunidades',
           headerRight: () => (
             <IconButton
-              onPress={() => router.push('/communities/create/')}
+              onPress={() => router.push('/(communities)/create/')}
               icon='plus'
             />
           )

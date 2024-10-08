@@ -31,10 +31,10 @@ export default function CommunityForm(props: Props) {
   const { step, next, back } = useSteps(steps)
   const { create_community, update_community } = useCommunity()
 
-  const handleSubmit = (value: any) => {
-    form.handleSubmit(props.community ? update_community : create_community)(
-      value
-    )
+  const handleSubmit = async (value: any) => {
+    await form.handleSubmit(
+      props.community ? update_community : create_community
+    )(value)
 
     router.back()
   }
@@ -62,11 +62,7 @@ export default function CommunityForm(props: Props) {
   })()
 
   return (
-    <ScrollView
-      keyboardDismissMode='on-drag'
-      keyboardShouldPersistTaps='never'
-      contentContainerStyle={{ flex: 1 }}
-    >
+    <VStack p={20} flex={1} gap={30}>
       <Stack.Screen
         options={{
           headerTitle: `${community?.uuid ? 'Editar' : 'Criar'} Comunidade`,
@@ -76,28 +72,26 @@ export default function CommunityForm(props: Props) {
           headerBackTitle: 'Voltar'
         }}
       />
-      <VStack p={20} flex={1} gap={30}>
-        <VStack items='center' gap={20}>
-          {steps > 1 ? (
-            <StepsIndicator currentStep={step} totalSteps={steps} />
-          ) : null}
-        </VStack>
-        <VStack gap={30} flex={1}>
-          {body}
-        </VStack>
-        <VStack gap={10}>
-          <Button
-            variant='primary'
-            onPress={step < steps ? next : handleSubmit}
-            disabled={!form.formState.isValid}
-          >
-            {step < steps ? 'Próximo' : 'Concluir'}
-          </Button>
-          <Button onPress={step > 1 ? back : router.back}>
-            {step > 1 ? 'Voltar' : 'Cancelar'}
-          </Button>
-        </VStack>
+      <VStack items='center' gap={20}>
+        {steps > 1 ? (
+          <StepsIndicator currentStep={step} totalSteps={steps} />
+        ) : null}
       </VStack>
-    </ScrollView>
+      <VStack gap={30} flex={1}>
+        {body}
+      </VStack>
+      <VStack gap={10}>
+        <Button
+          variant='primary'
+          onPress={step < steps ? next : handleSubmit}
+          disabled={!form.formState.isValid}
+        >
+          {step < steps ? 'Próximo' : 'Concluir'}
+        </Button>
+        <Button onPress={step > 1 ? back : router.back}>
+          {step > 1 ? 'Voltar' : 'Cancelar'}
+        </Button>
+      </VStack>
+    </VStack>
   )
 }

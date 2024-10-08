@@ -8,7 +8,8 @@ import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
 import IconButton from '@ui/IconButton'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
-import { Redirect, Stack, useRouter } from 'expo-router'
+import { Redirect, Stack, useFocusEffect, useRouter } from 'expo-router'
+import { useCallback } from 'react'
 import { RefreshControl, ScrollView } from 'react-native'
 
 export default function Stores() {
@@ -25,11 +26,13 @@ export default function Stores() {
 
   if (error) return <Redirect href='/(main)' />
 
+  useFocusEffect(useCallback(() => void handleRefresh(), []))
+
   const data: ActionType[] =
     stores?.map((item) => ({
       id: item.uuid,
       title: item.name,
-      onPress: () => router.replace(`stores/${item.uuid}`)
+      onPress: () => router.push(`/(stores)/${item.uuid}`)
     })) || []
 
   const handleDelete = async (id: string) => {
@@ -56,7 +59,7 @@ export default function Stores() {
           headerTitle: 'Minhas Lojas',
           headerRight: () => (
             <IconButton
-              onPress={() => router.replace('/stores/create/')}
+              onPress={() => router.push('/(stores)/create/')}
               icon='plus'
             />
           )

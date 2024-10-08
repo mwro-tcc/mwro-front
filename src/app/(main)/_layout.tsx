@@ -1,4 +1,4 @@
-import { Tabs, router } from 'expo-router'
+import { Redirect, Tabs } from 'expo-router'
 import { ActivityIndicator } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import useAuth from '@hooks/useAuth'
@@ -7,7 +7,9 @@ export default function MainLayout() {
   const { token, loading } = useAuth()
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
-  if (!token) router.replace('/(auth)/welcome')
+  if (!token) {
+    return <Redirect href='/(auth)/welcome' />
+  }
 
   return (
     <Tabs
@@ -25,7 +27,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='communities'
+        name='(communities)'
         options={{
           title: 'Comunidades',
           tabBarIcon: ({ size, color }) => (
@@ -34,7 +36,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='stores'
+        name='(stores)'
         options={{
           title: 'Lojas',
           tabBarIcon: ({ size, color }) => (
@@ -43,18 +45,12 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='account'
+        name='(account)'
         options={{
           title: 'Conta',
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name='person' size={size} color={color} />
           )
-        }}
-      />
-      <Tabs.Screen
-        name='products'
-        options={{
-          href: null
         }}
       />
     </Tabs>

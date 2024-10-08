@@ -1,6 +1,6 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import { Stack, router, useLocalSearchParams } from 'expo-router'
+import { Stack } from 'expo-router'
 import { useState } from 'react'
 import {
   ActivityIndicator,
@@ -10,24 +10,46 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Product as ProductType } from '@src/types/product'
 import { priceFormatter } from 'utils'
 import IconButton from '@ui/IconButton'
-import useCache from '@hooks/useCache'
+import Form from '@forms/index'
+import useBoolean from '@hooks/useBoolean'
+import { isNil } from 'lodash'
 
-export default function Product() {
-  const { id } = useLocalSearchParams<{
-    id: string
-  }>()
+type Props = {
+  id: string
+}
+
+export default function Product(props: Props) {
+  const { id } = props
 
   const { data, loading, error } = useModel<ProductType>({
     url: Routes.Product.get(id)
   })
 
   const [quantity, setQuantity] = useState(1)
+
+  const {
+    value: edit,
+    setTrue: enableEditMode,
+    setFalse: disabledEditMode
+  } = useBoolean(false)
+
+  if (edit) {
+    if (isNil(data?.storeUuid)) return
+
+    return (
+      <Form.Product
+        product={data}
+        storeId={data.storeUuid}
+        onCancel={disabledEditMode}
+        onFinish={disabledEditMode}
+      />
+    )
+  }
 
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1)
@@ -41,13 +63,10 @@ export default function Product() {
 
   const totalPrice = priceFormatter((data?.price ?? 0) * quantity)
 
-  const { add } = useCache()
-
   const handleEdit = () => {
     if (!data || !id) return
 
-    add(id, data)
-    router.replace(`/products/${data.uuid}/edit`)
+    enableEditMode()
   }
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
@@ -57,16 +76,6 @@ export default function Product() {
     <>
       <Stack.Screen
         options={{
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => router.replace(`/stores/${data.storeUuid}`)}
-            >
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          ),
           headerRight: () => (
             <IconButton icon='pencil-outline' onPress={handleEdit} />
           ),

@@ -1,43 +1,50 @@
 import HStack from '@ui/HStack'
 import Text from '@ui/Text'
-import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Redirect, Stack, router, useFocusEffect } from 'expo-router'
+import { StyleSheet, View } from 'react-native'
 import List from 'components/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
-import FilterHeader from 'components/FilterHeader'
-import useCache from '@hooks/useCache'
-import Toast from '@lib/toast'
+import FilterHeader, { Tab } from 'components/FilterHeader'
 import IconButton from '@ui/IconButton'
 import WhatsAppIcon from 'components/WhatsAppIcon'
+import Form from '@forms/index'
+import useBoolean from '@hooks/useBoolean'
+import { Product } from '@src/types/product'
+import { useCallback } from 'react'
 
-const storeCategories = [
+const tabs: Tab[] = [
   {
-    id: 1,
-    name: 'Produtos',
-    route: 'products',
+    id: 'products',
+    label: 'Produtos',
     icon: 'shopping-outline'
   }
 ]
 
-export default function Stores() {
-  const { id } = useLocalSearchParams<{ id: string }>()
+export default function Store(props: { id: string }) {
+  const { id } = props
 
-  const { add } = useCache()
-
-  const { data, error } = useModel<StoreType>({
+  const { data, error, handleRefresh } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
 
-  const handleEdit = () => {
-    if (id) {
-      add(id, data)
-      router.replace(`/stores/${id}/edit`)
-    } else {
-      Toast.error('Nenhum ID encontrado')
-    }
+  useFocusEffect(useCallback(() => void handleRefresh(), []))
+
+  const {
+    value: edit,
+    setTrue: enableEditMode,
+    setFalse: disabledEditMode
+  } = useBoolean(false)
+
+  if (edit) {
+    return (
+      <Form.Store
+        store={data}
+        onCancel={disabledEditMode}
+        onFinish={disabledEditMode}
+      />
+    )
   }
 
   if (error) return <Redirect href='/(main)' />
@@ -46,16 +53,9 @@ export default function Stores() {
     <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.replace('/stores')}>
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          ),
+          headerLeft: () => null,
           headerRight: () => (
-            <IconButton icon='pencil-outline' onPress={handleEdit} />
+            <IconButton icon='pencil-outline' onPress={enableEditMode} />
           ),
           headerTitle: 'Loja'
         }}
@@ -75,7 +75,9 @@ export default function Stores() {
           <HStack gap={10}>
             <IconButton
               style={styles.iconContainer}
-              onPress={() => router.replace(`/products/create?store_id=${id}`)}
+              onPress={() =>
+                router.push(`/(stores)/products/create?store=${id}`)
+              }
               icon='briefcase-plus-outline'
               color='black'
             />
@@ -83,9 +85,11 @@ export default function Stores() {
         </HStack>
         <Text>{data?.description}</Text>
       </View>
-      <FilterHeader categories={storeCategories} />
+      <FilterHeader activeTab={tabs[0].id} tabs={tabs} />
       <List
-        route={'products'}
+        getItemRoute={(product: Product) => ({
+          pathname: `/(communities)/products/${product.uuid}`
+        })}
         numOfColumns={2}
         url={Routes.Store.get_store_products(id)}
       />

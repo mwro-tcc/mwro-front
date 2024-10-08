@@ -1,25 +1,23 @@
 import { useForm } from 'react-hook-form'
 import { Product, ProductForm as ProductFormType } from '@src/types/product'
 import VStack from '@ui/VStack'
-import Text from '@ui/Text'
 import Button from '@ui/Button'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
-import { useEffect } from 'react'
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { Stack } from 'expo-router'
 import { ScrollView, TouchableOpacity } from 'react-native'
-import HStack from '@ui/HStack'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import Show from '@ui/Show'
+import colors from '@ui/config/colors'
 
 type Props = {
+  onCancel: () => void
+  onFinish: () => void
+  storeId: string
   product?: Product
 }
 
 export default function ProductForm(props: Props) {
-  const { store_id } = useLocalSearchParams()
-  const { product } = props
-  const router = useRouter()
+  const { storeId, product, onCancel, onFinish } = props
 
   const form = useForm<ProductFormType>({
     defaultValues: product,
@@ -31,22 +29,21 @@ export default function ProductForm(props: Props) {
   const handleUpdate = async (productData: any) => {
     await update_product({
       ...productData,
-      storeUuid: store_id as string,
+      storeUuid: storeId,
       price: parseInt(productData.price),
       stock: parseInt(productData.stock)
     })
-    router.replace(`/products/${productData.uuid}`)
+    onFinish()
   }
 
   const handleCreate = async (productData: any) => {
     await create_product({
       ...productData,
-      storeUuid: store_id as string,
+      storeUuid: storeId,
       price: parseInt(productData.price),
       stock: parseInt(productData.stock)
     })
-    form.reset()
-    router.replace(`/stores/${store_id}`)
+    onFinish()
   }
 
   const handleSubmit = form.handleSubmit(product ? handleUpdate : handleCreate)
@@ -54,7 +51,7 @@ export default function ProductForm(props: Props) {
   const handleDelete = async () => {
     if (!product) return
     await delete_product(product.uuid)
-    router.replace(`/stores/${product.storeUuid}`)
+    onFinish()
   }
 
   const body = (() => {
@@ -69,7 +66,11 @@ export default function ProductForm(props: Props) {
     >
       <Stack.Screen
         options={{
-          headerTitle: 'Produto',
+          headerTitle: `${product ? 'Editar' : 'Criar'} produto`,
+          contentStyle: {
+            backgroundColor: colors.ui_1
+          },
+          headerLeft: () => null,
           headerRight: () => {
             return (
               <>
@@ -80,29 +81,11 @@ export default function ProductForm(props: Props) {
                 )}
               </>
             )
-          },
-          headerLeft: () => (
-            <TouchableOpacity
-              onPress={() =>
-                product
-                  ? router.replace(`/products/${product?.uuid}`)
-                  : router.replace(`/stores/${store_id}`)
-              }
-            >
-              <HStack items='center' gap={2}>
-                <MaterialCommunityIcons name='arrow-left' size={22} />
-                <Text size={16}>Voltar</Text>
-              </HStack>
-            </TouchableOpacity>
-          )
+          }
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
-        <VStack items='center' gap={20}>
-          <Text size={28} weight='600'>
-            {product ? 'Editar' : 'Criar'} Produto
-          </Text>
-        </VStack>
+        <VStack items='center' gap={20}></VStack>
         <VStack gap={30} flex={1}>
           {body}
         </VStack>
@@ -114,15 +97,7 @@ export default function ProductForm(props: Props) {
           >
             Concluir
           </Button>
-          <Button
-            onPress={() =>
-              product
-                ? router.replace(`/products/${product.uuid}`)
-                : router.replace(`/stores/${store_id}`)
-            }
-          >
-            Cancelar
-          </Button>
+          <Button onPress={onCancel}>Cancelar</Button>
         </VStack>
       </VStack>
     </ScrollView>

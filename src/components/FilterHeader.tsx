@@ -4,58 +4,49 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Text from '@ui/Text'
 
-interface Category {
-  id: number
-  name: string
-  route: string
-  icon: string
+export type Tab = {
+  id: string
+  label: string
+  icon?: string
 }
 
 type FilterHeaderProps = {
-  handleCategoryChange?: (category: any) => void
-  categories: Category[]
+  activeTab: string
+  onTabChange?: (tab: string) => void
+  tabs: Tab[]
 }
 
 export default function FilterHeader({
-  handleCategoryChange,
-  categories
+  activeTab,
+  onTabChange,
+  tabs
 }: FilterHeaderProps) {
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const handleSelectCategory = (index: number) => {
-    setActiveIndex(index)
-    if (handleCategoryChange) {
-      const category = categories[index]
-      handleCategoryChange(category)
-    }
-  }
-
   return (
     <View style={styles.container}>
       <HStack style={styles.categoryRow}>
-        {categories.map((category, index) => (
+        {tabs.map((tab) => (
           <TouchableOpacity
-            key={index}
+            key={tab.id}
             style={
-              activeIndex === index
+              activeTab === tab.id
                 ? styles.categoriesBtnActive
                 : styles.categoriesBtn
             }
-            onPress={() => handleSelectCategory(index)}
+            onPress={() => onTabChange?.(tab.id)}
           >
             <MaterialCommunityIcons
-              name={category.icon as any}
+              name={tab.icon as any}
               size={24}
-              color={activeIndex === index ? '#000' : '#c2c2c2'}
+              color={activeTab === tab.id ? '#000' : '#c2c2c2'}
             />
             <Text
               style={
-                activeIndex === index
+                activeTab === tab.id
                   ? styles.categoryTextActive
                   : styles.categoryText
               }
             >
-              {category.name}
+              {tab.label}
             </Text>
           </TouchableOpacity>
         ))}
