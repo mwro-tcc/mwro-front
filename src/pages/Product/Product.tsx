@@ -5,8 +5,7 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
-  View
+  TouchableOpacity
 } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
@@ -19,6 +18,7 @@ import { isNil } from 'lodash'
 import Button from '@ui/Button'
 import { openWhatsApp } from 'components/WhatsAppIcon'
 import VStack from '@ui/VStack'
+import colors from '@ui/config/colors'
 
 type Props = {
   id: string
@@ -104,7 +104,7 @@ export default function Product(props: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.ui_1,
     padding: 16,
     width: '100%',
     height: '100%',
@@ -123,12 +123,11 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
-    color: '#888',
+    fontWeight: 'bold',
     marginBottom: 16
   },
   description: {
-    fontSize: 16,
-    color: '#333'
+    fontSize: 16
   },
   contactButton: {
     display: 'flex',
