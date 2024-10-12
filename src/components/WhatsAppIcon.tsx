@@ -5,7 +5,7 @@ import IconButton from '@ui/IconButton'
 import createConsoleErrorHandler from '@lib/create_console_error_handler'
 
 type OpenWhatsappOptions = {
-  phoneNumber: string
+  phoneNumber?: string
   message: string
 }
 
@@ -26,7 +26,7 @@ async function openWhatsApp(options: OpenWhatsappOptions): Promise<void> {
 }
 
 type Props = {
-  phoneNumber: string
+  phoneNumber?: string
   message: string
 }
 

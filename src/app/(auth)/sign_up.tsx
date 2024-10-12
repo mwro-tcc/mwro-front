@@ -7,6 +7,7 @@ import VStack from '../../ui/VStack'
 import Text from '@ui/Text'
 import colors from '@ui/config/colors'
 import { Auth } from '@api/mwro'
+import PhoneInput from '@ui/PhoneInput'
 
 export default function SignUp() {
   const { control, handleSubmit } = useForm<SignUpForm>()
@@ -16,7 +17,7 @@ export default function SignUp() {
     <VStack flex={1} p={20}>
       <VStack flex={1} items='center' justify='center'>
         <Text size={28} weight='600'>
-          Acessar Conta
+          Criar Conta
         </Text>
       </VStack>
       <VStack gap={10} flex={2}>
@@ -36,6 +37,13 @@ export default function SignUp() {
           required
           control={control}
           name={'email'}
+        />
+        <PhoneInput
+          label='Telefone'
+          placeholder='+55 (21) 99999-9999'
+          required
+          control={control}
+          name={'phoneNumber'}
         />
         <TextInput
           label='Senha'
