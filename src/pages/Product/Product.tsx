@@ -1,14 +1,11 @@
-import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Stack } from 'expo-router'
-import { useState } from 'react'
 import {
   ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
-  View
+  TouchableOpacity
 } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
@@ -18,6 +15,10 @@ import IconButton from '@ui/IconButton'
 import Form from '@forms/index'
 import useBoolean from '@hooks/useBoolean'
 import { isNil } from 'lodash'
+import Button from '@ui/Button'
+import { openWhatsApp } from 'components/WhatsAppIcon'
+import VStack from '@ui/VStack'
+import colors from '@ui/config/colors'
 
 type Props = {
   id: string
@@ -29,8 +30,6 @@ export default function Product(props: Props) {
   const { data, loading, error } = useModel<ProductType>({
     url: Routes.Product.get(id)
   })
-
-  const [quantity, setQuantity] = useState(1)
 
   const {
     value: edit,
@@ -50,18 +49,6 @@ export default function Product(props: Props) {
       />
     )
   }
-
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1)
-  }
-
-  const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1)
-    }
-  }
-
-  const totalPrice = priceFormatter((data?.price ?? 0) * quantity)
 
   const handleEdit = () => {
     if (!data || !id) return
@@ -83,36 +70,32 @@ export default function Product(props: Props) {
         }}
       />
       <ScrollView contentContainerStyle={styles.container}>
-        <Image
-          source={{
-            uri: 'https://www.proclinic-products.com/build/static/default-product.30484205.png'
-          }}
-          style={styles.image}
-        />
-        <View style={styles.infoContainer}>
+        <VStack>
+          <Image
+            source={{
+              uri: 'https://www.proclinic-products.com/build/static/default-product.30484205.png'
+            }}
+            style={styles.image}
+          />
           <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.price}>{`${priceFormatter(data.price)}`}</Text>
+          <Text style={styles.price}>{`1x ${priceFormatter(data.price)}`}</Text>
           <Text style={styles.description}>{data.description}</Text>
-          <HStack justify='between' mt={50}>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity
-                onPress={handleDecreaseQuantity}
-                style={styles.quantityButton}
-              >
-                <Text style={styles.buttonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{quantity}</Text>
-              <TouchableOpacity
-                onPress={handleIncreaseQuantity}
-                style={styles.quantityButton}
-              >
-                <Text style={styles.buttonText}>+</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={styles.totalPrice}>{`Total   ${totalPrice}`}</Text>
-          </HStack>
-        </View>
+        </VStack>
+        <TouchableOpacity>
+          <Button
+            onPress={() =>
+              openWhatsApp({
+                phoneNumber: '5521997025550',
+                message: 'Olá, gostaria de fazer um pedido'
+              })
+            }
+            style={styles.contactButton}
+            icon='whatsapp'
+            variant='default'
+          >
+            Entrar em contato
+          </Button>
+        </TouchableOpacity>
       </ScrollView>
     </>
   )
@@ -121,57 +104,36 @@ export default function Product(props: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 16
+    backgroundColor: colors.ui_1,
+    padding: 16,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'space-between'
   },
   image: {
     width: '100%',
-    height: 270,
-    borderRadius: 10,
+    height: 390,
+    borderRadius: 8,
     marginBottom: 16
-  },
-  infoContainer: {
-    padding: 16,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 10
   },
   name: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 12
+    marginBottom: 16
   },
   price: {
     fontSize: 18,
-    color: '#888',
-    marginBottom: 20
-  },
-  description: {
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 80
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontWeight: 'bold',
     marginBottom: 16
   },
-  quantityButton: {
-    backgroundColor: '#e0e0e0',
-    padding: 10,
-    borderRadius: 5
+  description: {
+    fontSize: 16
   },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  quantity: {
-    fontSize: 18,
-    marginHorizontal: 20
-  },
-  totalPrice: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 16
+  contactButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    padding: 12
   }
 })

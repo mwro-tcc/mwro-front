@@ -13,6 +13,7 @@ import Form from '@forms/index'
 import useBoolean from '@hooks/useBoolean'
 import { Product } from '@src/types/product'
 import { useCallback } from 'react'
+import colors from '@ui/config/colors'
 
 const tabs: Tab[] = [
   {
@@ -67,10 +68,6 @@ export default function Store(props: { id: string }) {
             <Text style={{ fontSize: 20, fontWeight: '600' }}>
               {data?.name}
             </Text>
-            <WhatsAppIcon
-              phoneNumber={data?.phoneNumber}
-              message='Olá, gostaria de fazer um pedido.'
-            />
           </HStack>
           <HStack gap={10}>
             <IconButton
@@ -99,15 +96,14 @@ export default function Store(props: { id: string }) {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.ui_1,
     flexDirection: 'row',
     padding: 14,
     alignItems: 'center',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#c2c2c2',
+    borderColor: colors.ui_5,
     borderRadius: 30,
     elevation: 2,
-    shadowColor: '#000',
     shadowOpacity: 0.12,
     shadowRadius: 8,
     shadowOffset: {
@@ -116,10 +112,9 @@ const styles = StyleSheet.create({
     }
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.ui_1,
     height: 100,
     elevation: 2,
-    shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 6,
     shadowOffset: {
