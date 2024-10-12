@@ -18,34 +18,25 @@ export default function MainLayout() {
       }}
     >
       <Tabs.Screen
-        name='index'
+        name='explore'
         options={{
-          title: 'Home',
+          title: 'Explorar',
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='home' size={size} color={color} />
+            <MaterialIcons name='person' size={size} color={color} />
           )
         }}
       />
       <Tabs.Screen
-        name='(communities)'
+        name='favorites'
         options={{
-          title: 'Comunidades',
+          title: 'Favoritos',
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='people-alt' size={size} color={color} />
+            <MaterialIcons name='person' size={size} color={color} />
           )
         }}
       />
       <Tabs.Screen
-        name='(stores)'
-        options={{
-          title: 'Lojas',
-          tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name='store' size={size} color={color} />
-          )
-        }}
-      />
-      <Tabs.Screen
-        name='(account)'
+        name='account'
         options={{
           title: 'Conta',
           tabBarIcon: ({ size, color }) => (
