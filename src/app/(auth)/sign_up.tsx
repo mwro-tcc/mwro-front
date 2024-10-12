@@ -17,7 +17,7 @@ export default function SignUp() {
     <VStack flex={1} p={20}>
       <VStack flex={1} items='center' justify='center'>
         <Text size={28} weight='600'>
-          Acessar Conta
+          Criar Conta
         </Text>
       </VStack>
       <VStack gap={10} flex={2}>

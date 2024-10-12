@@ -53,6 +53,10 @@ export default ({
     rules: { required }
   })
 
+  const formatPhoneNumber = (phoneNumber: string) => {
+    return phoneNumber.replace(/[^\d+]/g, '')
+  }
+
   return (
     <>
       <Show when={label}>
@@ -70,7 +74,11 @@ export default ({
           <View>
             <MaskedTextInput
               value={field.value.toString()}
-              onChangeText={field.onChange}
+              onChangeText={(text) => {
+                // Aplica a formatação e atualiza o valor
+                const formattedPhone = formatPhoneNumber(text)
+                field.onChange(formattedPhone)
+              }}
               mask='+99 (99) 99999-9999'
               keyboardType='numeric'
               {...props}
@@ -85,7 +93,11 @@ export default ({
       <Show when={!label}>
         <MaskedTextInput
           value={field.value.toString()}
-          onChangeText={field.onChange}
+          onChangeText={(text) => {
+            // Aplica a formatação e atualiza o valor
+            const formattedPhone = formatPhoneNumber(text)
+            field.onChange(formattedPhone)
+          }}
           mask='+99 (99) 99999-9999'
           keyboardType='numeric'
           {...props}
