@@ -91,27 +91,8 @@ export default function Product(props: Props) {
         />
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.price}>{`${priceFormatter(data.price)}`}</Text>
+          <Text style={styles.price}>{`1x ${priceFormatter(data.price)}`}</Text>
           <Text style={styles.description}>{data.description}</Text>
-          <HStack justify='between' mt={50}>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity
-                onPress={handleDecreaseQuantity}
-                style={styles.quantityButton}
-              >
-                <Text style={styles.buttonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{quantity}</Text>
-              <TouchableOpacity
-                onPress={handleIncreaseQuantity}
-                style={styles.quantityButton}
-              >
-                <Text style={styles.buttonText}>+</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={styles.totalPrice}>{`Total   ${totalPrice}`}</Text>
-          </HStack>
         </View>
       </ScrollView>
     </>
@@ -126,7 +107,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 270,
+    height: 390,
     borderRadius: 10,
     marginBottom: 16
   },
