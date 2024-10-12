@@ -68,7 +68,7 @@ export default function Store(props: { id: string }) {
               {data?.name}
             </Text>
             <WhatsAppIcon
-              phoneNumber={'5521997025550'} //data?.phone
+              phoneNumber={'+5521997025550'} //data?.phoneNumber
               message='Olá, gostaria de fazer um pedido.'
             />
           </HStack>

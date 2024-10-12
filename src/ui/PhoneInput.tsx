@@ -1,12 +1,14 @@
-import { StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native'
+import React from 'react'
+import { StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
+import Text from './Text'
+import colors from './config/colors'
+import HStack from './HStack'
+import Show from './Show'
+import VStack from './VStack'
+import { MaskedTextInput } from 'react-native-mask-text'
+import { Control, useController } from 'react-hook-form'
 import rounded from './config/rounded'
 import spacings from './config/spacings'
-import colors from './config/colors'
-import VStack from './VStack'
-import Show from './Show'
-import HStack from './HStack'
-import Text from './Text'
-import { Control, useController } from 'react-hook-form'
 
 type Variants = {
   default: ViewStyle
@@ -65,21 +67,27 @@ export default ({
               </Text>
             </Show>
           </HStack>
-          <TextInput
-            value={field.value.toString()}
-            onChangeText={field.onChange}
-            {...props}
-            style={{
-              ...input_variants[variant],
-              ...(style as ViewStyle)
-            }}
-          />
+          <View>
+            <MaskedTextInput
+              value={field.value.toString()}
+              onChangeText={field.onChange}
+              mask='+99 (99) 99999-9999'
+              keyboardType='numeric'
+              {...props}
+              style={{
+                ...input_variants[variant],
+                ...(style as ViewStyle)
+              }}
+            />
+          </View>
         </VStack>
       </Show>
       <Show when={!label}>
-        <TextInput
+        <MaskedTextInput
           value={field.value.toString()}
           onChangeText={field.onChange}
+          mask='+99 (99) 99999-9999'
+          keyboardType='numeric'
           {...props}
           style={{
             ...input_variants[variant],
@@ -90,3 +98,16 @@ export default ({
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20
+  },
+  input: {
+    height: 45,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 10,
+    paddingHorizontal: 10
+  }
+})

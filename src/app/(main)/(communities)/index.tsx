@@ -6,7 +6,7 @@ import Toast from '@lib/toast'
 import { Community } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { Stack, useFocusEffect, useRouter } from 'expo-router'
 import {
   RefreshControl,
