@@ -6,7 +6,7 @@ import {
   ViewStyle
 } from 'react-native'
 import colors from './config/colors'
-import shadows from './config/shadows'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import rounded from './config/rounded'
 import spacings from './config/spacings'
 
@@ -72,11 +72,13 @@ export default ({
   children,
   variant = 'default',
   style,
+  icon,
   disabled = false,
   ...props
 }: TouchableOpacityProps & {
   children: React.ReactNode
   variant?: keyof Variants
+  icon?: string
 }) => {
   return (
     <TouchableOpacity
@@ -87,6 +89,13 @@ export default ({
         ...(style as ViewStyle)
       }}
     >
+      {icon && (
+        <MaterialCommunityIcons
+          name={icon as any}
+          size={24}
+          color={colors.ui_1}
+        />
+      )}
       {typeof children === 'string' ? (
         <Text style={text_variants[disabled ? 'disabled' : variant]}>
           {children}

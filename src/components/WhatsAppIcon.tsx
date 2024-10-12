@@ -9,7 +9,9 @@ type OpenWhatsappOptions = {
   message: string
 }
 
-async function openWhatsApp(options: OpenWhatsappOptions): Promise<void> {
+export async function openWhatsApp(
+  options: OpenWhatsappOptions
+): Promise<void> {
   const { phoneNumber, message } = options
 
   const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`
