@@ -6,7 +6,7 @@ export default function CommunityProduct() {
     id: string
   }>()
 
-  if (!id) return <Redirect href='/(main)' />
+  if (!id) return <Redirect href='/main' />
 
   return <Product id={id} />
 }

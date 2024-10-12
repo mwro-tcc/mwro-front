@@ -48,7 +48,7 @@ export default function Store(props: { id: string }) {
     )
   }
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) return <Redirect href='/main' />
 
   return (
     <View style={{ flex: 1 }}>

@@ -45,7 +45,7 @@ export default function Account() {
 
   const handleEditName = () => {
     router.push({
-      pathname: '/(account)/edit_name',
+      pathname: '/account/edit_name',
       params: {
         name
       }

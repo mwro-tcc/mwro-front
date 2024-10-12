@@ -24,7 +24,7 @@ export default function Stores() {
     url: Routes.Store.list_user_stores
   })
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) return <Redirect href='/main' />
 
   useFocusEffect(useCallback(() => void handleRefresh(), []))
 

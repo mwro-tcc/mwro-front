@@ -65,7 +65,7 @@ export default function Community() {
     Toast.success('O link foi copiado para sua área de transferência!')
   }
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) return <Redirect href='/main' />
 
   const list = scope(() => {
     switch (tab) {

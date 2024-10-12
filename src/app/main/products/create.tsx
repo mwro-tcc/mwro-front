@@ -6,7 +6,7 @@ export default function CreateProduct() {
     store: string
   }>()
 
-  if (!store) return <Redirect href='/(main)' />
+  if (!store) return <Redirect href='/main' />
 
   return (
     <Form.Product
