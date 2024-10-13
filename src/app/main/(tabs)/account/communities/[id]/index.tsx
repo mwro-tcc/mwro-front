@@ -2,7 +2,12 @@ import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
@@ -18,21 +23,8 @@ import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
 import scope from '@lib/scope'
-import { Product } from '@src/types/product'
 import { Store } from '@src/types/store'
-
-const TABS: Tab[] = [
-  {
-    id: 'products',
-    label: 'Produtos',
-    icon: 'shopping-outline'
-  },
-  {
-    id: 'stores',
-    label: 'Lojas',
-    icon: 'storefront-outline'
-  }
-]
+import HeaderTextButton from '@ui/HeaderTextButton'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -44,20 +36,18 @@ export default function Community() {
       url: Routes.Community.get(id)
     })
 
-  const [tab, setTab] = useState<string>(TABS[0]?.id)
-
   const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
 
   const handleEdit = () => {
     if (id) {
       add(id, data)
-      router.push(`/(communities)/${id}/edit`)
+      router.push(`/main/account/communities/${id}/edit`)
     } else {
       Toast.error('Nenhum ID encontrado')
     }
   }
 
-  const communityLink = createURL(`/(communities)/${id}`)
+  const communityLink = createURL(`/communities/${id}`)
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(communityLink)
@@ -65,38 +55,23 @@ export default function Community() {
     Toast.success('O link foi copiado para sua área de transferência!')
   }
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) return <Redirect href='/main' />
 
   const list = scope(() => {
-    switch (tab) {
-      case 'stores':
-        return (
-          <List
-            getItemRoute={(item: Store) => {
-              return {
-                pathname: `/(communities)/${id}/store`,
-                params: {
-                  storeId: item.uuid
-                }
-              }
-            }}
-            numOfColumns={2}
-            url={Routes.Community.get_community_stores(id)}
-          />
-        )
-      case 'products':
-        return (
-          <List
-            getItemRoute={(item: Product) => ({
-              pathname: `/(communities)/products/${item.uuid}`
-            })}
-            numOfColumns={2}
-            url={Routes.Community.get_community_products(id)}
-          />
-        )
-      default:
-        return null
-    }
+    return (
+      <List
+        getItemRoute={(item: Store) => {
+          return {
+            pathname: `/communities/${id}/store`,
+            params: {
+              storeId: item.uuid
+            }
+          }
+        }}
+        numOfColumns={2}
+        url={Routes.Community.get_community_stores(id)}
+      />
+    )
   })
 
   return (
@@ -104,9 +79,17 @@ export default function Community() {
       <Stack.Screen
         options={{
           headerBackTitle: 'Voltar',
-          headerTitle: 'Comunidade',
-          headerRight: () => (
-            <IconButton icon='pencil-outline' onPress={handleEdit} />
+          headerTitle: '',
+          headerTintColor: colors.primary,
+          headerShadowVisible: false,
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton
+              color={tintColor}
+              onPress={handleEdit}
+              weight='600'
+            >
+              Editar
+            </HeaderTextButton>
           )
         }}
       />
@@ -137,7 +120,9 @@ export default function Community() {
               />
               <IconButton
                 icon='location-on'
-                onPress={() => router.push(`/(communities)/${id}/map`)}
+                onPress={() =>
+                  router.push(`/main/account/communities/${id}/map`)
+                }
                 style={styles.iconContainer}
                 color='black'
                 fromCommunity={false}
@@ -146,7 +131,6 @@ export default function Community() {
           </HStack>
           <Text>{data?.description}</Text>
         </View>
-        <FilterHeader activeTab={tab} onTabChange={setTab} tabs={TABS} />
         {list}
       </Show>
       <Show when={addStoreModalVisible}>

@@ -4,7 +4,7 @@ import { Redirect, useLocalSearchParams } from 'expo-router'
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  if (!id) return <Redirect href='/(stores)' />
+  if (!id) return <Redirect href='/main/account/stores' />
 
   return <Store id={id} />
 }

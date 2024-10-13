@@ -177,9 +177,9 @@ export const parse_style_shorthands = (
     shadowOffset: _.isNil(shorthands?.shadow)
         ? undefined
         : {
-              width: shorthands?.shadow?.[0],
-              height: shorthands?.shadow?.[1],
-          },
+            width: shorthands?.shadow?.[0],
+            height: shorthands?.shadow?.[1],
+        },
     shadowRadius: shorthands?.shadow?.[2],
     shadowColor: shorthands?.shadow?.[3],
     shadowOpacity: shorthands?.shadow?.[4],

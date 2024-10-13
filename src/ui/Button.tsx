@@ -12,6 +12,7 @@ import spacings from './config/spacings'
 
 type Variants = {
   primary: ViewStyle
+  text: ViewStyle
   default: ViewStyle
   disabled: ViewStyle
   destructive: ViewStyle
@@ -28,11 +29,14 @@ const base_button_variant: ViewStyle = {
 const button_variants = StyleSheet.create<Variants>({
   primary: {
     ...base_button_variant,
-    backgroundColor: colors.ui_9
+    backgroundColor: colors.primary
+  },
+  text: {
+    fontWeight: '700',
+    color: colors.ui_1
   },
   default: {
     ...base_button_variant,
-    backgroundColor: colors.ui_2,
     borderRadius: rounded.sm
   },
   disabled: {
@@ -54,13 +58,18 @@ const text_variants = StyleSheet.create<Variants>({
     fontWeight: '700',
     color: colors.ui_1
   },
+  text: {
+    fontWeight: '400',
+    fontSize: 17,
+    color: colors.primary
+  },
   destructive: {
     fontWeight: '700',
     color: colors.ui_1
   },
   default: {
     fontWeight: '700',
-    color: colors.ui_8
+    color: colors.primary
   },
   disabled: {
     fontWeight: '700',

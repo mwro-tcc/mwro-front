@@ -5,7 +5,7 @@ export default function AccountLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name={'index'}
+        name='index'
         options={{
           headerTitle: 'Minha Conta'
         }}

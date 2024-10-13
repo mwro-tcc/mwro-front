@@ -26,7 +26,8 @@ enum colors {
   blue_8 = '#0a6feb',
   blue_9 = '#0f58be',
   green_5 = '#5dd55d',
-  yellow_5 = '#fce17d'
+  yellow_5 = '#fce17d',
+  primary = '#6abb21'
 }
 
 export default colors

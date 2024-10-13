@@ -24,7 +24,7 @@ export default function Stores() {
     url: Routes.Store.list_user_stores
   })
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) return <Redirect href='/main' />
 
   useFocusEffect(useCallback(() => void handleRefresh(), []))
 
@@ -32,7 +32,7 @@ export default function Stores() {
     stores?.map((item) => ({
       id: item.uuid,
       title: item.name,
-      onPress: () => router.push(`/(stores)/${item.uuid}`)
+      onPress: () => router.push(`/main/account/stores/${item.uuid}`)
     })) || []
 
   const handleDelete = async (id: string) => {
@@ -59,7 +59,7 @@ export default function Stores() {
           headerTitle: 'Minhas Lojas',
           headerRight: () => (
             <IconButton
-              onPress={() => router.push('/(stores)/create/')}
+              onPress={() => router.push('/main/account/stores/create/')}
               icon='plus'
             />
           )

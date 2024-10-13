@@ -48,7 +48,7 @@ export default function Store(props: { id: string }) {
     )
   }
 
-  if (error) return <Redirect href='/(main)' />
+  if (error) return <Redirect href='/main' />
 
   return (
     <View style={{ flex: 1 }}>
@@ -72,9 +72,7 @@ export default function Store(props: { id: string }) {
           <HStack gap={10}>
             <IconButton
               style={styles.iconContainer}
-              onPress={() =>
-                router.push(`/(stores)/products/create?store=${id}`)
-              }
+              onPress={() => router.push(`/stores/products/create?store=${id}`)}
               icon='briefcase-plus-outline'
               color='black'
             />
@@ -85,7 +83,7 @@ export default function Store(props: { id: string }) {
       <FilterHeader activeTab={tabs[0].id} tabs={tabs} />
       <List
         getItemRoute={(product: Product) => ({
-          pathname: `/(communities)/products/${product.uuid}`
+          pathname: `/communities/products/${product.uuid}`
         })}
         numOfColumns={2}
         url={Routes.Store.get_store_products(id)}

@@ -13,12 +13,6 @@ type AuthResponse = {
   token: string
 }
 
-const UserStore = create<{
-  user: User | null
-}>(() => ({
-  user: null
-}))
-
 class Auth {
   static async signUp(data: SignUpForm) {
     if (data.password !== data.confirm_password) {
@@ -26,7 +20,7 @@ class Auth {
       return
     }
 
-    Api.post<AuthResponse>(Routes.Auth.sign_up, data)
+    Api.post<AuthResponse>(Routes.Auth.sign_up, { ...data })
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
         Toast.error(error?.message)
@@ -38,6 +32,7 @@ class Auth {
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
         Toast.error(error?.message)
+        console.log(error?.response)
       })
   }
 
@@ -54,7 +49,7 @@ class Auth {
     AsyncStorage.setItem(Storage.AUTH_TOKEN, response?.data?.token).catch(
       console.error
     )
-    router.replace('/(main)')
+    router.replace('/main')
   }
 }
 

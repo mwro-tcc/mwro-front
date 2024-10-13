@@ -23,8 +23,7 @@ const base_form_variant: ViewStyle = {
 const input_variants = StyleSheet.create<Variants>({
   default: {
     ...base_form_variant,
-    backgroundColor: colors.ui_2,
-    borderRadius: rounded.sm
+    backgroundColor: colors.ui_1
   }
 })
 
@@ -54,13 +53,13 @@ export default ({
   return (
     <>
       <Show when={label}>
-        <VStack gap={3}>
-          <HStack px={8} gap={3}>
-            <Text weight='600' size={12}>
+        <VStack gap={5}>
+          <HStack px={5} gap={3}>
+            <Text weight='600' size={13}>
               {label}
             </Text>
             <Show when={required}>
-              <Text weight='600' size={12} color={colors.red_6}>
+              <Text weight='700' size={13} color={colors.red_5}>
                 *
               </Text>
             </Show>
