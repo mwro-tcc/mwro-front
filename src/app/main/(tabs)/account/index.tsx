@@ -90,6 +90,15 @@ export default function Account() {
         ]}
       />
       <ActionList
+        label='Celular'
+        data={[
+          {
+            title: user?.phoneNumber ?? '',
+            disabled: true
+          }
+        ]}
+      />
+      <ActionList
         label='Nome'
         data={[
           {
