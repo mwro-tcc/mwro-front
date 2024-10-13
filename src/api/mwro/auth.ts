@@ -20,7 +20,7 @@ class Auth {
       return
     }
 
-    Api.post<AuthResponse>(Routes.Auth.sign_up, { ...data, phoneNumber: '12345678901234' })
+    Api.post<AuthResponse>(Routes.Auth.sign_up, { ...data })
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
         Toast.error(error?.message)

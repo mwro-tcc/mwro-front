@@ -83,7 +83,7 @@ export default function CommunityForm(props: Props) {
             required
           />
           <ActionList
-            label='Localizaçãp'
+            label='Localização'
             data={[
               {
                 title: 'Definir'

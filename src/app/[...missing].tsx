@@ -12,11 +12,9 @@ export default function Missing() {
   return (
     <VStack flex={1} justify='center' items='center'>
       <Text>Page Not Found</Text>
-      <Text style={{ marginVertical: 20 }}>
-        Oops! The page you're looking for doesn't exist.
-      </Text>
+      <Text style={{ marginVertical: 20 }}>Página não encontrada.</Text>
       <Button onPress={() => router.push('/main/(tabs)/explore')}>
-        Go Back Home
+        Voltar para a tela inicial
       </Button>
     </VStack>
   )

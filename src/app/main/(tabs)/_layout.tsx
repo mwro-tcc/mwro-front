@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native'
 import useAuth from '@hooks/useAuth'
 import { CircleUserRound, Globe, Heart } from 'lucide-react-native'
 import colors from '@ui/config/colors'
-import VStack from '@ui/VStack'
+import TabIcon from 'components/TabIcon'
 
 type TabColorProperties = {
   fill: string
@@ -37,36 +37,9 @@ const TAB_COLORS: Record<Tab, TabColorProperties> = {
 }
 
 const TAB_BAR_HEIGHT = 92
-const ACTIVE_TAB_DOT_SIZE = 4
 
 function getTabColor(tab: Tab, focused: boolean): TabColorProperties {
   return focused ? TAB_COLORS[tab] : UNFOCUSED_TAB
-}
-
-// This is a private component that should be only available on this screen
-
-type TabIconProps = {
-  icon: React.ReactNode
-  focused: boolean
-  fill: string
-}
-
-function TabIcon(props: TabIconProps) {
-  const { icon, focused, fill } = props
-
-  const activeDotBackground = focused ? fill : 'transparent'
-
-  return (
-    <VStack items='center' gap={3}>
-      {icon}
-      <VStack
-        rounded={50}
-        bg={activeDotBackground}
-        w={ACTIVE_TAB_DOT_SIZE}
-        h={ACTIVE_TAB_DOT_SIZE}
-      />
-    </VStack>
-  )
 }
 
 export default function MainLayout() {
