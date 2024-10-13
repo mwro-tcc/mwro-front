@@ -3,41 +3,42 @@ import Api from '@api/mwro/api'
 import useCollection from '@hooks/useCollection'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
-import { Store } from '@src/types/store'
-import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
-import IconButton from '@ui/IconButton'
-import VStack from '@ui/VStack'
+import { Community } from '@src/types/community'
 import colors from '@ui/config/colors'
-import { Redirect, Stack, useFocusEffect, useRouter } from 'expo-router'
+import VStack from '@ui/VStack'
 import { useCallback } from 'react'
+import { Stack, useFocusEffect, useRouter } from 'expo-router'
 import { RefreshControl, ScrollView } from 'react-native'
+import IconButton from '@ui/IconButton'
+import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
 
-export default function Stores() {
+export default function Communities() {
   const router = useRouter()
 
   const {
-    data: stores,
+    data: communities = [],
     loading,
     handleRefresh,
     error
-  } = useCollection<Store>({
-    url: Routes.Store.list_user_stores
+  } = useCollection<Community>({
+    url: Routes.Community.list_user_communities
   })
 
-  if (error) return <Redirect href='/main' />
+  if (error) {
+    Toast.error(error.message)
+  }
+
+  const data: ActionType[] = communities.map((item) => ({
+    id: item.uuid,
+    title: item.name,
+    onPress: () => router.push(`/main/account/communities/${item.uuid}`)
+  }))
 
   useFocusEffect(useCallback(() => void handleRefresh(), []))
 
-  const data: ActionType[] =
-    stores?.map((item) => ({
-      id: item.uuid,
-      title: item.name,
-      onPress: () => router.push(`/(stores)/${item.uuid}`)
-    })) || []
-
   const handleDelete = async (id: string) => {
     Lib.error_callback(
-      await Lib.safe_call(Api.delete, [Routes.Store.delete(id)]),
+      await Lib.safe_call(Api.delete, [Routes.Community.delete(id)]),
       Toast.error
     )
 
@@ -56,10 +57,11 @@ export default function Stores() {
     <VStack gap={10} flex={1} p={16}>
       <Stack.Screen
         options={{
-          headerTitle: 'Minhas Lojas',
+          headerTitle: 'Minhas Comunidades',
+          headerBackTitle: 'Voltar',
           headerRight: () => (
             <IconButton
-              onPress={() => router.push('/(stores)/create/')}
+              onPress={() => router.push('/main/account/communities/create')}
               icon='plus'
             />
           )

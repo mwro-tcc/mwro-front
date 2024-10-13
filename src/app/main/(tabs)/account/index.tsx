@@ -1,6 +1,6 @@
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { useFocusEffect, useRouter } from 'expo-router'
+import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import ActionList from '@ui/ActionList'
 import { Auth, Routes } from '@api/mwro'
 import useModel from '@hooks/useModel'
@@ -95,6 +95,19 @@ export default function Account() {
           {
             title: user?.name ?? '',
             onPress: handleEditName
+          }
+        ]}
+      />
+      <ActionList
+        label='Gerenciar'
+        data={[
+          {
+            title: 'Minhas Comunidades',
+            onPress: () => router.push('/main/account/communities')
+          },
+          {
+            title: 'Minhas Lojas',
+            onPress: () => router.push('/main/account/stores')
           }
         ]}
       />

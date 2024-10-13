@@ -5,7 +5,6 @@ import useAuth from '@hooks/useAuth'
 import { CircleUserRound, Globe, Heart } from 'lucide-react-native'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { Circle } from 'react-native-svg'
 
 type TabColorProperties = {
   fill: string
@@ -90,7 +89,7 @@ export default function MainLayout() {
       }}
     >
       <Tabs.Screen
-        name='explore/index'
+        name='explore'
         options={{
           title: 'Explorar',
           tabBarIcon: ({ size, focused }) => (
