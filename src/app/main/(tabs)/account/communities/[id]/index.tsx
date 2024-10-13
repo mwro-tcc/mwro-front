@@ -21,19 +21,6 @@ import scope from '@lib/scope'
 import { Product } from '@src/types/product'
 import { Store } from '@src/types/store'
 
-const TABS: Tab[] = [
-  {
-    id: 'products',
-    label: 'Produtos',
-    icon: 'shopping-outline'
-  },
-  {
-    id: 'stores',
-    label: 'Lojas',
-    icon: 'storefront-outline'
-  }
-]
-
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
@@ -43,8 +30,6 @@ export default function Community() {
     useModel<CommunityType>({
       url: Routes.Community.get(id)
     })
-
-  const [tab, setTab] = useState<string>(TABS[0]?.id)
 
   const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
 
@@ -68,35 +53,20 @@ export default function Community() {
   if (error) return <Redirect href='/main' />
 
   const list = scope(() => {
-    switch (tab) {
-      case 'stores':
-        return (
-          <List
-            getItemRoute={(item: Store) => {
-              return {
-                pathname: `/communities/${id}/store`,
-                params: {
-                  storeId: item.uuid
-                }
-              }
-            }}
-            numOfColumns={2}
-            url={Routes.Community.get_community_stores(id)}
-          />
-        )
-      case 'products':
-        return (
-          <List
-            getItemRoute={(item: Product) => ({
-              pathname: `/products/${item.uuid}`
-            })}
-            numOfColumns={2}
-            url={Routes.Community.get_community_products(id)}
-          />
-        )
-      default:
-        return null
-    }
+    return (
+      <List
+        getItemRoute={(item: Store) => {
+          return {
+            pathname: `/communities/${id}/store`,
+            params: {
+              storeId: item.uuid
+            }
+          }
+        }}
+        numOfColumns={2}
+        url={Routes.Community.get_community_stores(id)}
+      />
+    )
   })
 
   return (
@@ -148,7 +118,6 @@ export default function Community() {
           </HStack>
           <Text>{data?.description}</Text>
         </View>
-        <FilterHeader activeTab={tab} onTabChange={setTab} tabs={TABS} />
         {list}
       </Show>
       <Show when={addStoreModalVisible}>
