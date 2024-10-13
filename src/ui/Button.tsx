@@ -29,7 +29,7 @@ const base_button_variant: ViewStyle = {
 const button_variants = StyleSheet.create<Variants>({
   primary: {
     ...base_button_variant,
-    backgroundColor: colors.ui_9
+    backgroundColor: colors.primary
   },
   text: {
     fontWeight: '700',
@@ -37,7 +37,6 @@ const button_variants = StyleSheet.create<Variants>({
   },
   default: {
     ...base_button_variant,
-    backgroundColor: colors.ui_2,
     borderRadius: rounded.sm
   },
   disabled: {
@@ -70,7 +69,7 @@ const text_variants = StyleSheet.create<Variants>({
   },
   default: {
     fontWeight: '700',
-    color: colors.ui_8
+    color: colors.primary
   },
   disabled: {
     fontWeight: '700',

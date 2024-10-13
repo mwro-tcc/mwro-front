@@ -1,6 +1,5 @@
 import { Redirect, Tabs } from 'expo-router'
 import { ActivityIndicator } from 'react-native'
-import { MaterialIcons, Feather } from '@expo/vector-icons'
 import useAuth from '@hooks/useAuth'
 import { CircleUserRound, Globe, Heart } from 'lucide-react-native'
 import colors from '@ui/config/colors'
