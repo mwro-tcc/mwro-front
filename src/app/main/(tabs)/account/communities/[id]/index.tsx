@@ -2,7 +2,12 @@ import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
@@ -18,8 +23,8 @@ import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
 import scope from '@lib/scope'
-import { Product } from '@src/types/product'
 import { Store } from '@src/types/store'
+import HeaderTextButton from '@ui/HeaderTextButton'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -74,9 +79,13 @@ export default function Community() {
       <Stack.Screen
         options={{
           headerBackTitle: 'Voltar',
-          headerTitle: 'Comunidade',
-          headerRight: () => (
-            <IconButton icon='pencil-outline' onPress={handleEdit} />
+          headerTitle: '',
+          headerTintColor: colors.primary,
+          headerShadowVisible: false,
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton color={tintColor} onPress={handleEdit}>
+              Editar
+            </HeaderTextButton>
           )
         }}
       />

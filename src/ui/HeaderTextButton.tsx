@@ -4,7 +4,7 @@ import colors from './config/colors'
 import { TextStyle } from 'react-native'
 
 type Props = {
-  onPress?: () => void
+  onPress?: (...args: any) => void
   color?: string
   style?: TextStyle
   size?: number
@@ -17,7 +17,7 @@ export default function HeaderTextButton(props: Props) {
     color = colors.blue_7,
     onPress,
     style,
-    size = 16,
+    size = 17,
     disabled = false,
     children
   } = props

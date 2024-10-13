@@ -11,6 +11,7 @@ import { Stack, useFocusEffect, useRouter } from 'expo-router'
 import { RefreshControl, ScrollView } from 'react-native'
 import IconButton from '@ui/IconButton'
 import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
+import HeaderTextButton from '@ui/HeaderTextButton'
 
 export default function Communities() {
   const router = useRouter()
@@ -59,11 +60,17 @@ export default function Communities() {
         options={{
           headerTitle: 'Minhas Comunidades',
           headerBackTitle: 'Voltar',
-          headerRight: () => (
-            <IconButton
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: colors.ui_9
+          },
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton
+              color={tintColor}
               onPress={() => router.push('/main/account/communities/create')}
-              icon='plus'
-            />
+            >
+              Criar
+            </HeaderTextButton>
           )
         }}
       />

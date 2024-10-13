@@ -84,7 +84,8 @@ export default function MainLayout() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: TAB_BAR_HEIGHT
+          height: TAB_BAR_HEIGHT,
+          borderColor: 'transparent'
         }
       }}
     >

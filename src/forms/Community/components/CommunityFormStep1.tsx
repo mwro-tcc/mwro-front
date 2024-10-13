@@ -1,4 +1,5 @@
 import { CommunityForm } from '@src/types/community'
+import ActionList from '@ui/ActionList'
 import Switch from '@ui/Switch'
 import TextInput from '@ui/TextInput'
 import { UseFormReturn } from 'react-hook-form'
@@ -31,13 +32,13 @@ export default function CommunityFormStep1(props: Props) {
         required
         height={150}
       />
-      <Switch
-        label='Visibilidade'
-        required
-        control={form.control}
-        name='isPrivate'
-        LeftOption='Privada'
-        rightOption='Pública'
+      <ActionList
+        label='Localizaçãp'
+        data={[
+          {
+            title: 'Definir'
+          }
+        ]}
       />
     </ScrollView>
   )
