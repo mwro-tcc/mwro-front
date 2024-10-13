@@ -13,6 +13,8 @@ import TextInput from '@ui/TextInput'
 import ActionList from '@ui/ActionList'
 import Image from '@ui/Image'
 import rounded from '@ui/config/rounded'
+import HStack from '@ui/HStack'
+import Button from '@ui/Button'
 
 type Props = {
   community?: Community
@@ -47,6 +49,7 @@ export default function CommunityForm(props: Props) {
             <HeaderTextButton
               color={tintColor}
               onPress={handleSubmit}
+              weight='600'
               disabled={!form.formState.isValid}
             >
               Salvar
@@ -60,7 +63,10 @@ export default function CommunityForm(props: Props) {
           keyboardDismissMode='on-drag'
           contentContainerStyle={{ flex: 1, gap: 30 }}
         >
-          <Image w={75} h={75} bg={colors.blue_1} rounded={rounded.sm} />
+          <HStack items='center' gap={15}>
+            <Image w={75} h={75} bg={colors.blue_1} rounded={rounded.sm} />
+            <Button variant='text'>Selecionar...</Button>
+          </HStack>
           <TextInput
             control={form.control}
             name={'name'}

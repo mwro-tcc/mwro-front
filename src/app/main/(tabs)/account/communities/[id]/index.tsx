@@ -83,7 +83,11 @@ export default function Community() {
           headerTintColor: colors.primary,
           headerShadowVisible: false,
           headerRight: ({ tintColor }) => (
-            <HeaderTextButton color={tintColor} onPress={handleEdit}>
+            <HeaderTextButton
+              color={tintColor}
+              onPress={handleEdit}
+              weight='600'
+            >
               Editar
             </HeaderTextButton>
           )

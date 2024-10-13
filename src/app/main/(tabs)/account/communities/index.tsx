@@ -66,6 +66,7 @@ export default function Communities() {
           },
           headerRight: ({ tintColor }) => (
             <HeaderTextButton
+              weight='600'
               color={tintColor}
               onPress={() => router.push('/main/account/communities/create')}
             >
