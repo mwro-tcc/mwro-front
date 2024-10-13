@@ -69,7 +69,9 @@ export default function Communities() {
       return
     }
 
-    const location = await Location.getCurrentPositionAsync({})
+    const location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Low
+    })
 
     router.push({
       pathname: '/(communities)/map/',
