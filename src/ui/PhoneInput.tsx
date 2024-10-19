@@ -25,7 +25,7 @@ const base_form_variant: ViewStyle = {
 const input_variants = StyleSheet.create<Variants>({
   default: {
     ...base_form_variant,
-    backgroundColor: colors.ui_2,
+    backgroundColor: colors.ui_1,
     borderRadius: rounded.sm
   }
 })
