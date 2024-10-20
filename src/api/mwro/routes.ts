@@ -40,6 +40,7 @@ const Routes = {
     delete: (uuid: string | undefined | null) => `/products/${uuid}`
   },
   Image: {
+    get: (assetId: string) => `/images/${assetId}`,
     create: (assetId: string) => `/images/${assetId}`
   }
 }
