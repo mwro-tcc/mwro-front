@@ -26,14 +26,19 @@ function useImagePicker(options?: Options): [string | null, Function] {
     if (!imageSource) return createConsoleErrorHandler(ERROR_MESSAGE)
 
     options?.onPick?.(imageSource)
-    setImage(result.assets?.at(0)?.uri ?? null)
+    setImage(imageSource)
   }
 
   const pickImage = () => {
-    ImagePicker.launchImageLibraryAsync({
+    const config = {
       ...DEFAULT_CONFIG,
       aspect: options?.aspectRatio ?? DEFAULT_ASPECT_RATIO,
-    }).then(handlePickImage).catch(createConsoleErrorHandler(ERROR_MESSAGE))
+    }
+
+    ImagePicker
+      .launchImageLibraryAsync(config)
+      .then(handlePickImage)
+      .catch(createConsoleErrorHandler(ERROR_MESSAGE))
   }
 
   if (options?.debug) console.log(image)
