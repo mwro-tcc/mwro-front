@@ -3,6 +3,7 @@ export type Store = {
   name: string
   phoneNumber: string
   description: string
+  isFavorite?: boolean
   communityUuid?: string | null
   createdAt?: string
   userUuid?: string

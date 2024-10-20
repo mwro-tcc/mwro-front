@@ -8,6 +8,11 @@ const Routes = {
     sign_up: '/users/sign-up',
     sign_in: '/users/sign-in'
   },
+  Favorite: {
+    favorite: (assetUuid: string | undefined | null) =>
+      `/favorites/${assetUuid}`,
+    unfavorite: (uuid: string | undefined | null) => `/favorites/${uuid}`
+  },
   Community: {
     list: '/communities',
     list_user_communities: '/communities/created',
