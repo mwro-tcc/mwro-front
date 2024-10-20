@@ -23,7 +23,7 @@ function useImagePicker(options?: Options): [string | null, Function] {
   const handlePickImage = (result: ImagePicker.ImagePickerResult) => {
     const imageSource = result.assets?.at(0)?.uri
 
-    if (!imageSource) return
+    if (!imageSource) return createConsoleErrorHandler(ERROR_MESSAGE)
 
     options?.onPick?.(imageSource)
     setImage(result.assets?.at(0)?.uri ?? null)
