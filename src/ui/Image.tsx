@@ -6,7 +6,7 @@ import {
 } from './types/style_shorthands'
 
 type Props = StyleShorthands & {
-  src?: string
+  src?: string | null
   style?: ViewStyle
   componentProps?: ImageProps
 }
@@ -21,7 +21,7 @@ export default function Image(props: Props) {
   return (
     <ReactNativeImage
       source={{
-        uri: src
+        uri: src ?? undefined
       }}
       style={{
         ...(style as ImageStyle),
