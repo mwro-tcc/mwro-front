@@ -38,6 +38,9 @@ const Routes = {
     get: (uuid: string | undefined | null) => `/products/${uuid}`,
     update: (uuid: string | undefined | null) => `/products/${uuid}`,
     delete: (uuid: string | undefined | null) => `/products/${uuid}`
+  },
+  Image: {
+    create: (assetId: string) => `/images/${assetId}`
   }
 }
 
