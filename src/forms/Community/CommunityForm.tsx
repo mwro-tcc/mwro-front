@@ -17,6 +17,7 @@ import HStack from '@ui/HStack'
 import Button from '@ui/Button'
 import useImagePicker from '@hooks/useImagePicker'
 import ImageUploader from '@api/mwro/image_uploader'
+import { Routes } from '@api/mwro'
 
 type Props = {
   debug?: boolean
@@ -34,9 +35,10 @@ export default function CommunityForm(props: Props) {
 
   const { create_community, update_community } = useCommunity()
 
-  const [image, pickImage] = useImagePicker({
+  const { image, pickImage, loading } = useImagePicker({
     debug,
-    onPick: ImageUploader.createUploader('testando-heheheehheheeheheehehe')
+    initialImage: `http://mwro-stg.inkwo.dev${Routes.Image.get('4256cf97-200b-4685-a6e1-b5dcd2470129')}`,
+    onPick: ImageUploader.createUploader('4256cf97-200b-4685-a6e1-b5dcd2470129')
   })
 
   const handleSubmit = async (value: any) => {
@@ -76,7 +78,9 @@ export default function CommunityForm(props: Props) {
         >
           <HStack items='center' gap={15}>
             <Image
+              loading={loading}
               src={image}
+              hasAuthenticationHeaders
               w={75}
               h={75}
               bg={colors.blue_1}

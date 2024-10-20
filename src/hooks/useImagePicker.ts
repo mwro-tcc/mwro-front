@@ -1,32 +1,45 @@
 import createConsoleErrorHandler from '@lib/create_console_error_handler';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+import useBoolean from './useBoolean';
 
 type Options = {
   debug?: boolean
   initialImage?: string
   aspectRatio?: [number, number]
-  onPick?: (imageSource: string) => void
+  onPick?: (image: ImagePicker.ImagePickerAsset) => Promise<any>
 }
 
 const ERROR_MESSAGE = 'Erro ao selecionar a imagem'
 const DEFAULT_ASPECT_RATIO: [number, number] = [1, 1]
-const DEFAULT_CONFIG = {
+const DEFAULT_CONFIG: ImagePicker.ImagePickerOptions = {
   allowsEditing: true,
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  quality: 1,
+  quality: 0.3,
+  base64: true,
 }
 
-function useImagePicker(options?: Options): [string | null, Function] {
+function useImagePicker(options?: Options): {
+  image: string | null,
+  pickImage: () => Promise<any>,
+  loading: boolean
+} {
+  const { value: loading, setTrue: setLoadingTrue, setFalse: setLoadingFalse } = useBoolean(false)
   const [image, setImage] = useState<string | null>(options?.initialImage ?? null)
+
+  const onPick = options?.onPick
 
   const handlePickImage = (result: ImagePicker.ImagePickerResult) => {
     const imageSource = result.assets?.at(0)?.uri
 
-    if (!imageSource) return createConsoleErrorHandler(ERROR_MESSAGE)
+    if (!imageSource || !result.assets?.at(0)) return createConsoleErrorHandler(ERROR_MESSAGE)
 
-    options?.onPick?.(imageSource)
-    setImage(imageSource)
+    if (!onPick) return setImage(imageSource)
+
+    setLoadingTrue()
+    onPick(result.assets.at(0) as ImagePicker.ImagePickerAsset)
+      .then(() => setImage(imageSource))
+      .finally(setLoadingFalse)
   }
 
   const pickImage = () => {
@@ -43,7 +56,7 @@ function useImagePicker(options?: Options): [string | null, Function] {
 
   if (options?.debug) console.log(image)
 
-  return [image, pickImage]
+  return { image, pickImage, loading }
 }
 
 export default useImagePicker
