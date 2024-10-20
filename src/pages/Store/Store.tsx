@@ -13,6 +13,7 @@ import useBoolean from '@hooks/useBoolean'
 import { Product } from '@src/types/product'
 import { useCallback } from 'react'
 import colors from '@ui/config/colors'
+import FavoriteIcon from 'components/FavoriteIcon'
 
 const tabs: Tab[] = [
   {
@@ -69,6 +70,13 @@ export default function Store(props: { id: string }) {
             </Text>
           </HStack>
           <HStack gap={10}>
+            <View style={styles.iconContainer}>
+              <FavoriteIcon
+                isFavorite={data?.isFavorite}
+                id={id}
+                handleRefresh={handleRefresh}
+              />
+            </View>
             <IconButton
               style={styles.iconContainer}
               onPress={() => router.push(`/stores/products/create?store=${id}`)}
