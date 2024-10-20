@@ -111,6 +111,10 @@ export default function Account() {
         label='Gerenciar'
         data={[
           {
+            title: 'Solicitações',
+            onPress: () => router.push('/main/account/requests')
+          },
+          {
             title: 'Minhas Comunidades',
             onPress: () => router.push('/main/account/communities')
           },
