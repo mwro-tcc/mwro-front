@@ -41,13 +41,22 @@ export default function Account() {
     Toast.error(error?.message as string)
   }
 
-  const name = user?.name
+  const { name, phoneNumber } = user ?? {}
 
   const handleEditName = () => {
     router.push({
       pathname: '/main/account/edit_name',
       params: {
         name
+      }
+    })
+  }
+
+  const handleEditPhoneNumber = () => {
+    router.push({
+      pathname: '/main/account/edit_phone',
+      params: {
+        phoneNumber
       }
     })
   }
@@ -90,11 +99,11 @@ export default function Account() {
         ]}
       />
       <ActionList
-        label='Celular'
+        label='Telefone'
         data={[
           {
             title: user?.phoneNumber ?? '',
-            disabled: true
+            onPress: handleEditPhoneNumber
           }
         ]}
       />

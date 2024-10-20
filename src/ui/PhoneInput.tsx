@@ -30,6 +30,10 @@ const input_variants = StyleSheet.create<Variants>({
   }
 })
 
+export const formatPhoneNumber = (phoneNumber: string) => {
+  return phoneNumber.replace(/[^\d+]/g, '')
+}
+
 export default ({
   variant = 'default',
   label,
@@ -52,10 +56,6 @@ export default ({
     name,
     rules: { required }
   })
-
-  const formatPhoneNumber = (phoneNumber: string) => {
-    return phoneNumber.replace(/[^\d+]/g, '')
-  }
 
   return (
     <>
