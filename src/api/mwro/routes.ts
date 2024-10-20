@@ -9,8 +9,8 @@ const Routes = {
     sign_in: '/users/sign-in'
   },
   Favorite: {
-    favorite: (uuid: string | undefined | null) => `/favorites/${uuid}`,
-    unfavorite: (uuid: string | undefined | null) => `/favorites/${uuid}`
+    favorite: (uuid: string) => `/favorites/${uuid}`,
+    unfavorite: (uuid: string) => `/favorites/${uuid}`
   },
   Community: {
     list: '/communities',
