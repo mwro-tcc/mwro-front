@@ -30,4 +30,9 @@ enum colors {
   primary = '#6abb21'
 }
 
+export const FavoriteIconStyle = {
+  FILLED: { fill: '#FF4E7A', stroke: '#FF4E7A' },
+  OUTLINED: { fill: colors.ui_1, stroke: colors.ui_6 }
+}
+
 export default colors

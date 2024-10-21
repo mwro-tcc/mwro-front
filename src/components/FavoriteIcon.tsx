@@ -2,33 +2,48 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import Favorite from '@api/mwro/favorite'
 import { Heart } from 'lucide-react-native'
-import colors from '@ui/config/colors'
+import { FavoriteIconStyle } from '@ui/config/colors'
 
-type Props = {
+type Asset = {
+  uuid: string
   isFavorite?: boolean
-  id: string
-  handleRefresh: () => void
 }
 
-export const handleToggleFavorite = async ({
-  isFavorite,
-  id,
-  handleRefresh
-}: Props) => {
-  isFavorite ? await Favorite.unfavorite(id) : await Favorite.favorite(id)
-  handleRefresh()
+type ToggleProps = {
+  asset: Asset
 }
 
-export default function FavoriteIcon({ isFavorite, id, handleRefresh }: Props) {
-  const handleClick = () =>
-    handleToggleFavorite({ isFavorite, id, handleRefresh })
+type IconProps = {
+  asset: Asset
+  onAfterClick: () => void
+}
+
+export const handleToggleFavorite = async ({ asset }: ToggleProps) => {
+  asset?.isFavorite
+    ? await Favorite.unfavorite(asset.uuid)
+    : await Favorite.favorite(asset.uuid)
+}
+
+export default function FavoriteIcon({ asset, onAfterClick }: IconProps) {
+  const handleClick = async () => {
+    await handleToggleFavorite({ asset })
+    onAfterClick()
+  }
 
   return (
     <TouchableOpacity onPress={handleClick}>
       <Heart
         size={24}
-        fill={isFavorite ? '#FF4E7A' : colors.ui_1}
-        stroke={isFavorite ? '#FF4E7A' : colors.ui_6}
+        fill={
+          asset?.isFavorite
+            ? FavoriteIconStyle.FILLED.fill
+            : FavoriteIconStyle.OUTLINED.fill
+        }
+        stroke={
+          asset?.isFavorite
+            ? FavoriteIconStyle.FILLED.stroke
+            : FavoriteIconStyle.OUTLINED.stroke
+        }
       />
     </TouchableOpacity>
   )

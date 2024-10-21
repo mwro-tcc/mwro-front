@@ -72,9 +72,8 @@ export default function Store(props: { id: string }) {
           <HStack gap={10}>
             <View style={styles.iconContainer}>
               <FavoriteIcon
-                isFavorite={data?.isFavorite}
-                id={id}
-                handleRefresh={handleRefresh}
+                asset={data as StoreType}
+                onAfterClick={handleRefresh}
               />
             </View>
             <IconButton
