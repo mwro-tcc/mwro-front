@@ -1,15 +1,18 @@
-import Lib from '../../lib'
+import createConsoleErrorHandler from '@lib/create_console_error_handler'
 import Api from './api'
 import Routes from './routes'
 
-const Favorite = {
-  async favorite(id: string) {
-    return await Lib.safe_call(Api.post<void>, [Routes.Favorite.favorite(id)])
-  },
-  async unfavorite(id: string) {
-    return await Lib.safe_call(Api.delete<void>, [
-      Routes.Favorite.unfavorite(id)
-    ])
+class Favorite {
+  static async favorite(id: string) {
+    return Api.post(Routes.Favorite.favorite(id)).catch(
+      createConsoleErrorHandler('Erro ao favoritar produto:')
+    )
+  }
+
+  static async unfavorite(id: string) {
+    return Api.delete(Routes.Favorite.unfavorite(id)).catch(
+      createConsoleErrorHandler('Erro ao favoritar produto:')
+    )
   }
 }
 
