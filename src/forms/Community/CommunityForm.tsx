@@ -15,18 +15,31 @@ import Image from '@ui/Image'
 import rounded from '@ui/config/rounded'
 import HStack from '@ui/HStack'
 import Button from '@ui/Button'
+import useImagePicker from '@hooks/useImagePicker'
+import ImageUploader from '@api/mwro/image_uploader'
+import { Routes } from '@api/mwro'
 
 type Props = {
+  debug?: boolean
   community?: Community
 }
 
 export default function CommunityForm(props: Props) {
-  const { community } = props
+  const { community, debug } = props
   const router = useRouter()
   const form = useForm<CommunityFormType>({
     defaultValues: community
   })
+
+  if (debug) console.log('community', community)
+
   const { create_community, update_community } = useCommunity()
+
+  const { image, pickImage, loading } = useImagePicker({
+    debug,
+    initialImage: `http://mwro-stg.inkwo.dev${Routes.Image.get('4256cf97-200b-4685-a6e1-b5dcd2470129')}`,
+    onPick: ImageUploader.createUploader('4256cf97-200b-4685-a6e1-b5dcd2470129')
+  })
 
   const handleSubmit = async (value: any) => {
     await form.handleSubmit(
@@ -64,8 +77,18 @@ export default function CommunityForm(props: Props) {
           contentContainerStyle={{ flex: 1, gap: 30 }}
         >
           <HStack items='center' gap={15}>
-            <Image w={75} h={75} bg={colors.blue_1} rounded={rounded.sm} />
-            <Button variant='text'>Selecionar...</Button>
+            <Image
+              loading={loading}
+              src={image}
+              hasAuthenticationHeaders
+              w={75}
+              h={75}
+              bg={colors.blue_1}
+              rounded={rounded.sm}
+            />
+            <Button variant='text' onPress={pickImage}>
+              Selecionar...
+            </Button>
           </HStack>
           <TextInput
             control={form.control}
