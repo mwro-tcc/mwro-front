@@ -8,12 +8,12 @@ import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
 import FilterHeader, { Tab } from 'components/FilterHeader'
 import IconButton from '@ui/IconButton'
-import WhatsAppIcon from 'components/WhatsAppIcon'
 import Form from '@forms/index'
 import useBoolean from '@hooks/useBoolean'
 import { Product } from '@src/types/product'
 import { useCallback } from 'react'
 import colors from '@ui/config/colors'
+import FavoriteIcon from 'components/FavoriteIcon'
 
 const tabs: Tab[] = [
   {
@@ -70,6 +70,12 @@ export default function Store(props: { id: string }) {
             </Text>
           </HStack>
           <HStack gap={10}>
+            <View style={styles.iconContainer}>
+              <FavoriteIcon
+                asset={data as StoreType}
+                onAfterClick={handleRefresh}
+              />
+            </View>
             <IconButton
               style={styles.iconContainer}
               onPress={() => router.push(`/stores/products/create?store=${id}`)}

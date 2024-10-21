@@ -1,0 +1,50 @@
+import React from 'react'
+import { TouchableOpacity } from 'react-native'
+import Favorite from '@api/mwro/favorite'
+import { Heart } from 'lucide-react-native'
+import { FavoriteIconStyle } from '@ui/config/colors'
+
+type Asset = {
+  uuid: string
+  isFavorite?: boolean
+}
+
+type ToggleProps = {
+  asset: Asset
+}
+
+type IconProps = {
+  asset: Asset
+  onAfterClick: () => void
+}
+
+export const handleToggleFavorite = async ({ asset }: ToggleProps) => {
+  asset?.isFavorite
+    ? await Favorite.unfavorite(asset.uuid)
+    : await Favorite.favorite(asset.uuid)
+}
+
+export default function FavoriteIcon({ asset, onAfterClick }: IconProps) {
+  const handleClick = async () => {
+    await handleToggleFavorite({ asset })
+    onAfterClick()
+  }
+
+  return (
+    <TouchableOpacity onPress={handleClick}>
+      <Heart
+        size={24}
+        fill={
+          asset?.isFavorite
+            ? FavoriteIconStyle.FILLED.fill
+            : FavoriteIconStyle.OUTLINED.fill
+        }
+        stroke={
+          asset?.isFavorite
+            ? FavoriteIconStyle.FILLED.stroke
+            : FavoriteIconStyle.OUTLINED.stroke
+        }
+      />
+    </TouchableOpacity>
+  )
+}
