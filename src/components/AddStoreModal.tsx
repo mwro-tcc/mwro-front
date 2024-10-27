@@ -1,7 +1,7 @@
 import { Routes } from '@api/mwro'
+import Store from '@api/mwro/store'
 import useCollection from '@hooks/useCollection'
-import { useStore } from '@hooks/useStore'
-import { Store } from '@src/types/store'
+import { Store as StoreType } from '@src/types/store'
 import ActionList, { ActionType } from '@ui/ActionList'
 import React from 'react'
 import { Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
@@ -11,14 +11,12 @@ const AddStoreModal = ({
   setModalVisible,
   communityUuid
 }: any) => {
-  const { data: stores = [] } = useCollection<Store>({
+  const { data: stores = [] } = useCollection<StoreType>({
     url: Routes.Store.list_user_stores
   })
 
-  const { update_store } = useStore()
-
-  const handleUpdate = async (store: Store) => {
-    await update_store({ ...store, communityUuid: communityUuid })
+  const handleUpdate = async (store: StoreType) => {
+    await Store.update({ ...store, communityUuid: communityUuid })
     setModalVisible(!modalVisible)
   }
 

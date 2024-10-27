@@ -81,7 +81,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='favorites/index'
+        name='favorites'
         options={{
           title: 'Favoritos',
           tabBarIcon: ({ size, focused }) => (

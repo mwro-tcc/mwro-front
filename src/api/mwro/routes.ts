@@ -12,7 +12,8 @@ const Routes = {
   },
   Favorite: {
     favorite: (id: string) => `/favorites/${id}`,
-    unfavorite: (id: string) => `/favorites/${id}`
+    unfavorite: (id: string) => `/favorites/${id}`,
+    
   },
   Community: {
     list: '/communities',
@@ -33,7 +34,8 @@ const Routes = {
     get: (uuid: string | undefined | null) => `/stores/${uuid}`,
     get_store_products: (id: string | undefined | null) =>
       `/stores/${id}/products`,
-    delete: (uuid: string | undefined | null) => `/stores/${uuid}`
+    delete: (uuid: string | undefined | null) => `/stores/${uuid}`,
+    get_favorites: () => `/stores/favorites`
   },
   Product: {
     create: '/products',
