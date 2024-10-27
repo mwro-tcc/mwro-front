@@ -5,6 +5,7 @@ import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { Store } from '@src/types/store'
 import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
+import HeaderTextButton from '@ui/HeaderTextButton'
 import IconButton from '@ui/IconButton'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
@@ -57,11 +58,19 @@ export default function Stores() {
       <Stack.Screen
         options={{
           headerTitle: 'Minhas Lojas',
-          headerRight: () => (
-            <IconButton
-              onPress={() => router.push('/main/account/stores/create/')}
-              icon='plus'
-            />
+          headerBackTitle: 'Voltar',
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: colors.ui_9
+          },
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton
+              weight='600'
+              color={tintColor}
+              onPress={() => router.push('/main/account/stores/create')}
+            >
+              Criar
+            </HeaderTextButton>
           )
         }}
       />
