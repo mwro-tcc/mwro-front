@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Storage from 'storage'
 import { router } from 'expo-router'
-import { deeplog } from '@lib/deeplog'
 
 export const MWRO_API_BASE_URL = 'http://mwro-stg.inkwo.dev/'
 
@@ -26,7 +25,7 @@ Api.interceptors.response.use(
       router.replace('/(auth)/welcome')
     }
 
-    console.error(error?.response?.data?.message)
+    console.error(error?.response?.data?.message ?? 'Server Error')
     return Promise.reject(error)
   }
 )
