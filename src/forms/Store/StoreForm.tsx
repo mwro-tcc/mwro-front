@@ -1,10 +1,9 @@
 import { useForm } from 'react-hook-form'
-import { Store, StoreForm as StoreFormType } from '@src/types/store'
+import { Store as StoreType, StoreForm as StoreFormType } from '@src/types/store'
 import VStack from '@ui/VStack'
 import Text from '@ui/Text'
 import Button from '@ui/Button'
 import StoreFormStep1 from './components/StoreFormStep1'
-import { useStore } from '@hooks/useStore'
 import { Stack } from 'expo-router'
 import {
   ScrollView,
@@ -16,18 +15,17 @@ import {
 
 import { useState } from 'react'
 import colors from '@ui/config/colors'
+import Store from '@api/mwro/store'
 
 type Props = {
   onCancel: () => void
   onFinish: () => void
-  store?: Store
+  store?: StoreType
   community?: any
 }
 
 export default function StoreForm(props: Props) {
   const { store, community, onCancel, onFinish } = props
-
-  const { create_store, update_store } = useStore()
 
   const [pendingLeave, setPendingLeave] = useState(false)
 
@@ -44,12 +42,12 @@ export default function StoreForm(props: Props) {
     if (pendingLeave) {
       storeData.communityUuid = null
     }
-    await update_store(storeData)
+    await Store.update(storeData)
     onFinish()
   }
 
   const handleCreate = async (storeData: StoreFormType) => {
-    await create_store(storeData)
+    await Store.create(storeData)
     onFinish()
   }
 
