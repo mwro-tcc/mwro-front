@@ -20,14 +20,13 @@ Api.interceptors.request.use(async (config) => {
 
 Api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
+  (error: AxiosError<{ message: string }>) => {
     if (error?.response?.status === 401) {
       AsyncStorage.removeItem(Storage.AUTH_TOKEN)
       router.replace('/(auth)/welcome')
     }
 
-    deeplog(error?.response)
-
+    console.error(error?.response?.data?.message)
     return Promise.reject(error)
   }
 )
