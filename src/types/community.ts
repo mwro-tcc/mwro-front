@@ -2,7 +2,6 @@ export type Community = {
   uuid: string
   name: string
   description: string
-  isPrivate: boolean
   latitude: number
   longitude: number
 }

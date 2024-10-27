@@ -4,8 +4,10 @@ import Storage from 'storage'
 import { router } from 'expo-router'
 import { deeplog } from '@lib/deeplog'
 
+export const MWRO_API_BASE_URL = 'http://mwro-stg.inkwo.dev/'
+
 const Api = axios.create({
-  baseURL: 'http://mwro-stg.inkwo.dev/'
+  baseURL: MWRO_API_BASE_URL
 })
 
 Api.interceptors.request.use(async (config) => {

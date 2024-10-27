@@ -1,3 +1,5 @@
+import { MWRO_API_BASE_URL } from "./api"
+
 const Routes = {
   User: {
     update: '/users',
@@ -16,7 +18,7 @@ const Routes = {
     list: '/communities',
     list_user_communities: '/communities/created',
     create: '/communities',
-    update: '/communities/:id',
+    update: (id: string | undefined | null) => `/communities/${id}`,
     get: (id: string | undefined | null) => `/communities/${id}`,
     delete: (id: string | undefined | null) => `/communities/${id}`,
     get_community_products: (id: string | undefined | null) =>
@@ -38,6 +40,11 @@ const Routes = {
     get: (uuid: string | undefined | null) => `/products/${uuid}`,
     update: (uuid: string | undefined | null) => `/products/${uuid}`,
     delete: (uuid: string | undefined | null) => `/products/${uuid}`
+  },
+  Image: {
+    get: (assetId: string) => `/images/${assetId}`,
+    src: (assetId?: string) => assetId ? `${MWRO_API_BASE_URL}images/${assetId}` : null,
+    create: (assetId: string) => `/images/${assetId}`
   }
 }
 

@@ -1,38 +1,40 @@
 import { useForm } from 'react-hook-form'
 import {
-  Community,
+  Community as CommunityType,
   CommunityForm as CommunityFormType
 } from '@src/types/community'
 import VStack from '@ui/VStack'
-import { useCommunity } from '@hooks/useCommunity'
 import { ScrollView } from 'react-native'
 import { Stack, useRouter } from 'expo-router'
 import colors from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import TextInput from '@ui/TextInput'
 import ActionList from '@ui/ActionList'
-import Image from '@ui/Image'
-import rounded from '@ui/config/rounded'
-import HStack from '@ui/HStack'
-import Button from '@ui/Button'
+import CommunityImagePicker from './components/CommunityImagePicker'
+import Show from '@ui/Show'
+import { Community } from '@api/mwro'
 
 type Props = {
-  community?: Community
+  debug?: boolean
+  community?: CommunityType
 }
 
 export default function CommunityForm(props: Props) {
-  const { community } = props
+  const { community, debug } = props
   const router = useRouter()
   const form = useForm<CommunityFormType>({
-    defaultValues: community
+    defaultValues: community,
+    reValidateMode: 'onChange'
   })
-  const { create_community, update_community } = useCommunity()
+
+  if (debug) {
+    console.log('FORM_ERRORS:', form.formState.errors)
+    console.log('FORM_IS_VALID:', form.formState.isValid)
+    console.log('community', community)
+  }
 
   const handleSubmit = async (value: any) => {
-    await form.handleSubmit(
-      props.community ? update_community : create_community
-    )(value)
-
+    form.handleSubmit(community ? Community.update : Community.create)(value)
     router.back()
   }
 
@@ -63,10 +65,9 @@ export default function CommunityForm(props: Props) {
           keyboardDismissMode='on-drag'
           contentContainerStyle={{ flex: 1, gap: 30 }}
         >
-          <HStack items='center' gap={15}>
-            <Image w={75} h={75} bg={colors.blue_1} rounded={rounded.sm} />
-            <Button variant='text'>Selecionar...</Button>
-          </HStack>
+          <Show when={community?.uuid}>
+            <CommunityImagePicker community={community!} />
+          </Show>
           <TextInput
             control={form.control}
             name={'name'}
