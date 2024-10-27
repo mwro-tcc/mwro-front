@@ -14,6 +14,10 @@ class Favorite {
       createConsoleErrorHandler('Erro ao favoritar produto:')
     )
   }
+
+  
+
+    
 }
 
 export default Favorite

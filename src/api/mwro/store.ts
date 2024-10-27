@@ -3,6 +3,7 @@ import Api from './api'
 import Routes from './routes'
 import { Store as StoreType, StoreForm } from '@src/types/store'
 import { Product as ProductType } from '@src/types/product'
+import createConsoleErrorHandler from '@lib/create_console_error_handler'
 
 type StoreResponse = {
   store: StoreType
@@ -42,7 +43,11 @@ const Store = {
     return await Lib.safe_call(Api.delete<StoreResponse>, [
       Routes.Store.delete(id)
     ])
-  }
+  },
+   async get_favorites(){ 
+    return  Api.get(Routes.Store.get_favorites()).catch(
+      createConsoleErrorHandler('Erro ao listar favoritos:')
+    )}
 }
 
 export default Store
