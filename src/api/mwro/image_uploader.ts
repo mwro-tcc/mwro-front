@@ -21,7 +21,8 @@ class ImageUploader {
       form,
     ).catch(createConsoleErrorHandler(ImageUploaderError.API))
   }
-  static createUploader(assetId: string) {
+  static createUploader(assetId?: string) {
+    if (!assetId) return undefined
     return (image: ImagePickerAsset) => ImageUploader.upload(assetId, image)
   }
 }

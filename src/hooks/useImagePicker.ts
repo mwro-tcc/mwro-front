@@ -5,7 +5,7 @@ import useBoolean from './useBoolean';
 
 type Options = {
   debug?: boolean
-  initialImage?: string
+  initialImage?: string | null
   aspectRatio?: [number, number]
   onPick?: (image: ImagePicker.ImagePickerAsset) => Promise<any>
 }
@@ -21,7 +21,7 @@ const DEFAULT_CONFIG: ImagePicker.ImagePickerOptions = {
 
 function useImagePicker(options?: Options): {
   image: string | null,
-  pickImage: () => Promise<any>,
+  pickImage: () => void,
   loading: boolean
 } {
   const { value: loading, setTrue: setLoadingTrue, setFalse: setLoadingFalse } = useBoolean(false)
