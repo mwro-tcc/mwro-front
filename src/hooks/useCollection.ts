@@ -22,8 +22,6 @@ function useCollection<Response>(options: Options) {
     queryFn
   })
 
-  console.log('DATATATATATTA', data)
-
   return {
     data: (data?.data ?? []) as Response[],
     handleRefresh,

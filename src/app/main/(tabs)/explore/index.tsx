@@ -38,12 +38,10 @@ export default function Explore() {
 
   useEffect(() => void getLocationPermission().then(setLocation), [])
 
-  const { data, error, loading } = useCollection<CommunityType>({
+  const { data } = useCollection<CommunityType>({
     url: Routes.Community.list,
     keys: [Community.COLLECTION_KEY]
   })
-
-  console.log(data)
 
   const content = scope(() => {
     if (location === null) {
