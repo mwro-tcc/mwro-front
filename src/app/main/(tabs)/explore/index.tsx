@@ -5,9 +5,9 @@ import * as Location from 'expo-location'
 import { useEffect, useState } from 'react'
 import Text from '@ui/Text'
 import useCollection from '@hooks/useCollection'
-import { Routes } from '@api/mwro'
+import { Community, Routes } from '@api/mwro'
 import scope from '@lib/scope'
-import { Community } from '@src/types/community'
+import { Community as CommunityType } from '@src/types/community'
 
 type LocationValues = null | {
   latitude: number
@@ -38,9 +38,12 @@ export default function Explore() {
 
   useEffect(() => void getLocationPermission().then(setLocation), [])
 
-  const { data, error, loading } = useCollection<Community>({
-    url: Routes.Community.list
+  const { data, error, loading } = useCollection<CommunityType>({
+    url: Routes.Community.list,
+    keys: [Community.COLLECTION_KEY]
   })
+
+  console.log(data)
 
   const content = scope(() => {
     if (location === null) {

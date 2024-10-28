@@ -1,27 +1,30 @@
-import { Routes } from '@api/mwro'
+import { Community, Routes } from '@api/mwro'
 import Api from '@api/mwro/api'
 import useCollection from '@hooks/useCollection'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
-import { Community } from '@src/types/community'
+import { Community as CommunityType } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
 import { useCallback } from 'react'
 import { Stack, useFocusEffect, useRouter } from 'expo-router'
-import { RefreshControl, ScrollView } from 'react-native'
+import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native'
 import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
 import HeaderTextButton from '@ui/HeaderTextButton'
+import Show from '@ui/Show'
 
 export default function Communities() {
   const router = useRouter()
 
   const {
-    data: communities = [],
+    data: communities,
     loading,
     handleRefresh,
+    refreshing,
     error
-  } = useCollection<Community>({
-    url: Routes.Community.list_user_communities
+  } = useCollection<CommunityType>({
+    url: Routes.Community.list_user_communities,
+    keys: [Community.COLLECTION_KEY]
   })
 
   if (error) {
@@ -34,7 +37,7 @@ export default function Communities() {
     onPress: () => router.push(`/main/account/communities/${item.uuid}`)
   }))
 
-  useFocusEffect(useCallback(() => void handleRefresh(), []))
+  useFocusEffect(useCallback(() => void handleRefresh(), [handleRefresh]))
 
   const handleDelete = async (id: string) => {
     Lib.error_callback(
@@ -74,14 +77,21 @@ export default function Communities() {
           )
         }}
       />
-      <ScrollView
-        style={{ flex: 1 }}
-        refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
-        }
-      >
-        <ActionList data={data} swipeActions={swipeActions} keyFrom='id' />
-      </ScrollView>
+      <Show when={loading}>
+        <VStack flex={1} items='center' justify='center'>
+          <ActivityIndicator />
+        </VStack>
+      </Show>
+      <Show unless={loading}>
+        <ScrollView
+          style={{ flex: 1 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
+        >
+          <ActionList data={data} swipeActions={swipeActions} keyFrom='id' />
+        </ScrollView>
+      </Show>
     </VStack>
   )
 }

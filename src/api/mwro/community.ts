@@ -15,24 +15,29 @@ type CommunityResponse = {
 }
 
 class Community {
+  static COLLECTION_KEY = 'communities'
+  static MODEL_KEY = 'community'
+
   static async list_user_communities() {
     return await Lib.safe_call(Api.get<CommunityType[]>, [
       Routes.Community.list_user_communities
     ])
   }
   static async create(data: CommunityForm) {
-    return await Api
-      .post<CommunityResponse>(Routes.Community.create, data)
-      .catch((error: AxiosError) => {
-        Toast.error(error?.message)
-      })
+    return await Api.post<CommunityResponse>(
+      Routes.Community.create,
+      data
+    ).catch((error: AxiosError) => {
+      Toast.error(error?.message)
+    })
   }
   static async update(data: CommunityForm) {
-    return await Api
-      .put<CommunityResponse>(Routes.Community.update(data.uuid), data)
-      .catch((error: AxiosError) => {
-        Toast.error(error?.message)
-      })
+    return await Api.put<CommunityResponse>(
+      Routes.Community.update(data.uuid),
+      data
+    ).catch((error: AxiosError) => {
+      Toast.error(error?.message)
+    })
   }
   static async get(id: string) {
     return await Lib.safe_call(Api.get<CommunityResponse>, [

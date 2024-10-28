@@ -2,6 +2,9 @@ import { Slot, useRouter } from 'expo-router'
 import ToastProvider from '../ui/toast/ToastProvider'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useURL } from 'expo-linking'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 export default function Root() {
   const redirectUrl = useURL()
@@ -18,9 +21,11 @@ export default function Root() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ToastProvider />
-      <Slot />
-    </GestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ToastProvider />
+        <Slot />
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   )
 }
