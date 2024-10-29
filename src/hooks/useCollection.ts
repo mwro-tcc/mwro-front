@@ -1,44 +1,34 @@
-import { useEffect, useState } from 'react'
 import Api from '@api/mwro/api'
-import safe_call from '@lib/safe_call'
-import { AxiosResponse } from 'axios'
+import { useQuery } from '@tanstack/react-query'
 
 type Options = {
   url: string
+  keys: string[]
 }
 
-export default function useCollection<Response>(options: Options) {
-  const [refreshing, setRefreshing] = useState(false)
-  const [response, setResponse] = useState<AxiosResponse<Response[]> | null>(
-    null
-  )
-  const [error, setError] = useState<Error | null>(null)
+function useCollection<Response>(options: Options) {
+  const { url, keys = [] } = options
 
-  const caller = async () => {
-    return await safe_call(Api.get<Response[]>, [options.url])
-  }
+  const queryFn = async () => Api.get(url)
 
-  const handleFetchData = async () => {
-    if (response) {
-      setRefreshing(true)
-    }
-    await caller().then((result) => {
-      const [response, error] = result
-      setResponse(response)
-      if (error) setError(error)
-      setRefreshing(false)
-    })
-  }
-
-  useEffect(() => {
-    handleFetchData()
-  }, [options.url])
+  const {
+    data,
+    error,
+    refetch: handleRefresh,
+    isRefetching: refreshing,
+    isLoading: loading
+  } = useQuery({
+    queryKey: keys,
+    queryFn
+  })
 
   return {
-    data: response?.data,
-    handleRefresh: handleFetchData,
-    loading: !response && !error,
+    data: (data?.data ?? []) as Response[],
+    handleRefresh,
+    loading,
     refreshing,
     error
   }
 }
+
+export default useCollection

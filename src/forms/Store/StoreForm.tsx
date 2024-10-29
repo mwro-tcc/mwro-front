@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form'
-import { Store as StoreType, StoreForm as StoreFormType } from '@src/types/store'
+import {
+  Store as StoreType,
+  StoreForm as StoreFormType
+} from '@src/types/store'
 import VStack from '@ui/VStack'
 import Text from '@ui/Text'
-import Button from '@ui/Button'
-import StoreFormStep1 from './components/StoreFormStep1'
 import { Stack } from 'expo-router'
 import {
   ScrollView,
@@ -15,6 +16,8 @@ import {
 
 import { useState } from 'react'
 import colors from '@ui/config/colors'
+import TextInput from '@ui/TextInput'
+import HeaderTextButton from '@ui/HeaderTextButton'
 import Store from '@api/mwro/store'
 
 type Props = {
@@ -56,7 +59,20 @@ export default function StoreForm(props: Props) {
   const body = (() => {
     return (
       <>
-        <StoreFormStep1 form={form} />
+        <TextInput
+          control={form.control}
+          name={'name'}
+          label='Nome da Loja'
+          required
+        />
+        <TextInput
+          control={form.control}
+          name={'description'}
+          label='Descrição'
+          required
+          multiline={true}
+          height={150}
+        />
         {community && (
           <View style={styles.container}>
             <Text style={styles.infoText}>
@@ -100,26 +116,26 @@ export default function StoreForm(props: Props) {
       <Stack.Screen
         options={{
           headerTitle: `${store ? 'Editar' : 'Criar'} Loja`,
-          headerLeft: () => <Text></Text>,
-          headerRight: () => null,
-          contentStyle: {
-            backgroundColor: colors.ui_1
-          }
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: colors.ui_9
+          },
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton
+              color={tintColor}
+              onPress={handleSubmit}
+              weight='600'
+              disabled={!form.formState.isValid}
+            >
+              Salvar
+            </HeaderTextButton>
+          ),
+          headerBackTitle: 'Voltar'
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
         <VStack gap={30} flex={1}>
           {body}
-        </VStack>
-        <VStack gap={10}>
-          <Button
-            variant='primary'
-            onPress={handleSubmit}
-            disabled={!form.formState.isValid}
-          >
-            Concluir
-          </Button>
-          <Button onPress={onCancel}>Cancelar</Button>
         </VStack>
       </VStack>
     </ScrollView>

@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Storage from 'storage'
 import { router } from 'expo-router'
-import { deeplog } from '@lib/deeplog'
 
 export const MWRO_API_BASE_URL = 'http://mwro-stg.inkwo.dev/'
 
@@ -20,14 +19,13 @@ Api.interceptors.request.use(async (config) => {
 
 Api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
+  (error: AxiosError<{ message: string }>) => {
     if (error?.response?.status === 401) {
       AsyncStorage.removeItem(Storage.AUTH_TOKEN)
       router.replace('/(auth)/welcome')
     }
 
-    deeplog(error?.response)
-
+    console.error(error?.response?.data?.message ?? 'Server Error')
     return Promise.reject(error)
   }
 )
