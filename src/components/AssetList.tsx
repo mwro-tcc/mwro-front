@@ -14,7 +14,6 @@ import colors from '@ui/config/colors'
 import AppleStyleSwipeableRow, { Action } from '../ui/SwipeableRow'
 
 type AssetListProps = {
-  imageStyle?: any
   favoritable?: boolean
   data: AssetType[]
   swipeActions?: (item: any) => Action[]
@@ -22,8 +21,8 @@ type AssetListProps = {
 }
 
 export type AssetType = {
-  id: string
-  title: string
+  uuid: string
+  name: string
   description: string
   image?: string
   rating?: number
@@ -33,7 +32,6 @@ export type AssetType = {
 }
 
 export default function AssetList({
-  imageStyle,
   favoritable,
   data,
   swipeActions = () => [],
@@ -53,17 +51,19 @@ export default function AssetList({
                   'https://www.proclinic-products.com/build/static/default-product.30484205.png'
               }}
               resizeMode='cover'
-              style={imageStyle}
+              style={styles.image}
             />
             <View style={styles.info}>
-              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.title}>{item.name}</Text>
               {item?.price && <Text>{priceFormatter(item.price)} </Text>}
               <View style={styles.ratingAndDescription}>
-                {item?.rating > 0 && (
-                  <Text style={styles.rating}>⭐ {item.rating} </Text>
+                {item?.averageScore > 0 && (
+                  <Text style={styles.averageScore}>
+                    ⭐ {item.averageScore}
+                  </Text>
                 )}
-                {item?.rating === 0 && (
-                  <Text style={styles.rating}>Novidade!</Text>
+                {item?.averageScore === null && (
+                  <Text style={styles.averageScore}>Novidade!</Text>
                 )}
                 {item?.description && (
                   <Text
@@ -123,6 +123,11 @@ const styles = StyleSheet.create({
     gap: 17,
     alignItems: 'center'
   },
+  image: {
+    width: 59,
+    height: 59,
+    borderRadius: 4
+  },
   info: {
     display: 'flex',
     flexDirection: 'column',
@@ -133,12 +138,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5
   },
-
   title: {
     fontWeight: 'bold',
     color: colors.ui_8
   },
-  rating: {
+  averageScore: {
     fontWeight: 'bold',
     fontSize: 13,
     color: colors.yellow_6

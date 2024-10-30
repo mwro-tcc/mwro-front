@@ -31,17 +31,6 @@ export default function Stores() {
 
   if (error) return <Redirect href='/main' />
 
-  const data: AssetType[] =
-    stores?.map((item) => ({
-      id: item.uuid,
-      title: item.name,
-      description: item.description,
-      image: item.image,
-      rating: item.averageScore ?? 0,
-      isFavorite: item.isFavorite,
-      onPress: () => router.push(`/main/account/stores/${item.uuid}`)
-    })) || []
-
   const handleDelete = async (id: string) => {
     Lib.error_callback(
       await Lib.safe_call(Api.delete, [Routes.Store.delete(id)]),
@@ -87,9 +76,11 @@ export default function Stores() {
         showsVerticalScrollIndicator={false}
       >
         <AssetList
-          imageStyle={{ width: 59, height: 59, borderRadius: 50 }}
           favoritable={true}
-          data={data}
+          data={stores.map((store) => ({
+            ...store,
+            onPress: () => router.push(`/main/favorites/stores/${store.uuid}`)
+          }))}
           swipeActions={swipeActions}
           onAfterClick={handleRefresh}
         />
