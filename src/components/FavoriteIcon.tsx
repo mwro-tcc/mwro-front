@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react-native'
 import { FavoriteIconStyle } from '@ui/config/colors'
 
 type Asset = {
-  uuid: string
+  id: string
   isFavorite?: boolean
 }
 
@@ -15,25 +15,25 @@ type ToggleProps = {
 
 type IconProps = {
   asset: Asset
-  onAfterClick: () => void
+  onAfterClick?: () => void
 }
 
 export const handleToggleFavorite = async ({ asset }: ToggleProps) => {
   asset?.isFavorite
-    ? await Favorite.unfavorite(asset.uuid)
-    : await Favorite.favorite(asset.uuid)
+    ? await Favorite.unfavorite(asset.id)
+    : await Favorite.favorite(asset.id)
 }
 
 export default function FavoriteIcon({ asset, onAfterClick }: IconProps) {
   const handleClick = async () => {
     await handleToggleFavorite({ asset })
-    onAfterClick()
+    onAfterClick && onAfterClick()
   }
 
   return (
     <TouchableOpacity onPress={handleClick}>
       <Heart
-        size={24}
+        size={21}
         fill={
           asset?.isFavorite
             ? FavoriteIconStyle.FILLED.fill
