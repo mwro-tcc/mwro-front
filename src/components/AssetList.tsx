@@ -22,8 +22,8 @@ type AssetListProps = {
 }
 
 export type AssetType = {
-  title: string
   id: string
+  title: string
   description: string
   image?: string
   rating?: number
