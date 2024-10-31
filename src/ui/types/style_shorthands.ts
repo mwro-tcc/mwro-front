@@ -142,7 +142,7 @@ const get_border_width = (border: Border | undefined): number | undefined => {
 
 export const parse_style_shorthands = (
     shorthands: StyleShorthands,
-): ViewStyle => ({
+): ViewStyle | TextStyle => ({
     flex: shorthands?.flex,
     gap: shorthands?.gap,
     padding: shorthands?.p,
@@ -174,6 +174,7 @@ export const parse_style_shorthands = (
     borderColor: get_border_color(shorthands?.border),
     borderStyle: get_border_style(shorthands?.border),
     borderWidth: get_border_width(shorthands?.border),
+    fontSize: shorthands.size,
     shadowOffset: _.isNil(shorthands?.shadow)
         ? undefined
         : {

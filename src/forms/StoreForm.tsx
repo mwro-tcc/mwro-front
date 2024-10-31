@@ -21,14 +21,13 @@ import HeaderTextButton from '@ui/HeaderTextButton'
 import Store from '@api/mwro/store'
 
 type Props = {
-  onCancel: () => void
   onFinish: () => void
   store?: StoreType
   community?: any
 }
 
 export default function StoreForm(props: Props) {
-  const { store, community, onCancel, onFinish } = props
+  const { store, community, onFinish } = props
 
   const [pendingLeave, setPendingLeave] = useState(false)
 

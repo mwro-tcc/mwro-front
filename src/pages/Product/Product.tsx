@@ -12,13 +12,13 @@ import { Routes } from '@api/mwro'
 import { Product as ProductType } from '@src/types/product'
 import { priceFormatter } from 'utils'
 import IconButton from '@ui/IconButton'
-import Form from '@forms/index'
 import useBoolean from '@hooks/useBoolean'
 import { isNil } from 'lodash'
 import Button from '@ui/Button'
 import { openWhatsApp } from 'components/WhatsAppIcon'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
+import ProductForm from '@forms/Product/ProductForm'
 
 type Props = {
   id: string
@@ -41,7 +41,7 @@ export default function Product(props: Props) {
     if (isNil(data?.storeUuid)) return
 
     return (
-      <Form.Product
+      <ProductForm
         product={data}
         storeId={data.storeUuid}
         onCancel={disabledEditMode}

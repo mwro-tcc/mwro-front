@@ -1,6 +1,5 @@
-import Form from '@forms/index'
-import { router } from 'expo-router'
+import StoreForm from '@forms/StoreForm'
 
 export default function CreateStore() {
-  return <Form.Store onCancel={router.back} onFinish={router.back} />
+  return <StoreForm />
 }

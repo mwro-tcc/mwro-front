@@ -1,4 +1,10 @@
-import { StyleSheet, TextInput, TextInputProps, ViewStyle } from 'react-native'
+/* eslint-disable react/display-name */
+import {
+  StyleSheet,
+  TextInput as RNTextInput,
+  TextInputProps,
+  ViewStyle
+} from 'react-native'
 import rounded from './config/rounded'
 import spacings from './config/spacings'
 import colors from './config/colors'
@@ -6,7 +12,12 @@ import VStack from './VStack'
 import Show from './Show'
 import HStack from './HStack'
 import Text from './Text'
-import { Control, useController } from 'react-hook-form'
+import { Control, useController, useForm } from 'react-hook-form'
+import {
+  StyleShorthands,
+  parse_style_shorthands
+} from './types/style_shorthands'
+import { forwardRef } from 'react'
 
 type Variants = {
   default: ViewStyle
@@ -27,26 +38,35 @@ const input_variants = StyleSheet.create<Variants>({
   }
 })
 
-export default ({
-  variant = 'default',
-  label,
-  required = false,
-  style,
-  name,
-  control,
-  ...props
-}: TextInputProps & {
-  name: string
-  control: Control<any, any>
-  variant?: keyof Variants
-  label?: string
-  required?: boolean
-  height?: number
-}) => {
-  const { field } = useController({
-    control,
-    defaultValue: '',
+type Props = TextInputProps &
+  StyleShorthands &
+  Partial<{
+    name: string
+    control: Control<any, any>
+    variant: keyof Variants
+    label: string
+    required: boolean
+    height: number
+  }>
+
+const TextInput = forwardRef((props: Props, ref) => {
+  const {
+    variant = 'default',
+    label,
+    required = false,
+    style,
     name,
+    control,
+    value,
+    onChangeText
+  } = props
+
+  const { control: placeholderControl } = useForm()
+
+  const { field } = useController({
+    control: control ?? placeholderControl,
+    defaultValue: '',
+    name: name ?? '',
     rules: { required }
   })
 
@@ -64,9 +84,9 @@ export default ({
               </Text>
             </Show>
           </HStack>
-          <TextInput
-            value={field.value.toString()}
-            onChangeText={field.onChange}
+          <RNTextInput
+            value={value ?? field.value.toString()}
+            onChangeText={onChangeText ?? field.onChange}
             {...props}
             style={{
               ...input_variants[variant],
@@ -76,16 +96,19 @@ export default ({
         </VStack>
       </Show>
       <Show when={!label}>
-        <TextInput
-          value={field.value.toString()}
-          onChangeText={field.onChange}
+        <RNTextInput
+          value={value ?? field.value.toString()}
+          onChangeText={onChangeText ?? field.onChange}
           {...props}
           style={{
             ...input_variants[variant],
-            ...(style as ViewStyle)
+            ...(style as ViewStyle),
+            ...parse_style_shorthands(props)
           }}
         />
       </Show>
     </>
   )
-}
+})
+
+export default TextInput
