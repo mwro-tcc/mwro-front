@@ -25,7 +25,7 @@ export type AssetType = {
   name: string
   description: string
   image?: string
-  rating?: number
+  averageScore?: number
   isFavorite?: boolean
   price?: number
   onPress?: () => void
@@ -56,7 +56,7 @@ export default function AssetList({
             <View style={styles.info}>
               <Text style={styles.title}>{item.name}</Text>
               {item?.price && <Text>{priceFormatter(item.price)} </Text>}
-              <View style={styles.ratingAndDescription}>
+              <View style={styles.scoreAndDescription}>
                 {item?.averageScore > 0 && (
                   <Text style={styles.averageScore}>
                     ⭐ {item.averageScore}
@@ -101,7 +101,7 @@ export default function AssetList({
       }}
       ref={listRef}
       data={data}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.uuid}
       showsVerticalScrollIndicator={false}
       style={{ flex: 1 }}
     />
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 3
   },
-  ratingAndDescription: {
+  scoreAndDescription: {
     display: 'flex',
     flexDirection: 'row',
     gap: 5
