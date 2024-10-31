@@ -27,6 +27,7 @@ enum colors {
   blue_9 = '#0f58be',
   green_5 = '#5dd55d',
   yellow_5 = '#fce17d',
+  yellow_6 = '#eec11eeb',
   primary = '#6abb21'
 }
 

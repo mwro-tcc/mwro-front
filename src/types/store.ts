@@ -1,9 +1,11 @@
 export type Store = {
   uuid: string
   name: string
-  phoneNumber: string
+  phoneNumber?: string
   description: string
-  isFavorite?: boolean
+  image?: string
+  averageScore?: number
+  isFavorite: boolean
   communityUuid?: string | null
   createdAt?: string
   userUuid?: string
