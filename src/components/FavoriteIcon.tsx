@@ -15,7 +15,7 @@ type ToggleProps = {
 
 type IconProps = {
   asset: Asset
-  onAfterClick: () => void
+  onAfterClick?: () => void
 }
 
 export const handleToggleFavorite = async ({ asset }: ToggleProps) => {
@@ -27,13 +27,13 @@ export const handleToggleFavorite = async ({ asset }: ToggleProps) => {
 export default function FavoriteIcon({ asset, onAfterClick }: IconProps) {
   const handleClick = async () => {
     await handleToggleFavorite({ asset })
-    onAfterClick()
+    onAfterClick && onAfterClick()
   }
 
   return (
     <TouchableOpacity onPress={handleClick}>
       <Heart
-        size={24}
+        size={21}
         fill={
           asset?.isFavorite
             ? FavoriteIconStyle.FILLED.fill

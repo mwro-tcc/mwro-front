@@ -1,14 +1,15 @@
 import { Routes } from '@api/mwro'
 import Api from '@api/mwro/api'
+import Store from '@api/mwro/store'
 import useCollection from '@hooks/useCollection'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
-import { Store } from '@src/types/store'
-import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
+import { Store as StoreType } from '@src/types/store'
+import { ActionListSwipeAction } from '@ui/ActionList'
 import HeaderTextButton from '@ui/HeaderTextButton'
-import IconButton from '@ui/IconButton'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
+import AssetList from 'components/AssetList'
 import { Redirect, Stack, useFocusEffect, useRouter } from 'expo-router'
 import { useCallback } from 'react'
 import { RefreshControl, ScrollView } from 'react-native'
@@ -21,27 +22,20 @@ export default function Stores() {
     loading,
     handleRefresh,
     error
-  } = useCollection<Store>({
-    url: Routes.Store.list_user_stores
+  } = useCollection<StoreType>({
+    url: Routes.Store.list_user_stores,
+    keys: [Store.COLLECTION_KEY]
   })
-
-  if (error) return <Redirect href='/main' />
 
   useFocusEffect(useCallback(() => void handleRefresh(), []))
 
-  const data: ActionType[] =
-    stores?.map((item) => ({
-      id: item.uuid,
-      title: item.name,
-      onPress: () => router.push(`/main/account/stores/${item.uuid}`)
-    })) || []
+  if (error) return <Redirect href='/main' />
 
   const handleDelete = async (id: string) => {
     Lib.error_callback(
       await Lib.safe_call(Api.delete, [Routes.Store.delete(id)]),
       Toast.error
     )
-
     handleRefresh()
   }
 
@@ -54,7 +48,7 @@ export default function Stores() {
   ]
 
   return (
-    <VStack gap={10} flex={1} p={16}>
+    <VStack gap={10} flex={1}>
       <Stack.Screen
         options={{
           headerTitle: 'Minhas Lojas',
@@ -79,8 +73,17 @@ export default function Stores() {
         refreshControl={
           <RefreshControl refreshing={loading} onRefresh={handleRefresh} />
         }
+        showsVerticalScrollIndicator={false}
       >
-        <ActionList data={data} swipeActions={swipeActions} keyFrom='id' />
+        <AssetList
+          favoritable={true}
+          data={stores.map((store) => ({
+            ...store,
+            onPress: () => router.push(`/main/favorites/stores/${store.uuid}`)
+          }))}
+          swipeActions={swipeActions}
+          onAfterClick={handleRefresh}
+        />
       </ScrollView>
     </VStack>
   )
