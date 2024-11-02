@@ -66,6 +66,7 @@ export default function Product(props: Props) {
           headerRight: () => (
             <IconButton icon='pencil-outline' onPress={handleEdit} />
           ),
+          contentStyle: { backgroundColor: colors.background },
           headerTitle: 'Produto'
         }}
       />

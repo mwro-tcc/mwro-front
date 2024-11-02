@@ -1,4 +1,4 @@
-import { MWRO_API_BASE_URL } from "./api"
+import { MWRO_API_BASE_URL } from './api'
 
 const Routes = {
   User: {
@@ -12,8 +12,10 @@ const Routes = {
   },
   Favorite: {
     favorite: (id: string) => `/favorites/${id}`,
-    unfavorite: (id: string) => `/favorites/${id}`,
-
+    unfavorite: (id: string) => `/favorites/${id}`
+  },
+  Rating: {
+    submit_rating: (id: string) => `/reviews/${id}`
   },
   Community: {
     list: '/communities',

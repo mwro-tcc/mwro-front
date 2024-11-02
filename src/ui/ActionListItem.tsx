@@ -23,7 +23,7 @@ const base_style: StyleProp<ViewStyle> = {
 
 function ActionListItem({
   hasArrow = true,
-  color = colors.ui_9,
+  color = colors.ui_10,
   children,
   style,
   disabled = false,

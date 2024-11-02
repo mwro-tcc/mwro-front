@@ -80,6 +80,7 @@ export default function FormModal(props: {
       <Stack.Screen
         options={{
           headerTitle: `Editar ${attributeLabel}`,
+          contentStyle: { backgroundColor: colors.background },
           headerLeft: () => (
             <HeaderTextButton
               disabled={loading}

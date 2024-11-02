@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     fontWeight: 'bold',
-    color: colors.ui_9
+    color: colors.ui_10
   },
   averageScore: {
     fontWeight: 'bold',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     color: colors.yellow_6
   },
   description: {
-    color: colors.ui_6,
+    color: colors.ui_7,
     fontSize: 13,
     maxWidth: 141
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   category: {
     backgroundColor: colors.ui_1,
-    color: colors.ui_8,
+    color: colors.ui_9,
     paddingHorizontal: 16,
     paddingVertical: 9,
     fontSize: 15,

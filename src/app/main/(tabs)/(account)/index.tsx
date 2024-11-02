@@ -73,7 +73,8 @@ export default function Account() {
       contentContainerStyle={{
         padding: 20,
         gap: 20,
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.background
       }}
     >
       <ActionList

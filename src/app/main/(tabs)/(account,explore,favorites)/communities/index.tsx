@@ -59,10 +59,11 @@ export default function Communities() {
       <Stack.Screen
         options={{
           headerTitle: 'Minhas Comunidades',
+          contentStyle: { backgroundColor: colors.background },
           headerBackTitle: 'Voltar',
           headerTintColor: colors.primary,
           headerTitleStyle: {
-            color: colors.ui_9
+            color: colors.ui_10
           },
           headerRight: ({ tintColor }) => (
             <HeaderTextButton

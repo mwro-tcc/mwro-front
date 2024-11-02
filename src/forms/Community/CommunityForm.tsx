@@ -213,7 +213,7 @@ export default function CommunityForm(props: Props) {
           headerTitle: `${community?.uuid ? 'Editar' : 'Criar'} Comunidade`,
           headerTintColor: colors.primary,
           headerTitleStyle: {
-            color: colors.ui_9
+            color: colors.ui_10
           },
           headerRight: ({ tintColor }) => (
             <HeaderTextButton

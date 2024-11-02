@@ -13,6 +13,7 @@ import AssetList from 'components/AssetList'
 import { ActivityIndicator, SafeAreaView } from 'react-native'
 import Show from '@ui/Show'
 import ScreenLoading from '@ui/ScreenLoading'
+import colors from '@ui/config/colors'
 
 type LocationValues = null | {
   latitude: number
@@ -26,7 +27,9 @@ async function getLocationPermission(): Promise<LocationValues> {
     return null
   }
 
-  const location = await Location.getCurrentPositionAsync({})
+  const location = await Location.getCurrentPositionAsync({
+    accuracy: Location.Accuracy.Balanced
+  })
 
   if (!location) return null
 
@@ -110,7 +113,8 @@ export default function Explore() {
           headerTitle: 'Explorar',
           headerSearchBarOptions: {
             onChangeText: (event) => setSearchTerm(event?.nativeEvent?.text)
-          }
+          },
+          contentStyle: { backgroundColor: colors.background }
         }}
       />
       <Show

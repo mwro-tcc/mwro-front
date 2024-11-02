@@ -15,7 +15,7 @@ export default function EditPhone() {
     <FormModal
       actionLabel='Salvar'
       cancelLabel='Cancelar'
-      attributeLabel='telefone'
+      attributeLabel='Telefone'
       initialValue={phoneNumber as string}
       onSubmit={handleSubmit}
       inputType='phone'
