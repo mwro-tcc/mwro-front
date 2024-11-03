@@ -1,7 +1,6 @@
-import { useRef } from 'react'
 import {
   FlatList,
-  Image,
+  RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,13 +11,18 @@ import HStack from '@ui/HStack'
 import FavoriteIcon from './FavoriteIcon'
 import colors from '@ui/config/colors'
 import AppleStyleSwipeableRow, { Action } from '../ui/SwipeableRow'
+import { Routes } from '@api/mwro'
+import Image from '@ui/Image'
+import rounded from '@ui/config/rounded'
 
-type AssetListProps = {
+type Props = Readonly<{
   favoritable?: boolean
-  data: AssetType[]
+  data?: AssetType[] | null
   swipeActions?: (item: any) => Action[]
   onAfterClick?: () => void
-}
+  refreshing?: boolean
+  onRefresh?: () => void
+}>
 
 export type AssetType = {
   uuid: string
@@ -31,13 +35,15 @@ export type AssetType = {
   onPress?: () => void
 }
 
-export default function AssetList({
-  favoritable,
-  data,
-  swipeActions = () => [],
-  onAfterClick
-}: Readonly<AssetListProps>) {
-  const listRef = useRef<FlatList>(null)
+function AssetList(props: Props) {
+  const {
+    favoritable,
+    data,
+    swipeActions = () => [],
+    onAfterClick,
+    refreshing = false,
+    onRefresh
+  } = props
 
   const renderRow = ({ item }: any) => {
     return (
@@ -45,13 +51,11 @@ export default function AssetList({
         <TouchableOpacity onPress={item.onPress} style={styles.listItem}>
           <View style={styles.imageAndInfo}>
             <Image
-              source={{
-                uri:
-                  item.image ??
-                  'https://www.proclinic-products.com/build/static/default-product.30484205.png'
-              }}
-              resizeMode='cover'
-              style={styles.image}
+              src={Routes.Image.src(item.uuid)}
+              hasAuthenticationHeaders
+              w={63}
+              h={63}
+              rounded={rounded.sm}
             />
             <View style={styles.info}>
               <Text style={styles.title}>{item.name}</Text>
@@ -89,18 +93,23 @@ export default function AssetList({
 
   return (
     <FlatList
+      keyboardDismissMode='on-drag'
+      refreshControl={
+        onRefresh ? (
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        ) : undefined
+      }
       renderItem={renderRow}
-      scrollEnabled={false}
       ItemSeparatorComponent={() => (
         <HStack border={[0.5, 'solid', colors.ui_3]} />
       )}
       contentContainerStyle={{
+        margin: 10,
         backgroundColor: colors.ui_1,
-        borderRadius: 8,
+        borderRadius: rounded.sm,
         display: 'flex'
       }}
-      ref={listRef}
-      data={data}
+      data={data ?? []}
       keyExtractor={(item) => item.uuid}
       showsVerticalScrollIndicator={false}
       style={{ flex: 1 }}
@@ -115,7 +124,7 @@ const styles = StyleSheet.create({
     height: 83,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 23
+    paddingHorizontal: 13
   },
   imageAndInfo: {
     display: 'flex',
@@ -156,3 +165,5 @@ const styles = StyleSheet.create({
     marginBottom: 20
   }
 })
+
+export default AssetList

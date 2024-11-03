@@ -13,7 +13,7 @@ const Routes = {
   Favorite: {
     favorite: (id: string) => `/favorites/${id}`,
     unfavorite: (id: string) => `/favorites/${id}`,
-    
+
   },
   Community: {
     list: '/communities',

@@ -1,4 +1,3 @@
-import { random } from 'lodash'
 import React, { Component, PropsWithChildren } from 'react'
 import { Animated, StyleSheet, Text, View, I18nManager } from 'react-native'
 
@@ -78,25 +77,26 @@ export default class AppleStyleSwipeableRow extends Component<
     (
       progress: Animated.AnimatedInterpolation<number>,
       _dragAnimatedValue: Animated.AnimatedInterpolation<number>
-    ) => (
-      <View
-        style={{
-          width: actions.length * 64,
-          flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'
-        }}
-      >
-        {actions.map((action, index) =>
-          this.renderRightAction(
-            index,
-            action.label,
-            action.color,
-            64 * (index + 1),
-            progress,
-            action.onPress
-          )
-        )}
-      </View>
-    )
+    ) =>
+      (
+        <View
+          style={{
+            width: actions.length * 82,
+            flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'
+          }}
+        >
+          {actions.map((action, index) =>
+            this.renderRightAction(
+              index,
+              action.label,
+              action.color,
+              64 * (index + 1),
+              progress,
+              action.onPress
+            )
+          )}
+        </View>
+      )
 
   private swipeableRow?: Swipeable
 

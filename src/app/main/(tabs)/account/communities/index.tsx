@@ -1,4 +1,4 @@
-import { Community, Routes } from '@api/mwro'
+import { Routes } from '@api/mwro'
 import Api from '@api/mwro/api'
 import useCollection from '@hooks/useCollection'
 import Lib from '@lib/index'
@@ -6,12 +6,12 @@ import Toast from '@lib/toast'
 import { Community as CommunityType } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
-import { useCallback } from 'react'
-import { Stack, useFocusEffect, useRouter } from 'expo-router'
-import { ActivityIndicator, RefreshControl, ScrollView } from 'react-native'
-import ActionList, { ActionListSwipeAction, ActionType } from '@ui/ActionList'
+import { Stack, useRouter } from 'expo-router'
+import { ActivityIndicator } from 'react-native'
+import { ActionListSwipeAction } from '@ui/ActionList'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import Show from '@ui/Show'
+import AssetList from 'components/AssetList'
 
 export default function Communities() {
   const router = useRouter()
@@ -23,21 +23,19 @@ export default function Communities() {
     refreshing,
     error
   } = useCollection<CommunityType>({
-    url: Routes.Community.list_user_communities,
-    keys: [Community.COLLECTION_KEY]
+    url: Routes.Community.list_user_communities
   })
 
   if (error) {
     Toast.error(error.message)
   }
 
-  const data: ActionType[] = communities.map((item) => ({
-    id: item.uuid,
-    title: item.name,
+  const data = communities?.map((item) => ({
+    uuid: item.uuid,
+    name: item.name,
+    description: '',
     onPress: () => router.push(`/main/account/communities/${item.uuid}`)
   }))
-
-  useFocusEffect(useCallback(() => void handleRefresh(), [handleRefresh]))
 
   const handleDelete = async (id: string) => {
     Lib.error_callback(
@@ -57,7 +55,7 @@ export default function Communities() {
   ]
 
   return (
-    <VStack gap={10} flex={1} p={16}>
+    <VStack flex={1}>
       <Stack.Screen
         options={{
           headerTitle: 'Minhas Comunidades',
@@ -77,20 +75,20 @@ export default function Communities() {
           )
         }}
       />
-      <Show when={loading}>
-        <VStack flex={1} items='center' justify='center'>
-          <ActivityIndicator />
-        </VStack>
-      </Show>
-      <Show unless={loading}>
-        <ScrollView
-          style={{ flex: 1 }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
-        >
-          <ActionList data={data} swipeActions={swipeActions} keyFrom='id' />
-        </ScrollView>
+      <Show
+        unless={loading}
+        placeholder={
+          <VStack flex={1} items='center' justify='center'>
+            <ActivityIndicator />
+          </VStack>
+        }
+      >
+        <AssetList
+          data={data}
+          swipeActions={swipeActions}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+        />
       </Show>
     </VStack>
   )

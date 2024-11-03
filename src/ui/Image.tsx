@@ -1,8 +1,9 @@
 import {
   ActivityIndicator,
+  ImageErrorEventData,
   ImageStyle,
-  Image as ReactNativeImage,
-  StyleProp
+  NativeSyntheticEvent,
+  Image as ReactNativeImage
 } from 'react-native'
 import { ImageProps, ViewStyle } from 'react-native'
 import {
@@ -13,6 +14,7 @@ import useAuth from '@hooks/useAuth'
 import scope from '@lib/scope'
 import HStack from './HStack'
 import colors from './config/colors'
+import { useState } from 'react'
 
 type Props = StyleShorthands & {
   src?: string | null
@@ -22,14 +24,20 @@ type Props = StyleShorthands & {
   loading?: boolean
 }
 
+const PLACEHOLDER_IMAGE =
+  'https://www.proclinic-products.com/build/static/default-product.30484205.png'
+
 export default function Image(props: Props) {
   const {
     style,
     hasAuthenticationHeaders = false,
     loading = false,
-    src = 'https://www.proclinic-products.com/build/static/default-product.30484205.png',
+    src,
     ...shorthands
   } = props
+
+  const [error, setError] =
+    useState<NativeSyntheticEvent<ImageErrorEventData> | null>(null)
 
   const { token, loading: isLoadingToken } = useAuth()
 
@@ -42,11 +50,15 @@ export default function Image(props: Props) {
   }
 
   const source = scope(() => {
-    const uri = src ?? undefined
+    if (!src || error) {
+      return {
+        uri: PLACEHOLDER_IMAGE
+      }
+    }
 
     if (hasAuthenticationHeaders && token) {
       return {
-        uri,
+        uri: src,
         headers: {
           authorization: token
         }
@@ -54,12 +66,13 @@ export default function Image(props: Props) {
     }
 
     return {
-      uri
+      uri: src
     }
   })
 
   return (
     <ReactNativeImage
+      onError={setError}
       source={source}
       style={{
         ...(style as ImageStyle),

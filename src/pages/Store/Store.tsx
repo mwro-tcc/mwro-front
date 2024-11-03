@@ -10,6 +10,7 @@ import { useCallback } from 'react'
 import AssetHeader from 'components/AssetHeader'
 import FavoriteIcon from 'components/FavoriteIcon'
 import StoreForm from '@forms/StoreForm'
+import colors from '@ui/config/colors'
 
 export default function Store(props: { id: string }) {
   const { id } = props
@@ -36,7 +37,12 @@ export default function Store(props: { id: string }) {
     <View style={{ flex: 1 }}>
       <Stack.Screen
         options={{
-          headerLeft: () => null,
+          headerBackTitle: 'Voltar',
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: colors.ui_9
+          },
+          headerShadowVisible: false,
           headerRight: () => (
             <FavoriteIcon asset={data!} onAfterClick={handleRefresh} />
           ),

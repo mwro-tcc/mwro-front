@@ -13,5 +13,5 @@ export default function EditCommunity() {
 
   if (!community) return <Redirect href='/main' />
 
-  return <CommunityForm debug community={community} />
+  return <CommunityForm community={community} />
 }

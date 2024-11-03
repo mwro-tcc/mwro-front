@@ -1,13 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import CommunitiesMap from '@forms/Community/components/CommunitiesMap'
 import VStack from '@ui/VStack'
-import { Stack } from 'expo-router'
+import { Stack, router } from 'expo-router'
 import * as Location from 'expo-location'
 import { useEffect, useState } from 'react'
 import Text from '@ui/Text'
 import useCollection from '@hooks/useCollection'
-import { Community, Routes } from '@api/mwro'
+import { Routes } from '@api/mwro'
 import scope from '@lib/scope'
-import { Community as CommunityType } from '@src/types/community'
+import { Community } from '@src/types/community'
+import AssetList from 'components/AssetList'
+import { ActivityIndicator, SafeAreaView } from 'react-native'
+import Show from '@ui/Show'
 
 type LocationValues = null | {
   latitude: number
@@ -38,9 +42,19 @@ export default function Explore() {
 
   useEffect(() => void getLocationPermission().then(setLocation), [])
 
-  const { data } = useCollection<CommunityType>({
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const {
+    data: communities,
+    loading,
+    handleRefresh,
+    refreshing,
+    error
+  } = useCollection<Community>({
     url: Routes.Community.list,
-    keys: [Community.COLLECTION_KEY]
+    params: {
+      term: searchTerm
+    }
   })
 
   const content = scope(() => {
@@ -53,8 +67,45 @@ export default function Explore() {
       )
     }
 
-    if (data) {
-      return <CommunitiesMap communities={data} {...location} fullscreen />
+    if (loading) {
+      return (
+        <VStack flex={1} justify='center' items='center'>
+          <ActivityIndicator />
+        </VStack>
+      )
+    }
+
+    if (error) {
+      return (
+        <VStack flex={1} justify='center' items='center'>
+          <Text>{error.message}</Text>
+        </VStack>
+      )
+    }
+
+    const assets = communities?.map(({ uuid, name, description }) => ({
+      uuid,
+      name,
+      description,
+      onPress: () => router.push(`/main/account/communities/${uuid}`)
+    }))
+
+    if (searchTerm) {
+      return (
+        <SafeAreaView style={{ flex: 1 }}>
+          <AssetList
+            data={assets}
+            onRefresh={handleRefresh}
+            refreshing={refreshing}
+          />
+        </SafeAreaView>
+      )
+    }
+
+    if (communities) {
+      return (
+        <CommunitiesMap communities={communities} {...location} fullscreen />
+      )
     }
   })
 
@@ -63,10 +114,21 @@ export default function Explore() {
       <Stack.Screen
         options={{
           headerTitle: 'Explorar',
-          headerSearchBarOptions: {}
+          headerSearchBarOptions: {
+            onChangeText: (event) => setSearchTerm(event?.nativeEvent?.text)
+          }
         }}
       />
-      {content}
+      <Show
+        when={!loading}
+        placeholder={
+          <VStack flex={1} justify='center' items='center'>
+            <ActivityIndicator />
+          </VStack>
+        }
+      >
+        {content}
+      </Show>
     </VStack>
   )
 }
