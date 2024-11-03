@@ -1,10 +1,8 @@
 import { Routes } from '@api/mwro'
 import { Community } from '@src/types/community'
-import HStack from '@ui/HStack'
 import Image from '@ui/Image'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
-import rounded from '@ui/config/rounded'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import MapViewComponent, { Marker } from 'react-native-maps'
@@ -42,7 +40,7 @@ const CommunitiesMap = ({
         longitudeDelta: 0.01
       }}
     >
-      {communities.map((community: any, index: any) => (
+      {communities.map((community: Community, index: number) => (
         <Marker
           key={index}
           coordinate={{
