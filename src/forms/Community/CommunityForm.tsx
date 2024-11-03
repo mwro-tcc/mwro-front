@@ -4,13 +4,7 @@ import {
   CommunityForm as CommunityFormType
 } from '@src/types/community'
 import VStack from '@ui/VStack'
-import {
-  Modal,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator
-} from 'react-native'
+import { Modal, ScrollView, TouchableOpacity, StyleSheet } from 'react-native'
 import { Stack, useRouter } from 'expo-router'
 import colors from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'

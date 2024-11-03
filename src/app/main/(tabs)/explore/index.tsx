@@ -12,6 +12,7 @@ import { Community } from '@src/types/community'
 import AssetList from 'components/AssetList'
 import { ActivityIndicator, SafeAreaView } from 'react-native'
 import Show from '@ui/Show'
+import ScreenLoading from '@ui/ScreenLoading'
 
 type LocationValues = null | {
   latitude: number
@@ -39,10 +40,9 @@ async function getLocationPermission(): Promise<LocationValues> {
 
 export default function Explore() {
   const [location, setLocation] = useState<LocationValues>(null)
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => void getLocationPermission().then(setLocation), [])
-
-  const [searchTerm, setSearchTerm] = useState('')
 
   const {
     data: communities,
@@ -68,11 +68,7 @@ export default function Explore() {
     }
 
     if (loading) {
-      return (
-        <VStack flex={1} justify='center' items='center'>
-          <ActivityIndicator />
-        </VStack>
-      )
+      return <ScreenLoading />
     }
 
     if (error) {
@@ -102,11 +98,9 @@ export default function Explore() {
       )
     }
 
-    if (communities) {
-      return (
-        <CommunitiesMap communities={communities} {...location} fullscreen />
-      )
-    }
+    return (
+      <CommunitiesMap communities={communities!} {...location} fullscreen />
+    )
   })
 
   return (
