@@ -1,19 +1,13 @@
 import colors from '@ui/config/colors'
-import VStack from '@ui/VStack'
-import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import ActionList from '@ui/ActionList'
 import { Auth, Routes } from '@api/mwro'
 import useModel from '@hooks/useModel'
-import {
-  ActivityIndicator,
-  Alert,
-  RefreshControl,
-  ScrollView
-} from 'react-native'
+import { Alert, RefreshControl, ScrollView } from 'react-native'
 import Toast from '@lib/toast'
 import { User as UserType } from '@src/types/user'
-import { useCallback } from 'react'
 import User from '@api/mwro/user'
+import ScreenLoading from '@ui/ScreenLoading'
 
 export default function Account() {
   const router = useRouter()
@@ -28,14 +22,7 @@ export default function Account() {
     url: Routes.Auth.me
   })
 
-  useFocusEffect(useCallback(() => void handleRefresh(), []))
-
-  if (loading)
-    return (
-      <VStack flex={1} items='center' justify='center'>
-        <ActivityIndicator />
-      </VStack>
-    )
+  if (loading) return <ScreenLoading />
 
   if (!user || error) {
     Toast.error(error?.message as string)

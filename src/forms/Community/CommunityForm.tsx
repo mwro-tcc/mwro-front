@@ -31,6 +31,7 @@ import Spacer from '@ui/Spacer'
 import { ChevronLeft, MapPin } from 'lucide-react-native'
 import { useReducer, useState } from 'react'
 import MapView from '@ui/MapView'
+import ScreenLoading from '@ui/ScreenLoading'
 
 const PLACE_LIST_SIZE = 6
 
@@ -233,14 +234,7 @@ export default function CommunityForm(props: Props) {
           headerBackTitle: 'Voltar'
         }}
       />
-      <Show
-        when={!isSubmitting}
-        placeholder={
-          <VStack flex={1} items='center' justify='center'>
-            <ActivityIndicator />
-          </VStack>
-        }
-      >
+      <Show when={!isSubmitting} placeholder={<ScreenLoading />}>
         <VStack gap={30} flex={1}>
           <ScrollView
             keyboardDismissMode='on-drag'
@@ -386,16 +380,12 @@ export default function CommunityForm(props: Props) {
                     ))}
                   </VStack>
                 </Show>
-                <Show when={locationModal.mapIsLoading}>
-                  <VStack flex={1} items='center' justify='center'>
-                    <ActivityIndicator />
-                  </VStack>
-                </Show>
                 <Show
                   when={
                     locationModal.locationModalView === LocationModalView.MAP
                   }
                   unless={locationModal.mapIsLoading}
+                  placeholder={<ScreenLoading />}
                 >
                   <MapView {...getLocationProps(locationModal.location)} />
                 </Show>

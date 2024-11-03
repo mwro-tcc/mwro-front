@@ -12,6 +12,7 @@ import { ActionListSwipeAction } from '@ui/ActionList'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import Show from '@ui/Show'
 import AssetList from 'components/AssetList'
+import ScreenLoading from '@ui/ScreenLoading'
 
 export default function Communities() {
   const router = useRouter()
@@ -75,14 +76,7 @@ export default function Communities() {
           )
         }}
       />
-      <Show
-        unless={loading}
-        placeholder={
-          <VStack flex={1} items='center' justify='center'>
-            <ActivityIndicator />
-          </VStack>
-        }
-      >
+      <Show unless={loading} placeholder={<ScreenLoading />}>
         <AssetList
           data={data}
           swipeActions={swipeActions}
