@@ -385,7 +385,7 @@ export default function CommunityForm(props: Props) {
                     locationModal.locationModalView === LocationModalView.MAP
                   }
                   unless={locationModal.mapIsLoading}
-                  placeholder={<ScreenLoading />}
+                  placeholder={locationModal.mapIsLoading && <ScreenLoading />}
                 >
                   <MapView {...getLocationProps(locationModal.location)} />
                 </Show>
