@@ -65,7 +65,7 @@ function ActionListItem({
           <MaterialIcons
             name='keyboard-arrow-right'
             size={24}
-            color={colors.ui_6}
+            color={colors.ui_7}
             style={{ marginLeft: 24 }}
           />
         </VStack>
