@@ -4,7 +4,7 @@ import colors from './config/colors'
 import { useState } from 'react'
 import VStack from './VStack'
 import { TextInput } from 'react-native'
-import PhoneInput, { formatPhoneNumber } from './PhoneInput'
+import { formatPhoneNumber } from './PhoneInput'
 
 import { MaskedTextInput } from 'react-native-mask-text'
 

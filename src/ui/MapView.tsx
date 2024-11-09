@@ -3,23 +3,24 @@ import MapViewComponent, {
   Marker,
   MarkerDragStartEndEvent
 } from 'react-native-maps'
-import rounded from './config/rounded'
+import {
+  StyleShorthands,
+  parse_style_shorthands
+} from './types/style_shorthands'
 
-type MapViewProps = {
+type MapViewProps = StyleShorthands & {
   latitude: number
   longitude: number
   onMarkerDragEnd?: (e: MarkerDragStartEndEvent) => void
 }
 
-const MapView = ({ latitude, longitude, onMarkerDragEnd }: MapViewProps) => {
+function MapView(props: MapViewProps) {
+  const { latitude, longitude, onMarkerDragEnd, ...shorthands } = props
+
   return (
     <MapViewComponent
-      style={{
-        flex: 1,
-        borderRadius: rounded.sm,
-        borderColor: '#00000030',
-        borderWidth: 1
-      }}
+      userInterfaceStyle='light'
+      style={{ ...parse_style_shorthands(shorthands), flex: 1 }}
       initialRegion={{
         latitude,
         longitude,

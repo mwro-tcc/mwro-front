@@ -26,7 +26,10 @@ class Community {
   static async create(data: CommunityForm) {
     return await Api.post<CommunityResponse>(
       Routes.Community.create,
-      data
+      {
+        ...data,
+        isPrivate: false
+      }
     ).catch((error: AxiosError) => {
       Toast.error(error?.message)
     })
@@ -34,7 +37,10 @@ class Community {
   static async update(data: CommunityForm) {
     return await Api.put<CommunityResponse>(
       Routes.Community.update(data.uuid),
-      data
+      {
+        ...data,
+        isPrivate: false
+      }
     ).catch((error: AxiosError) => {
       Toast.error(error?.message)
     })

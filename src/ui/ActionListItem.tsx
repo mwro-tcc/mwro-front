@@ -7,6 +7,8 @@ import {
 import Text from './Text'
 import colors from './config/colors'
 import { MaterialIcons } from '@expo/vector-icons'
+import VStack from './VStack'
+import HStack from './HStack'
 
 const base_style: StyleProp<ViewStyle> = {
   display: 'flex',
@@ -43,19 +45,30 @@ function ActionListItem({
       }}
     >
       {typeof children === 'string' ? (
-        <Text size={textSize} color={color}>
-          {children}
-        </Text>
+        <HStack flex={1}>
+          <Text
+            size={textSize}
+            color={color}
+            componentProps={{
+              numberOfLines: 1,
+              ellipsizeMode: 'tail'
+            }}
+          >
+            {children}
+          </Text>
+        </HStack>
       ) : (
         children
       )}
       {hasArrow && !disabled && (
-        <MaterialIcons
-          name='keyboard-arrow-right'
-          size={24}
-          color={colors.ui_6}
-          style={{ marginLeft: 24 }}
-        />
+        <VStack>
+          <MaterialIcons
+            name='keyboard-arrow-right'
+            size={24}
+            color={colors.ui_7}
+            style={{ marginLeft: 24 }}
+          />
+        </VStack>
       )}
     </TouchableOpacity>
   )

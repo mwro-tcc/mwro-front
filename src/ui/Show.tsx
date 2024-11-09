@@ -4,18 +4,19 @@ type Props = {
   children?: ReactNode
   when?: any
   unless?: any
+  placeholder?: ReactNode
 }
 
 function Show(props: Props) {
-  const { children, when, unless } = props
+  const { children, when, unless, placeholder = null } = props
 
   if (when === undefined && unless !== undefined) {
-    return Boolean(unless) ? null : children
+    return Boolean(unless) ? placeholder : children
   }
 
-  if (Boolean(unless)) return null
+  if (Boolean(unless)) return placeholder
   if (Boolean(when)) return children
-  return null
+  return placeholder
 }
 
 export default Show

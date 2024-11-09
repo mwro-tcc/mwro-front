@@ -1,4 +1,4 @@
-import Form from '@forms/index'
+import ProductForm from '@forms/Product/ProductForm'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 
 export default function CreateProduct() {
@@ -9,7 +9,7 @@ export default function CreateProduct() {
   if (!store) return <Redirect href='/main' />
 
   return (
-    <Form.Product
+    <ProductForm
       storeId={store}
       onFinish={router.back}
       onCancel={router.back}

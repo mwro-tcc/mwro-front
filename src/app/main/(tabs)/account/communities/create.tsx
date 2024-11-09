@@ -1,5 +1,5 @@
-import Form from '@forms/index'
+import CommunityForm from '@forms/Community/CommunityForm'
 
 export default function CreateCommunity() {
-  return <Form.Community debug />
+  return <CommunityForm />
 }

@@ -4,7 +4,6 @@ import Routes from './routes'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from '@lib/toast'
 import { AxiosError, AxiosResponse } from 'axios'
-import { create } from 'zustand'
 import { router } from 'expo-router'
 import Storage from 'storage'
 
