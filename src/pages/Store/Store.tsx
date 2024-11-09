@@ -40,7 +40,7 @@ export default function Store(props: { id: string }) {
           headerBackTitle: 'Voltar',
           headerTintColor: colors.primary,
           headerTitleStyle: {
-            color: colors.ui_9
+            color: colors.ui_10
           },
           headerShadowVisible: false,
           headerRight: () => (
