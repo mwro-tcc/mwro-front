@@ -75,7 +75,7 @@ const CommunitiesMap = ({
           }
           calloutOffset={{ x: 10, y: -5 }}
         >
-          <VStack items='center' shadow={[0, 2, 5, colors.ui_9, 0.3]}>
+          <VStack items='center' shadow={[0, 2, 5, colors.ui_10, 0.3]}>
             <VStack p={2} bg={colors.ui_1} rounded={50}>
               <Image
                 src={Routes.Image.src(community.uuid)}
