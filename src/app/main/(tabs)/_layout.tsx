@@ -55,7 +55,12 @@ export default function MainLayout() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarItemStyle: {
+          flexDirection: 'row',
+          alignItems: 'center'
+        },
         tabBarStyle: {
+          alignItems: 'center',
           height: TAB_BAR_HEIGHT,
           borderColor: 'transparent'
         }

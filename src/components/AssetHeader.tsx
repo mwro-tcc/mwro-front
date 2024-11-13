@@ -1,5 +1,7 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import colors from '@ui/config/colors'
+import Image from '@ui/Image'
+import rounded from '@ui/config/rounded'
 
 type AssetHeaderProps = {
   image?: string
@@ -20,13 +22,12 @@ export default function AssetHeader({
     <>
       <View style={styles.assetContainer}>
         <Image
-          source={{
-            uri:
-              image ??
-              'https://media-cdn.tripadvisor.com/media/photo-s/04/56/4d/9b/loja-sole-comidas-artesanais.jpg'
-          }}
-          resizeMode='cover'
+          src={image}
           style={styles.image}
+          hasAuthenticationHeaders
+          w={92}
+          h={92}
+          rounded={rounded.circle}
         />
         <View style={styles.content}>
           <Text style={styles.name}>{name}</Text>

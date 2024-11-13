@@ -7,7 +7,6 @@ import { Community as CommunityType } from '@src/types/community'
 import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
 import { Stack, useRouter } from 'expo-router'
-import { ActivityIndicator } from 'react-native'
 import { ActionListSwipeAction } from '@ui/ActionList'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import Show from '@ui/Show'
@@ -35,7 +34,7 @@ export default function Communities() {
     uuid: item.uuid,
     name: item.name,
     description: '',
-    onPress: () => router.push(`/main/(account)/communities/${item.uuid}`)
+    onPress: () => router.push(`./${item.uuid}`, { relativeToDirectory: true })
   }))
 
   const handleDelete = async (id: string) => {
@@ -69,7 +68,9 @@ export default function Communities() {
             <HeaderTextButton
               weight='600'
               color={tintColor}
-              onPress={() => router.push('/main/(account)/communities/create')}
+              onPress={() =>
+                router.push('./create', { relativeToDirectory: true })
+              }
             >
               Criar
             </HeaderTextButton>
