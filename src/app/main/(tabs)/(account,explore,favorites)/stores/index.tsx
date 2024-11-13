@@ -58,7 +58,7 @@ export default function Stores() {
             <HeaderTextButton
               weight='600'
               color={tintColor}
-              onPress={() => router.push('/main/account/stores/create')}
+              onPress={() => router.push('/main/(account)/stores/create')}
             >
               Criar
             </HeaderTextButton>
@@ -79,7 +79,7 @@ export default function Stores() {
           favoritable={true}
           data={stores?.map((store) => ({
             ...store,
-            onPress: () => router.push(`/main/account/stores/${store.uuid}`)
+            onPress: () => router.push(`/main/(account)/stores/${store.uuid}`)
           }))}
           swipeActions={swipeActions}
           onAfterClick={handleRefresh}

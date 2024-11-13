@@ -33,7 +33,7 @@ export default function Favorites() {
         refreshing={refreshing}
         data={stores?.map((store) => ({
           ...store,
-          onPress: () => router.push(`/main/favorites/stores/${store.uuid}`)
+          onPress: () => router.push(`/main/(favorites)/stores/${store.uuid}`)
         }))}
         favoritable
       />

@@ -62,7 +62,7 @@ export default function MainLayout() {
       }}
     >
       <Tabs.Screen
-        name='explore'
+        name='(explore)'
         options={{
           title: 'Explorar',
           tabBarIcon: ({ size, focused }) => (
@@ -81,7 +81,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='favorites'
+        name='(favorites)'
         options={{
           title: 'Favoritos',
           tabBarIcon: ({ size, focused }) => (
@@ -100,7 +100,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name='account'
+        name='(account)'
         options={{
           title: 'Conta',
           tabBarIcon: ({ size, focused }) => (

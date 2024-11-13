@@ -41,7 +41,7 @@ export default function Community() {
   const handleEdit = () => {
     if (id) {
       add(id, data)
-      router.push(`/main/account/communities/${id}/edit`)
+      router.push(`/main/(account)/communities/${id}/edit`)
     } else {
       Toast.error('Nenhum ID encontrado')
     }
@@ -121,7 +121,7 @@ export default function Community() {
               <IconButton
                 icon='location-on'
                 onPress={() =>
-                  router.push(`/main/account/communities/${id}/map`)
+                  router.push(`/main/(account)/communities/${id}/map`)
                 }
                 style={styles.iconContainer}
                 color='black'

@@ -6,7 +6,6 @@ import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
 import useBoolean from '@hooks/useBoolean'
 import { Product } from '@src/types/product'
-import { useCallback } from 'react'
 import AssetHeader from 'components/AssetHeader'
 import FavoriteIcon from 'components/FavoriteIcon'
 import StoreForm from '@forms/StoreForm'
@@ -19,13 +18,7 @@ export default function Store(props: { id: string }) {
     url: Routes.Store.get(id)
   })
 
-  useFocusEffect(useCallback(() => void handleRefresh(), []))
-
-  const {
-    value: edit,
-    setTrue: enableEditMode,
-    setFalse: disabledEditMode
-  } = useBoolean(false)
+  const { value: edit, setFalse: disabledEditMode } = useBoolean(false)
 
   if (edit) {
     return <StoreForm store={data} onFinish={disabledEditMode} />

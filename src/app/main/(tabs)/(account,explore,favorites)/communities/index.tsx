@@ -35,7 +35,7 @@ export default function Communities() {
     uuid: item.uuid,
     name: item.name,
     description: '',
-    onPress: () => router.push(`/main/account/communities/${item.uuid}`)
+    onPress: () => router.push(`/main/(account)/communities/${item.uuid}`)
   }))
 
   const handleDelete = async (id: string) => {
@@ -69,7 +69,7 @@ export default function Communities() {
             <HeaderTextButton
               weight='600'
               color={tintColor}
-              onPress={() => router.push('/main/account/communities/create')}
+              onPress={() => router.push('/main/(account)/communities/create')}
             >
               Criar
             </HeaderTextButton>
