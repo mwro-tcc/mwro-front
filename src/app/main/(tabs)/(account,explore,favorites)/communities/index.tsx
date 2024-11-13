@@ -3,36 +3,46 @@ import Api from '@api/mwro/api'
 import useCollection from '@hooks/useCollection'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
-import { Store as StoreType } from '@src/types/store'
+import { Community as CommunityType } from '@src/types/community'
+import colors from '@ui/config/colors'
+import VStack from '@ui/VStack'
+import { Stack, useRouter } from 'expo-router'
 import { ActionListSwipeAction } from '@ui/ActionList'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import Show from '@ui/Show'
-import VStack from '@ui/VStack'
-import colors from '@ui/config/colors'
 import AssetList from 'components/AssetList'
-import { Redirect, Stack, useRouter } from 'expo-router'
-import { ActivityIndicator } from 'react-native'
+import ScreenLoading from '@ui/ScreenLoading'
 
-export default function Stores() {
+export default function Communities() {
   const router = useRouter()
 
   const {
-    refreshing,
-    data: stores,
+    data: communities,
     loading,
     handleRefresh,
+    refreshing,
     error
-  } = useCollection<StoreType>({
-    url: Routes.Store.list_user_stores
+  } = useCollection<CommunityType>({
+    url: Routes.Community.list_user_communities
   })
 
-  if (error) return <Redirect href='/main' />
+  if (error) {
+    Toast.error(error.message)
+  }
+
+  const data = communities?.map((item) => ({
+    uuid: item.uuid,
+    name: item.name,
+    description: '',
+    onPress: () => router.push(`./${item.uuid}`, { relativeToDirectory: true })
+  }))
 
   const handleDelete = async (id: string) => {
     Lib.error_callback(
-      await Lib.safe_call(Api.delete, [Routes.Store.delete(id)]),
+      await Lib.safe_call(Api.delete, [Routes.Community.delete(id)]),
       Toast.error
     )
+
     handleRefresh()
   }
 
@@ -48,7 +58,7 @@ export default function Stores() {
     <VStack flex={1}>
       <Stack.Screen
         options={{
-          headerTitle: 'Minhas Lojas',
+          headerTitle: 'Minhas Comunidades',
           headerBackTitle: 'Voltar',
           headerTintColor: colors.primary,
           headerTitleStyle: {
@@ -58,31 +68,21 @@ export default function Stores() {
             <HeaderTextButton
               weight='600'
               color={tintColor}
-              onPress={() => router.push('/main/account/stores/create')}
+              onPress={() =>
+                router.push('./create', { relativeToDirectory: true })
+              }
             >
               Criar
             </HeaderTextButton>
           )
         }}
       />
-      <Show
-        unless={loading}
-        placeholder={
-          <VStack flex={1} items='center' justify='center'>
-            <ActivityIndicator />
-          </VStack>
-        }
-      >
+      <Show unless={loading} placeholder={<ScreenLoading />}>
         <AssetList
+          data={data}
+          swipeActions={swipeActions}
           refreshing={refreshing}
           onRefresh={handleRefresh}
-          favoritable={true}
-          data={stores?.map((store) => ({
-            ...store,
-            onPress: () => router.push(`/main/account/stores/${store.uuid}`)
-          }))}
-          swipeActions={swipeActions}
-          onAfterClick={handleRefresh}
         />
       </Show>
     </VStack>

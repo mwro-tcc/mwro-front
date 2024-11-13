@@ -2,46 +2,74 @@ import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import {
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
-import FilterHeader, { Tab } from 'components/FilterHeader'
 import Show from '@ui/Show'
 import VStack from '@ui/VStack'
 import IconButton from '@ui/IconButton'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
-import List from 'components/List'
 import AddStoreModal from 'components/AddStoreModal'
 import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
-import scope from '@lib/scope'
 import { Store } from '@src/types/store'
 import HeaderTextButton from '@ui/HeaderTextButton'
+import AssetList from 'components/AssetList'
+import useCollection from '@hooks/useCollection'
+import ScreenLoading from '@ui/ScreenLoading'
+import AssetHeader from 'components/AssetHeader'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
   const { add } = useCache()
 
-  const { data, loading, refreshing, error, handleRefresh } =
-    useModel<CommunityType>({
-      url: Routes.Community.get(id)
-    })
+  const {
+    data,
+    loading,
+    refreshing: isCommunityRefreshing,
+    error,
+    handleRefresh: handleCommunityRefresh
+  } = useModel<CommunityType>({
+    url: Routes.Community.get(id)
+  })
+
+  const {
+    formattedData: stores,
+    loading: isLoadingStores,
+    refreshing: storesRefreshing,
+    handleRefresh: handleStoresRefresh
+  } = useCollection<Store>({
+    url: Routes.Community.get_community_stores(id),
+    dataFormatter: (data) => {
+      return data?.map((store) => ({
+        ...store,
+        onPress: () =>
+          router.push(`../../stores/${store.uuid}`, {
+            relativeToDirectory: true
+          })
+      }))
+    }
+  })
+
+  const refreshing = isCommunityRefreshing || storesRefreshing
+
+  const handleRefresh = () => {
+    handleCommunityRefresh()
+    handleStoresRefresh()
+  }
 
   const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
 
   const handleEdit = () => {
     if (id) {
       add(id, data)
-      router.push(`/main/account/communities/${id}/edit`)
+      router.push(`./edit`, {
+        relativeToDirectory: true
+      })
     } else {
       Toast.error('Nenhum ID encontrado')
     }
@@ -56,23 +84,6 @@ export default function Community() {
   }
 
   if (error) return <Redirect href='/main' />
-
-  const list = scope(() => {
-    return (
-      <List
-        getItemRoute={(item: Store) => {
-          return {
-            pathname: `/communities/${id}/store`,
-            params: {
-              storeId: item.uuid
-            }
-          }
-        }}
-        numOfColumns={2}
-        url={Routes.Community.get_community_stores(id)}
-      />
-    )
-  })
 
   return (
     <>
@@ -93,12 +104,13 @@ export default function Community() {
           )
         }}
       />
-      <Show when={loading}>
-        <VStack flex={1} justify='center' items='center'>
-          <ActivityIndicator />
-        </VStack>
-      </Show>
       <Show unless={loading}>
+        <AssetHeader
+          name={data?.name}
+          description={data?.description}
+          image={Routes.Image.src(data?.uuid)}
+          childCategory='Lojas'
+        />
         <View style={styles.container}>
           <HStack justify='between' pt={20} pr={20} items='center'>
             <HStack gap={10}>
@@ -121,7 +133,7 @@ export default function Community() {
               <IconButton
                 icon='location-on'
                 onPress={() =>
-                  router.push(`/main/account/communities/${id}/map`)
+                  router.push(`./${id}/map`, { relativeToDirectory: true })
                 }
                 style={styles.iconContainer}
                 color='black'
@@ -129,9 +141,14 @@ export default function Community() {
               />
             </HStack>
           </HStack>
-          <Text>{data?.description}</Text>
         </View>
-        {list}
+        <Show unless={isLoadingStores} placeholder={<ScreenLoading />}>
+          <AssetList
+            data={stores}
+            onRefresh={handleRefresh}
+            refreshing={refreshing}
+          />
+        </Show>
       </Show>
       <Show when={addStoreModalVisible}>
         <AddStoreModal

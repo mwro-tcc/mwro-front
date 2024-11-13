@@ -83,7 +83,7 @@ export default function Explore() {
       uuid,
       name,
       description,
-      onPress: () => router.push(`/main/account/communities/${uuid}`)
+      onPress: () => router.push(`/main/(explore)/communities/${uuid}`)
     }))
 
     if (searchTerm) {

@@ -45,7 +45,7 @@ const Routes = {
   },
   Image: {
     get: (assetId: string) => `/images/${assetId}`,
-    src: (assetId?: string) => assetId ? `${MWRO_API_BASE_URL}images/${assetId}` : null,
+    src: (assetId?: string) => assetId ? `${MWRO_API_BASE_URL}images/${assetId}` : undefined,
     create: (assetId: string) => `/images/${assetId}`
   }
 }

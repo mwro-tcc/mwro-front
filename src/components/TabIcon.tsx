@@ -14,7 +14,7 @@ export default function TabIcon(props: TabIconProps) {
   const activeDotBackground = focused ? fill : 'transparent'
 
   return (
-    <VStack items='center' gap={3}>
+    <VStack items='center' gap={3} flex={1}>
       {icon}
       <VStack
         rounded={50}

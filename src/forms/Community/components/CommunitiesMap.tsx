@@ -71,7 +71,9 @@ const CommunitiesMap = ({
           onSelect={() => setSelectedCommunity(community)}
           onDeselect={() => setSelectedCommunity(null)}
           onCalloutPress={() =>
-            router.push(`/main/account/communities/${community.uuid}`)
+            router.push(`./communities/${community.uuid}`, {
+              relativeToDirectory: true
+            })
           }
           calloutOffset={{ x: 10, y: -5 }}
         >

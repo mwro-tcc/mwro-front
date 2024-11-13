@@ -32,7 +32,7 @@ export default function Account() {
 
   const handleEditName = () => {
     router.push({
-      pathname: '/main/account/edit_name',
+      pathname: '/main/(account)/edit_name',
       params: {
         name
       }
@@ -41,7 +41,7 @@ export default function Account() {
 
   const handleEditPhoneNumber = () => {
     router.push({
-      pathname: '/main/account/edit_phone',
+      pathname: '/main/(account)/edit_phone',
       params: {
         phoneNumber
       }
@@ -108,11 +108,11 @@ export default function Account() {
         data={[
           {
             title: 'Minhas Comunidades',
-            onPress: () => router.push('/main/account/communities')
+            onPress: () => router.push('/main/(account)/communities')
           },
           {
             title: 'Minhas Lojas',
-            onPress: () => router.push('/main/account/stores')
+            onPress: () => router.push('/main/(account)/stores')
           }
         ]}
       />
