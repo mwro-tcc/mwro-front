@@ -18,7 +18,7 @@ const StepsIndicator = ({ currentStep, totalSteps }: StepsIndicatorProps) => {
           w={5}
           h={5}
           rounded={40}
-          bg={index + 1 === currentStep ? colors.ui_7 : colors.ui_5}
+          bg={index + 1 === currentStep ? colors.ui_8 : colors.ui_6}
         />
       ))}
     </HStack>

@@ -5,7 +5,7 @@ import colors from './config/colors'
 const base_style: TextStyle = {
   marginLeft: 16,
   fontWeight: '700',
-  color: colors.ui_7,
+  color: colors.ui_8,
   marginTop: 8
 }
 

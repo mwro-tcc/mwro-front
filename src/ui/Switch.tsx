@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: rounded.sm,
-    borderColor: colors.ui_5,
+    borderColor: colors.ui_6,
     ...shadows.sm
   },
   option: {
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     borderRadius: rounded.sm
   },
   selectedOption: {
-    backgroundColor: colors.ui_8
+    backgroundColor: colors.ui_9
   },
   unselectedOption: {
     backgroundColor: colors.ui_1
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     color: colors.ui_1
   },
   unselectedText: {
-    color: colors.ui_8
+    color: colors.ui_9
   }
 })
 

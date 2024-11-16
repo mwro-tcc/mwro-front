@@ -64,7 +64,7 @@ export default function SignUp() {
           name={'confirm_password'}
         />
       </VStack>
-      <VStack gap={10} bg={colors.ui_1} pt={20}>
+      <VStack gap={10} pt={20}>
         <Button onPress={handleSubmit(Auth.signUp)} variant='primary'>
           Próximo
         </Button>

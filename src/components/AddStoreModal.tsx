@@ -12,7 +12,8 @@ const AddStoreModal = ({
   communityUuid
 }: any) => {
   const { data: stores = [] } = useCollection<StoreType>({
-    url: Routes.Store.list_user_stores
+    url: Routes.Store.list_user_stores,
+    keys: [Store.COLLECTION_KEY]
   })
 
   const handleUpdate = async (store: StoreType) => {

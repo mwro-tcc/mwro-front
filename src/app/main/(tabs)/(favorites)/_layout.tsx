@@ -1,3 +1,4 @@
+import colors from '@ui/config/colors'
 import { Stack } from 'expo-router'
 
 export default function FavoritesLayout() {
@@ -6,7 +7,8 @@ export default function FavoritesLayout() {
       <Stack.Screen
         name='index'
         options={{
-          headerTitle: 'Favoritos'
+          headerTitle: 'Favoritos',
+          contentStyle: { backgroundColor: colors.background }
         }}
       />
     </Stack>

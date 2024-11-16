@@ -51,8 +51,9 @@ export default function Stores() {
           headerTitle: 'Minhas Lojas',
           headerBackTitle: 'Voltar',
           headerTintColor: colors.primary,
+          contentStyle: { backgroundColor: colors.background },
           headerTitleStyle: {
-            color: colors.ui_9
+            color: colors.ui_10
           },
           headerRight: ({ tintColor }) => (
             <HeaderTextButton
@@ -79,7 +80,8 @@ export default function Stores() {
           favoritable={true}
           data={stores?.map((store) => ({
             ...store,
-            onPress: () => router.push(`/main/(account)/stores/${store.uuid}`)
+            onPress: () =>
+              router.push(`./${store.uuid}`, { relativeToDirectory: true })
           }))}
           swipeActions={swipeActions}
           onAfterClick={handleRefresh}

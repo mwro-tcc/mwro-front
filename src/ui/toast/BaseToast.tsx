@@ -16,7 +16,7 @@ const toast_color = (type: ToastTypes) => {
     case 'warning':
       return colors.yellow_5
     case 'error':
-      return colors.ui_9
+      return colors.ui_10
   }
 }
 
@@ -30,7 +30,7 @@ export default ({ type, message }: ToastProps) => {
       items='center'
       rounded={12}
       border={[toast_color(type)]}
-      shadow={[0, 3, 10, colors.ui_9, 0.3]}
+      shadow={[0, 3, 10, colors.ui_10, 0.3]}
     >
       <Text size={16} color={colors.ui_1}>
         {message}

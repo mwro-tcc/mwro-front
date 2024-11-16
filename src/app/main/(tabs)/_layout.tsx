@@ -18,7 +18,7 @@ enum Tab {
 
 const UNFOCUSED_TAB: TabColorProperties = {
   fill: 'transparent',
-  stroke: colors.ui_9
+  stroke: colors.ui_10
 }
 
 const TAB_COLORS: Record<Tab, TabColorProperties> = {

@@ -41,7 +41,7 @@ const input_variants = StyleSheet.create<Variants>({
   default: {
     ...base_form_variant,
     backgroundColor: colors.ui_1,
-    borderColor: colors.ui_5,
+    borderColor: colors.ui_6,
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: rounded.sm

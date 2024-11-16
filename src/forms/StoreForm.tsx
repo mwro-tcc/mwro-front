@@ -117,7 +117,7 @@ export default function StoreForm(props: Props) {
           headerTitle: `${store ? 'Editar' : 'Criar'} Loja`,
           headerTintColor: colors.primary,
           headerTitleStyle: {
-            color: colors.ui_9
+            color: colors.ui_10
           },
           headerRight: ({ tintColor }) => (
             <HeaderTextButton

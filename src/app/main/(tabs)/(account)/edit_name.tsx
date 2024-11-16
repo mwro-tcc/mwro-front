@@ -15,7 +15,7 @@ export default function EditName() {
     <FormModal
       actionLabel='Salvar'
       cancelLabel='Cancelar'
-      attributeLabel='nome'
+      attributeLabel='Nome'
       initialValue={name as string}
       onSubmit={handleSubmit}
     />

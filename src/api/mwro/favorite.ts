@@ -6,15 +6,15 @@ import Toast from '@lib/toast'
 class Favorite {
   static async favorite(id: string) {
     return await Api.post(Routes.Favorite.favorite(id)).catch(
-      (error: AxiosError) => void Toast.error(error?.message)
+      (error: AxiosError) => Toast.error(error?.message)
     )
   }
 
   static async unfavorite(id: string) {
     return await Api.delete(Routes.Favorite.unfavorite(id)).catch(
-      (error: AxiosError) => void Toast.error(error?.message)
+      (error: AxiosError) => Toast.error(error?.message)
     )
-  }    
+  }
 }
 
 export default Favorite

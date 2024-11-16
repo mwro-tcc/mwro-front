@@ -120,7 +120,7 @@ export default function Community() {
               <IconButton
                 icon='link'
                 onPress={() => copyToClipboard()}
-                color={colors.ui_6}
+                color={colors.ui_7}
               />
             </HStack>
             <HStack gap={10}>
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     }
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.ui_1,
     height: 100,
     elevation: 2,
     shadowColor: '#000',

@@ -28,7 +28,7 @@ export default function HeaderTextButton(props: Props) {
   return (
     <TouchableOpacity disabled={disabled} onPress={onPress} style={style}>
       <Text
-        color={disabled ? colors.ui_6 : color}
+        color={disabled ? colors.ui_7 : color}
         weight={weight}
         size={size}
         style={style}

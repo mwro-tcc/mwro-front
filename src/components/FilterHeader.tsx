@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import Text from '@ui/Text'
+import colors from '@ui/config/colors'
 
 export type Tab = {
   id: string
@@ -57,7 +58,7 @@ export default function FilterHeader({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.ui_1,
     paddingTop: 40,
     elevation: 2,
     shadowColor: '#000',
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     height: 400
   },
   locationBtn: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.ui_1,
     flexDirection: 'row',
     gap: 10,
     padding: 14,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     borderColor: '#c2c2c2',
     borderRadius: 30,
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: colors.ui_10,
     shadowOpacity: 0.12,
     shadowRadius: 8,
     shadowOffset: {
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   },
   categoryTextActive: {
     fontSize: 14,
-    color: '#000'
+    color: colors.ui_10
   },
   categoriesBtn: {
     flex: 1,
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomColor: '#000',
+    borderBottomColor: colors.ui_10,
     borderBottomWidth: 2,
     paddingBottom: 8,
     display: 'flex',

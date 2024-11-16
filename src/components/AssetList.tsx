@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    color: colors.ui_8
+    color: colors.ui_9
   },
   averageScore: {
     fontWeight: 'bold',
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     color: colors.yellow_6
   },
   description: {
-    color: colors.ui_6,
+    color: colors.ui_7,
     fontSize: 13,
     width: 141
   },
