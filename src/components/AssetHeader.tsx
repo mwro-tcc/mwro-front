@@ -2,33 +2,49 @@ import { StyleSheet, Text, View } from 'react-native'
 import colors from '@ui/config/colors'
 import Image from '@ui/Image'
 import rounded from '@ui/config/rounded'
+import useImagePicker from '@hooks/useImagePicker'
+import ImageUploader from '@api/mwro/image_uploader'
+import { Routes } from '@api/mwro'
+import { Community } from '@src/types/community'
+import { Product } from '@src/types/product'
+import { Store } from '@src/types/store'
+import Button from '@ui/Button'
+import VStack from '@ui/VStack'
 
-type AssetHeaderProps = {
-  image?: string
-  name?: string
-  description?: string
+type Props = Readonly<{
+  asset: Community | Store | Product
   averageScore?: number | null
   childCategory: string
-}
+}>
 
-export default function AssetHeader({
-  image,
-  name,
-  description,
-  averageScore,
-  childCategory
-}: Readonly<AssetHeaderProps>) {
+export default function AssetHeader(props: Props) {
+  const { asset, averageScore, childCategory } = props
+
+  const { uuid: id, name, description } = asset
+
+  const { image, loading, pickImage } = useImagePicker({
+    initialImage: Routes.Image.src(id),
+    onPick: ImageUploader.createUploader(id),
+    debug: true
+  })
+
   return (
     <>
       <View style={styles.assetContainer}>
-        <Image
-          src={image}
-          style={styles.image}
-          hasAuthenticationHeaders
-          w={92}
-          h={92}
-          rounded={rounded.circle}
-        />
+        <VStack items='center' gap={5}>
+          <Image
+            loading={loading}
+            src={image}
+            style={styles.image}
+            hasAuthenticationHeaders
+            w={92}
+            h={92}
+            rounded={rounded.circle}
+          />
+          <Button variant='text' onPress={pickImage}>
+            Alterar
+          </Button>
+        </VStack>
         <View style={styles.content}>
           <Text style={styles.name}>{name}</Text>
           <View style={styles.scoreAndDescription}>

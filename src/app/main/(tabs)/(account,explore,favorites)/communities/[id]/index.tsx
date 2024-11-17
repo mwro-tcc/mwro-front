@@ -2,12 +2,11 @@ import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
 import Show from '@ui/Show'
-import VStack from '@ui/VStack'
 import IconButton from '@ui/IconButton'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
@@ -105,12 +104,7 @@ export default function Community() {
         }}
       />
       <Show unless={loading}>
-        <AssetHeader
-          name={data?.name}
-          description={data?.description}
-          image={Routes.Image.src(data?.uuid)}
-          childCategory='Lojas'
-        />
+        <AssetHeader asset={data!} childCategory='Lojas' />
         <View style={styles.container}>
           <HStack justify='between' pt={20} pr={20} items='center'>
             <HStack gap={10}>

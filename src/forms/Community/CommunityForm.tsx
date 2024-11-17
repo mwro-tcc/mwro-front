@@ -234,9 +234,6 @@ export default function CommunityForm(props: Props) {
             keyboardDismissMode='on-drag'
             contentContainerStyle={{ flex: 1, gap: 30 }}
           >
-            <Show when={community?.uuid}>
-              <CommunityImagePicker community={community!} />
-            </Show>
             <TextInput
               control={form.control}
               name={'name'}
