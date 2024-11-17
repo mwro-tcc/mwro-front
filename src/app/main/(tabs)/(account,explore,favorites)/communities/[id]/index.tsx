@@ -74,7 +74,7 @@ export default function Community() {
     }
   }
 
-  const communityLink = createURL(`/communities/${id}`)
+  const communityLink = createURL(`/main/(explore)/communities/${id}`)
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(communityLink)
