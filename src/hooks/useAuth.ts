@@ -1,16 +1,28 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import Storage from 'storage'
 import useAsync from './useAsync'
+import { useCallback } from 'react'
+import { Asset } from '@src/types/asset'
 
 export default () => {
-  const auth = useAsyncStorage(Storage.AUTH_TOKEN)
+  const authTokenStorage = useAsyncStorage(Storage.AUTH_TOKEN)
+  const userStorage = useAsyncStorage(Storage.AUTH_USER)
 
-  const { data: token, loading, error } = useAsync(auth.getItem)
+  const token = useAsync(authTokenStorage.getItem)
+  const user = useAsync(userStorage.getItem)
 
-  if (error) console.error(error)
+  if (token.error || user.error) console.error({
+    token: token.error,
+    user: user.error
+  })
+
+  const isAssetOwner = useCallback((asset: Asset) => {
+    return asset.owner?.uuid === user.data
+  }, [user.data])
 
   return {
-    token,
-    loading
+    token: token.data,
+    isAssetOwner,
+    loading: token.loading || user.loading
   }
 }

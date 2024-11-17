@@ -13,11 +13,12 @@ import colors from '@ui/config/colors'
 import Text from '@ui/Text'
 import { RatingModal } from 'components/RatingModal'
 import Rating from '@api/mwro/rating'
+import Show from '@ui/Show'
 
 export default function Store(props: { id: string }) {
   const { id } = props
 
-  const { data, error, handleRefresh } = useModel<StoreType>({
+  const { data, loading, error, handleRefresh } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
 
@@ -60,13 +61,13 @@ export default function Store(props: { id: string }) {
           headerTitle: ''
         }}
       />
-      <AssetHeader
-        name={data?.name}
-        description={data?.description}
-        image={data?.image}
-        averageScore={data?.averageScore}
-        childCategory='Produtos'
-      />
+      <Show unless={loading}>
+        <AssetHeader
+          asset={data!}
+          averageScore={data?.averageScore}
+          childCategory='Produtos'
+        />
+      </Show>
       <TouchableOpacity onPress={openRatingModal}>
         <Text weight='600' size={17} color='#e22ee2'>
           {/* Remover depois do Picker no Header */}

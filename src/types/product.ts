@@ -1,3 +1,5 @@
+import { User } from "./user"
+
 export type Product = {
   uuid: string
   name: string
@@ -5,6 +7,7 @@ export type Product = {
   price: number
   stock: number
   description: string
+  owner: User
 }
 
 export type ProductForm = Partial<Omit<Product, 'id'>>
