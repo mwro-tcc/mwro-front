@@ -5,14 +5,13 @@ import rounded from '@ui/config/rounded'
 import useImagePicker from '@hooks/useImagePicker'
 import ImageUploader from '@api/mwro/image_uploader'
 import { Routes } from '@api/mwro'
-import { Community } from '@src/types/community'
-import { Product } from '@src/types/product'
-import { Store } from '@src/types/store'
 import Button from '@ui/Button'
 import VStack from '@ui/VStack'
+import useAuth from '@hooks/useAuth'
+import { Asset } from '@src/types/asset'
 
 type Props = Readonly<{
-  asset: Community | Store | Product
+  asset: Asset
   averageScore?: number | null
   childCategory: string
 }>
@@ -21,6 +20,10 @@ export default function AssetHeader(props: Props) {
   const { asset, averageScore, childCategory } = props
 
   const { uuid: id, name, description } = asset
+
+  const { isAssetOwner } = useAuth()
+
+  const isOwner = isAssetOwner(asset)
 
   const { image, loading, pickImage } = useImagePicker({
     initialImage: Routes.Image.src(id),
@@ -41,9 +44,11 @@ export default function AssetHeader(props: Props) {
             h={92}
             rounded={rounded.circle}
           />
-          <Button variant='text' onPress={pickImage}>
-            Alterar
-          </Button>
+          {isOwner && (
+            <Button variant='text' onPress={pickImage}>
+              Alterar
+            </Button>
+          )}
         </VStack>
         <View style={styles.content}>
           <Text style={styles.name}>{name}</Text>
