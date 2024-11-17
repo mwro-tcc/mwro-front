@@ -1,9 +1,9 @@
-import { StoreForm } from '@src/types/store'
+import { ProductForm } from '@src/types/product'
 import TextInput from '@ui/TextInput'
 import { UseFormReturn } from 'react-hook-form'
 
 type Props = {
-  form: UseFormReturn<StoreForm, any, StoreForm>
+  form: UseFormReturn<ProductForm, any, ProductForm>
 }
 
 export default function ProductFormStep1(props: Props) {
@@ -30,13 +30,6 @@ export default function ProductFormStep1(props: Props) {
         control={form.control}
         name={'price'}
         label='Valor'
-        required
-      />
-      <TextInput
-        keyboardType='numeric'
-        control={form.control}
-        name={'stock'}
-        label='Estoque Inicial'
         required
       />
     </>

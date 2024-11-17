@@ -11,13 +11,13 @@ const Product = {
   async create(data: ProductForm) {
     return await Lib.safe_call(Api.post<ProductResponse>, [
       Routes.Product.create,
-      { ...data, price: data.price as number, stock: data.stock as number }
+      { ...data, price: data.price as number, stock: 1 }
     ])
   },
   async update(data: ProductForm) {
     return await Lib.safe_call(Api.put<ProductResponse>, [
       Routes.Product.update(data.uuid),
-      { ...data, price: data.price as number, stock: data.stock as number }
+      { ...data, price: data.price as number, stock: 1 }
     ])
   },
   async get(id: string) {

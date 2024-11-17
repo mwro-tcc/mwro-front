@@ -1,5 +1,5 @@
 import Text from '@ui/Text'
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import {
   ActivityIndicator,
   Image,
@@ -11,14 +11,12 @@ import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Product as ProductType } from '@src/types/product'
 import { priceFormatter } from 'utils'
-import IconButton from '@ui/IconButton'
-import useBoolean from '@hooks/useBoolean'
-import { isNil } from 'lodash'
 import Button from '@ui/Button'
 import { openWhatsApp } from 'components/WhatsAppIcon'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
-import ProductForm from '@forms/Product/ProductForm'
+import useCache from '@hooks/useCache'
+import HeaderTextButton from '@ui/HeaderTextButton'
 
 type Props = {
   id: string
@@ -27,33 +25,27 @@ type Props = {
 export default function Product(props: Props) {
   const { id } = props
 
-  const { data, loading, error } = useModel<ProductType>({
-    url: Routes.Product.get(id)
-  })
+  const { data, loading, error, handleRefresh, refreshing } =
+    useModel<ProductType>({
+      url: Routes.Product.get(id)
+    })
 
-  const {
-    value: edit,
-    setTrue: enableEditMode,
-    setFalse: disabledEditMode
-  } = useBoolean(false)
+  const router = useRouter()
 
-  if (edit) {
-    if (isNil(data?.storeUuid)) return
+  const { add } = useCache()
 
-    return (
-      <ProductForm
-        product={data}
-        storeId={data.storeUuid}
-        onCancel={disabledEditMode}
-        onFinish={disabledEditMode}
-      />
-    )
+  const handleOpenWhatsApp = () => {
+    openWhatsApp({
+      phoneNumber: '5521997025550',
+      message: 'Olá, gostaria de fazer um pedido'
+    })
   }
 
   const handleEdit = () => {
-    if (!data || !id) return
-
-    enableEditMode()
+    add(id, data)
+    router.push({
+      pathname: `/main/(favorites)/products/${id}/edit`
+    })
   }
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} />
@@ -63,11 +55,23 @@ export default function Product(props: Props) {
     <>
       <Stack.Screen
         options={{
-          headerRight: () => (
-            <IconButton icon='pencil-outline' onPress={handleEdit} />
-          ),
+          headerBackTitle: 'Voltar',
+          headerTitle: '',
+          headerTintColor: colors.primary,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            color: colors.ui_10
+          },
           contentStyle: { backgroundColor: colors.background },
-          headerTitle: 'Produto'
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton
+              color={tintColor}
+              onPress={handleEdit}
+              weight='600'
+            >
+              Editar
+            </HeaderTextButton>
+          )
         }}
       />
       <ScrollView contentContainerStyle={styles.container}>
@@ -84,15 +88,10 @@ export default function Product(props: Props) {
         </VStack>
         <TouchableOpacity>
           <Button
-            onPress={() =>
-              openWhatsApp({
-                phoneNumber: '5521997025550',
-                message: 'Olá, gostaria de fazer um pedido'
-              })
-            }
+            onPress={handleOpenWhatsApp}
             style={styles.contactButton}
             icon='whatsapp'
-            variant='default'
+            variant='primary'
           >
             Entrar em contato
           </Button>
@@ -105,7 +104,7 @@ export default function Product(props: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.ui_1,
+    backgroundColor: colors.background,
     padding: 16,
     width: '100%',
     height: '100%',
@@ -135,6 +134,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    padding: 12
+    padding: 12,
+    borderRadius: 8,
+    color: colors.ui_1,
+    backgroundColor: colors.primary
   }
 })

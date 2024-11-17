@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 17,
     padding: 16,
-    backgroundColor: colors.ui_1
+    backgroundColor: colors.background
   },
   image: {
     width: 80,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     gap: 5
   },
   category: {
-    backgroundColor: colors.ui_1,
+    backgroundColor: colors.background,
     color: colors.ui_9,
     paddingHorizontal: 16,
     paddingVertical: 9,

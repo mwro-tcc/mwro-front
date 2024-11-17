@@ -1,4 +1,5 @@
 import Button from '@ui/Button'
+import colors from '@ui/config/colors'
 import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 import { useRouter } from 'expo-router'
@@ -8,7 +9,7 @@ export default function Welcome() {
   const router = useRouter()
 
   return (
-    <VStack gap={10} p={20} justify='end' flex={1}>
+    <VStack gap={10} p={20} justify='end' flex={1} bg={colors.background}>
       <StatusBar style='auto' />
       <VStack flex={1} items='center' justify='center'>
         <Text size={72} weight='600'>
