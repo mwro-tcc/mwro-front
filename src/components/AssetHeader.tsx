@@ -100,8 +100,9 @@ const styles = StyleSheet.create({
   category: {
     backgroundColor: colors.background,
     color: colors.ui_9,
-    paddingHorizontal: 16,
-    paddingVertical: 9,
+    paddingHorizontal: 13,
+    marginTop: 9,
+    marginBottom: 3,
     fontSize: 15,
     fontWeight: 'bold'
   }
