@@ -18,11 +18,8 @@ type Props = Readonly<{
 
 export default function AssetHeader(props: Props) {
   const { asset, averageScore, childCategory } = props
-
   const { uuid: id, name, description } = asset
-
   const { isAssetOwner } = useAuth()
-
   const isOwner = isAssetOwner(asset)
 
   const { image, loading, pickImage } = useImagePicker({
