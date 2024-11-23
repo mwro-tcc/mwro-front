@@ -2,7 +2,7 @@ import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
@@ -15,11 +15,12 @@ import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
 import { Store } from '@src/types/store'
-import HeaderTextButton from '@ui/HeaderTextButton'
 import AssetList from 'components/AssetList'
 import useCollection from '@hooks/useCollection'
 import ScreenLoading from '@ui/ScreenLoading'
 import AssetHeader from 'components/AssetHeader'
+import Menu from '@ui/Menu'
+import { Pencil, Trash } from 'lucide-react-native'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -93,13 +94,17 @@ export default function Community() {
           headerTintColor: colors.primary,
           headerShadowVisible: false,
           headerRight: ({ tintColor }) => (
-            <HeaderTextButton
+            <Menu
+              debug
               color={tintColor}
-              onPress={handleEdit}
-              weight='600'
-            >
-              Editar
-            </HeaderTextButton>
+              items={[
+                {
+                  label: 'Editar',
+                  onPress: handleEdit,
+                  icon: <Pencil />
+                }
+              ]}
+            />
           )
         }}
       />
