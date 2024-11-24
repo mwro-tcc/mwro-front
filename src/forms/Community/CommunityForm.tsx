@@ -10,7 +10,6 @@ import colors from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import TextInput from '@ui/TextInput'
 import ActionList from '@ui/ActionList'
-import CommunityImagePicker from './components/CommunityImagePicker'
 import Show from '@ui/Show'
 import { Community } from '@api/mwro'
 import Text from '@ui/Text'
@@ -234,9 +233,6 @@ export default function CommunityForm(props: Props) {
             keyboardDismissMode='on-drag'
             contentContainerStyle={{ flex: 1, gap: 30 }}
           >
-            <Show when={community?.uuid}>
-              <CommunityImagePicker community={community!} />
-            </Show>
             <TextInput
               control={form.control}
               name={'name'}

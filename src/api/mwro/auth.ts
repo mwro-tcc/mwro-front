@@ -37,6 +37,7 @@ class Auth {
 
   static async signOut() {
     await AsyncStorage.removeItem(Storage.AUTH_TOKEN).catch(console.error)
+    await AsyncStorage.removeItem(Storage.AUTH_USER).catch(console.error)
     router.replace('/(auth)/welcome')
   }
 
@@ -46,6 +47,9 @@ class Auth {
 
   static onSuccess(response: AxiosResponse<AuthResponse>) {
     AsyncStorage.setItem(Storage.AUTH_TOKEN, response?.data?.token).catch(
+      console.error
+    )
+    AsyncStorage.setItem(Storage.AUTH_USER, response?.data?.user?.uuid).catch(
       console.error
     )
     router.replace('/main')

@@ -14,7 +14,7 @@ import useAuth from '@hooks/useAuth'
 import scope from '@lib/scope'
 import HStack from './HStack'
 import colors from './config/colors'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props = StyleShorthands & {
   src?: string | null
@@ -38,6 +38,12 @@ export default function Image(props: Props) {
 
   const [error, setError] =
     useState<NativeSyntheticEvent<ImageErrorEventData> | null>(null)
+
+  useEffect(() => {
+    if (loading && error) {
+      setError(null)
+    }
+  }, [error, loading])
 
   const { token, loading: isLoadingToken } = useAuth()
 

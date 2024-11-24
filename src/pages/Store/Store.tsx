@@ -17,6 +17,7 @@ import Lib from '@lib/index'
 import Api from '@api/mwro/api'
 import Toast from '@lib/toast'
 import { ActionListSwipeAction } from '@ui/ActionList'
+import Show from '@ui/Show'
 
 export default function Store(props: { id: string }) {
   const { id } = props
@@ -25,7 +26,8 @@ export default function Store(props: { id: string }) {
     data: store,
     error: storeError,
     handleRefresh: handleStoreRefresh,
-    refreshing: refreshingStore
+    refreshing: refreshingStore,
+    loading: loadingStore
   } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
@@ -104,13 +106,13 @@ export default function Store(props: { id: string }) {
           headerTitle: ''
         }}
       />
-      <AssetHeader
-        name={store?.name}
-        description={store?.description}
-        image={store?.image}
-        averageScore={store?.averageScore}
-        childCategory='Produtos'
-      />
+      <Show unless={loadingStore}>
+        <AssetHeader
+          asset={store!}
+          averageScore={store?.averageScore}
+          childCategory='Produtos'
+        />
+      </Show>
       <TouchableOpacity onPress={openRatingModal}>
         <Text weight='600' size={17} color='#e22ee2'>
           {/* Remover depois do Picker no Header */}

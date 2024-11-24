@@ -1,3 +1,5 @@
+import { User } from "./user"
+
 export type Store = {
   uuid: string
   name: string
@@ -9,6 +11,7 @@ export type Store = {
   communityUuid?: string | null
   createdAt?: string
   userUuid?: string
+  owner: User
 }
 
 export type StoreForm = Partial<Omit<Store, 'id'>>

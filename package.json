@@ -4,7 +4,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "test": "jest",
-    "dev": "expo start --tunnel",
+    "dev": "expo start",
     "dev/ios": "expo start --ios",
     "dev/android": "expo start --android",
     "android": "expo run:android",
@@ -48,7 +48,8 @@
     "react-native-screens": "~4.0.0",
     "react-native-svg": "15.8.0",
     "react-native-webview": "13.12.2",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "expo-blur": "~14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
