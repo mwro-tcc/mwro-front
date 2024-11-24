@@ -1,11 +1,9 @@
-import { Redirect, Stack, useFocusEffect } from 'expo-router'
+import { Redirect, Stack, useRouter } from 'expo-router'
 import { TouchableOpacity, View } from 'react-native'
-import List from 'components/List'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
 import useBoolean from '@hooks/useBoolean'
-import { Product } from '@src/types/product'
 import AssetHeader from 'components/AssetHeader'
 import FavoriteIcon from 'components/FavoriteIcon'
 import StoreForm from '@forms/StoreForm'
@@ -13,14 +11,36 @@ import colors from '@ui/config/colors'
 import Text from '@ui/Text'
 import { RatingModal } from 'components/RatingModal'
 import Rating from '@api/mwro/rating'
+import AssetList from 'components/AssetList'
+import useCollection from '@hooks/useCollection'
+import Lib from '@lib/index'
+import Api from '@api/mwro/api'
+import Toast from '@lib/toast'
+import { ActionListSwipeAction } from '@ui/ActionList'
 import Show from '@ui/Show'
 
 export default function Store(props: { id: string }) {
   const { id } = props
 
-  const { data, loading, error, handleRefresh } = useModel<StoreType>({
+  const {
+    data: store,
+    error: storeError,
+    handleRefresh: handleStoreRefresh,
+    refreshing: refreshingStore,
+    loading: loadingStore
+  } = useModel<StoreType>({
     url: Routes.Store.get(id)
   })
+
+  const {
+    data: products,
+    error: productsError,
+    handleRefresh: handleProductsRefresh
+  } = useCollection<any>({
+    url: Routes.Store.get_store_products(id)
+  })
+
+  const router = useRouter()
 
   const {
     value: ratingModalIsOpen,
@@ -32,17 +52,42 @@ export default function Store(props: { id: string }) {
     return await Rating.submit_rating(id, ratingScore)
   }
 
+  const createProduct = () => {
+    return router.push({
+      pathname: `/main/(favorites)/products/create`,
+      params: {
+        store: id
+      }
+    })
+  }
+
   const {
     value: edit,
     setTrue: enableEditMode,
     setFalse: disabledEditMode
   } = useBoolean(false)
 
-  if (edit) {
-    return <StoreForm store={data} onFinish={disabledEditMode} />
+  const handleDelete = async (id: string) => {
+    Lib.error_callback(
+      await Lib.safe_call(Api.delete, [Routes.Product.delete(id)]),
+      Toast.error
+    )
+    handleProductsRefresh()
   }
 
-  if (error) return <Redirect href='/main' />
+  const swipeActions: ActionListSwipeAction = (item) => [
+    {
+      label: 'Excluir',
+      color: colors.red_5,
+      onPress: () => handleDelete(item.uuid as string)
+    }
+  ]
+
+  if (edit) {
+    return <StoreForm store={store} onFinish={disabledEditMode} />
+  }
+
+  if (storeError || productsError) return <Redirect href='/main' />
 
   return (
     <View style={{ flex: 1 }}>
@@ -55,16 +100,16 @@ export default function Store(props: { id: string }) {
           },
           headerShadowVisible: false,
           headerRight: () => (
-            <FavoriteIcon asset={data!} onAfterClick={handleRefresh} />
+            <FavoriteIcon asset={store!} onAfterClick={handleStoreRefresh} />
           ),
           contentStyle: { backgroundColor: colors.background },
           headerTitle: ''
         }}
       />
-      <Show unless={loading}>
+      <Show unless={loadingStore}>
         <AssetHeader
-          asset={data!}
-          averageScore={data?.averageScore}
+          asset={store!}
+          averageScore={store?.averageScore}
           childCategory='Produtos'
         />
       </Show>
@@ -74,18 +119,27 @@ export default function Store(props: { id: string }) {
           Avaliar
         </Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={createProduct}>
+        <Text weight='600' size={17} color='#e22ee2'>
+          {/* Remover depois do Picker no Header */}
+          Adicionar Produto
+        </Text>
+      </TouchableOpacity>
       <RatingModal
         visible={ratingModalIsOpen}
         onClose={closeRatingModal}
         onSubmit={submitRating}
         assetLabel='Loja'
       />
-      <List
-        getItemRoute={(product: Product) => ({
-          pathname: `/communities/products/${product.uuid}`
-        })}
-        numOfColumns={2}
-        url={Routes.Store.get_store_products(id)}
+      <AssetList
+        onRefresh={handleStoreRefresh}
+        refreshing={refreshingStore}
+        data={products?.map((product) => ({
+          ...product,
+          onPress: () =>
+            router.push(`/main/(favorites)/products/${product.uuid}`)
+        }))}
+        swipeActions={swipeActions}
       />
     </View>
   )

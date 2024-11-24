@@ -8,30 +8,30 @@ import { Stack } from 'expo-router'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import colors from '@ui/config/colors'
+import HeaderTextButton from '@ui/HeaderTextButton'
 
 type Props = {
-  onCancel: () => void
+  onCancel?: () => void
   onFinish: () => void
   storeId: string
   product?: Product
 }
 
 export default function ProductForm(props: Props) {
-  const { storeId, product, onCancel, onFinish } = props
+  const { storeId, product, onFinish } = props
 
   const form = useForm<ProductFormType>({
     defaultValues: product,
     values: product
   })
 
-  const { create_product, update_product, delete_product } = useProduct()
+  const { create_product, update_product } = useProduct()
 
   const handleUpdate = async (productData: any) => {
     await update_product({
       ...productData,
       storeUuid: storeId,
-      price: parseInt(productData.price),
-      stock: parseInt(productData.stock)
+      price: parseInt(productData.price)
     })
     onFinish()
   }
@@ -40,19 +40,12 @@ export default function ProductForm(props: Props) {
     await create_product({
       ...productData,
       storeUuid: storeId,
-      price: parseInt(productData.price),
-      stock: parseInt(productData.stock)
+      price: parseInt(productData.price)
     })
     onFinish()
   }
 
   const handleSubmit = form.handleSubmit(product ? handleUpdate : handleCreate)
-
-  const handleDelete = async () => {
-    if (!product) return
-    await delete_product(product.uuid)
-    onFinish()
-  }
 
   const body = (() => {
     return <ProductFormStep1 form={form} />
@@ -67,37 +60,31 @@ export default function ProductForm(props: Props) {
       <Stack.Screen
         options={{
           headerTitle: `${product ? 'Editar' : 'Criar'} produto`,
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: colors.ui_10
+          },
           contentStyle: {
-            backgroundColor: colors.ui_1
+            backgroundColor: colors.background
           },
           headerLeft: () => null,
-          headerRight: () => {
-            return (
-              <>
-                {product && (
-                  <TouchableOpacity onPress={handleDelete}>
-                    <MaterialCommunityIcons name='trash-can' size={24} />
-                  </TouchableOpacity>
-                )}
-              </>
-            )
-          }
+          headerRight: ({ tintColor }) => (
+            <HeaderTextButton
+              color={tintColor}
+              onPress={handleSubmit}
+              weight='600'
+              disabled={!form.formState.isValid}
+            >
+              Salvar
+            </HeaderTextButton>
+          ),
+          headerBackTitle: 'Voltar'
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
         <VStack items='center' gap={20}></VStack>
         <VStack gap={30} flex={1}>
           {body}
-        </VStack>
-        <VStack gap={10}>
-          <Button
-            variant='primary'
-            onPress={handleSubmit}
-            disabled={!form.formState.isValid}
-          >
-            Concluir
-          </Button>
-          <Button onPress={onCancel}>Cancelar</Button>
         </VStack>
       </VStack>
     </ScrollView>

@@ -15,7 +15,7 @@ export default function Root() {
 
   if (redirectTo !== undefined) {
     setTimeout(() => {
-      router.replace(`${redirectTo}`)
+      router.push(`${redirectTo}`)
       redirectTo = undefined
     }, 500)
   }
