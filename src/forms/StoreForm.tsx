@@ -21,7 +21,7 @@ import HeaderTextButton from '@ui/HeaderTextButton'
 import Store from '@api/mwro/store'
 
 type Props = {
-  onFinish: () => void
+  onFinish: any
   store?: StoreType
   community?: any
 }
