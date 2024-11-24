@@ -4,7 +4,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "test": "jest",
-    "dev": "expo start",
+    "dev": "expo start --tunnel",
     "dev/ios": "expo start --ios",
     "dev/android": "expo start --android",
     "android": "expo run:android",
