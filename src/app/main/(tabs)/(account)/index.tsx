@@ -118,6 +118,19 @@ export default function Account() {
         ]}
       />
       <ActionList
+        label='Solicitações'
+        data={[
+          {
+            title: 'Solicitações Pendentes',
+            onPress: () => router.push('/main/(account)/requests/pending')
+          },
+          {
+            title: 'Solicitações Recebidas',
+            onPress: () => router.push('/main/(account)/requests/received')
+          }
+        ]}
+      />
+      <ActionList
         data={[
           {
             title: 'Encerrar Sessão',

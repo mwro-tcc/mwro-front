@@ -17,6 +17,12 @@ const Routes = {
   Rating: {
     submit_rating: (id: string) => `/reviews/${id}`
   },
+  Requests: {
+    send_request: `/communities-requests/`,
+    received_requests: `/communities-requests/my-communities`,
+    pending_requests: `/communities-requests/my-stores`,
+    process_request: (id: string) => `/communities-requests/${id}`
+  },
   Community: {
     list: '/communities',
     list_user_communities: '/communities/created',
@@ -47,7 +53,8 @@ const Routes = {
   },
   Image: {
     get: (assetId: string) => `/images/${assetId}`,
-    src: (assetId?: string) => assetId ? `${MWRO_API_BASE_URL}images/${assetId}` : undefined,
+    src: (assetId?: string) =>
+      assetId ? `${MWRO_API_BASE_URL}images/${assetId}` : undefined,
     create: (assetId: string) => `/images/${assetId}`
   }
 }

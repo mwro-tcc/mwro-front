@@ -11,18 +11,30 @@ export default () => {
   const token = useAsync(authTokenStorage.getItem)
   const user = useAsync(userStorage.getItem)
 
-  if (token.error || user.error) console.error({
-    token: token.error,
-    user: user.error
-  })
+  if (token.error || user.error)
+    console.error({
+      token: token.error,
+      user: user.error
+    })
 
-  const isAssetOwner = useCallback((asset: Asset) => {
-    return asset.owner?.uuid === user.data
-  }, [user.data])
+  const isAssetOwner = useCallback(
+    (asset: Asset) => {
+      return asset.owner?.uuid === user.data
+    },
+    [user.data]
+  )
+
+  const isCommunityOwner = useCallback(
+    (community: any) => {
+      return community?.admins.some((admin: any) => admin.uuid === user.data)
+    },
+    [user.data]
+  )
 
   return {
     token: token.data,
     isAssetOwner,
+    isCommunityOwner,
     loading: token.loading || user.loading
   }
 }

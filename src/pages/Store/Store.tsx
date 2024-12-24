@@ -1,5 +1,5 @@
 import { Redirect, Stack, useRouter } from 'expo-router'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Store as StoreType } from '@src/types/store'
@@ -18,6 +18,8 @@ import Api from '@api/mwro/api'
 import Toast from '@lib/toast'
 import { ActionListSwipeAction } from '@ui/ActionList'
 import Show from '@ui/Show'
+import HStack from '@ui/HStack'
+import Menu from '@ui/Menu'
 
 export default function Store(props: { id: string }) {
   const { id } = props
@@ -99,8 +101,23 @@ export default function Store(props: { id: string }) {
             color: colors.ui_10
           },
           headerShadowVisible: false,
-          headerRight: () => (
-            <FavoriteIcon asset={store!} onAfterClick={handleStoreRefresh} />
+          headerRight: ({ tintColor }) => (
+            <HStack gap={13} items='center'>
+              <FavoriteIcon asset={store!} onAfterClick={handleStoreRefresh} />
+              <Menu
+                color={tintColor}
+                items={[
+                  {
+                    label: 'Avaliar',
+                    onPress: openRatingModal
+                  },
+                  {
+                    label: 'Adicionar Produto',
+                    onPress: createProduct
+                  }
+                ]}
+              />
+            </HStack>
           ),
           contentStyle: { backgroundColor: colors.background },
           headerTitle: ''
@@ -113,24 +130,6 @@ export default function Store(props: { id: string }) {
           childCategory='Produtos'
         />
       </Show>
-      <TouchableOpacity onPress={openRatingModal}>
-        <Text weight='600' size={17} color='#e22ee2'>
-          {/* Remover depois do Picker no Header */}
-          Avaliar
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={createProduct}>
-        <Text weight='600' size={17} color='#e22ee2'>
-          {/* Remover depois do Picker no Header */}
-          Adicionar Produto
-        </Text>
-      </TouchableOpacity>
-      <RatingModal
-        visible={ratingModalIsOpen}
-        onClose={closeRatingModal}
-        onSubmit={submitRating}
-        assetLabel='Loja'
-      />
       <AssetList
         onRefresh={handleStoreRefresh}
         refreshing={refreshingStore}
@@ -140,6 +139,12 @@ export default function Store(props: { id: string }) {
             router.push(`/main/(favorites)/products/${product.uuid}`)
         }))}
         swipeActions={swipeActions}
+      />
+      <RatingModal
+        visible={ratingModalIsOpen}
+        onClose={closeRatingModal}
+        onSubmit={submitRating}
+        assetLabel='Loja'
       />
     </View>
   )

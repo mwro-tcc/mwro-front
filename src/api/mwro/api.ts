@@ -21,7 +21,6 @@ Api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<{ message: string }>) => {
     if (error?.response?.status === 401) {
-      console.log('ue')
       AsyncStorage.removeItem(Storage.AUTH_TOKEN)
       AsyncStorage.removeItem(Storage.AUTH_USER)
       router.replace('/welcome')
