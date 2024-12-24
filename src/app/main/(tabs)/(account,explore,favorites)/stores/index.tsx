@@ -40,7 +40,7 @@ export default function Stores() {
     {
       label: 'Excluir',
       color: colors.red_5,
-      onPress: () => handleDelete(item.id as string)
+      onPress: () => handleDelete(item.uuid as string)
     }
   ]
 

@@ -1,16 +1,10 @@
-import HStack from '@ui/HStack'
-import Text from '@ui/Text'
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
-import { useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
 import Show from '@ui/Show'
-import IconButton from '@ui/IconButton'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
-import AddStoreModal from 'components/AddStoreModal'
 import colors from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
@@ -20,12 +14,15 @@ import useCollection from '@hooks/useCollection'
 import ScreenLoading from '@ui/ScreenLoading'
 import AssetHeader from 'components/AssetHeader'
 import Menu from '@ui/Menu'
-import { Pencil, Trash } from 'lucide-react-native'
+import { Pencil } from 'lucide-react-native'
+import useAuth from '@hooks/useAuth'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
   const { add } = useCache()
+
+  const { isCommunityOwner } = useAuth()
 
   const {
     data,
@@ -62,8 +59,6 @@ export default function Community() {
     handleStoresRefresh()
   }
 
-  const [addStoreModalVisible, setAddStoreModalVisible] = useState(false)
-
   const handleEdit = () => {
     if (id) {
       add(id, data)
@@ -74,6 +69,22 @@ export default function Community() {
       Toast.error('Nenhum ID encontrado')
     }
   }
+
+  const handleRequest = () => {
+    router.push(
+      {
+        pathname: `./add_store`,
+        params: {
+          id
+        }
+      },
+      { relativeToDirectory: true }
+    )
+  }
+
+  const menuRequestLabel = isCommunityOwner(data)
+    ? 'Adicionar Loja'
+    : 'Solicitar para ingressar'
 
   const communityLink = createURL(`/main/(explore)/communities/${id}`)
 
@@ -102,6 +113,14 @@ export default function Community() {
                   label: 'Editar',
                   onPress: handleEdit,
                   icon: <Pencil />
+                },
+                {
+                  label: menuRequestLabel,
+                  onPress: handleRequest
+                },
+                {
+                  label: 'Copiar Link',
+                  onPress: copyToClipboard
                 }
               ]}
             />
@@ -110,37 +129,7 @@ export default function Community() {
       />
       <Show unless={loading}>
         <AssetHeader asset={data!} childCategory='Lojas' />
-        <View style={styles.container}>
-          <HStack justify='between' pt={20} pr={20} items='center'>
-            <HStack gap={10}>
-              <Text style={{ fontSize: 20, fontWeight: '600', gap: 4 }}>
-                {data?.name}
-              </Text>
-              <IconButton
-                icon='link'
-                onPress={() => copyToClipboard()}
-                color={colors.ui_7}
-              />
-            </HStack>
-            <HStack gap={10}>
-              <IconButton
-                icon='store-plus-outline'
-                onPress={() => setAddStoreModalVisible(true)}
-                style={styles.iconContainer}
-                color='black'
-              />
-              <IconButton
-                icon='location-on'
-                onPress={() =>
-                  router.push(`./${id}/map`, { relativeToDirectory: true })
-                }
-                style={styles.iconContainer}
-                color='black'
-                fromCommunity={false}
-              />
-            </HStack>
-          </HStack>
-        </View>
+
         <Show unless={isLoadingStores} placeholder={<ScreenLoading />}>
           <AssetList
             data={stores}
@@ -149,47 +138,6 @@ export default function Community() {
           />
         </Show>
       </Show>
-      <Show when={addStoreModalVisible}>
-        <AddStoreModal
-          modalVisible={addStoreModalVisible}
-          setModalVisible={setAddStoreModalVisible}
-          communityUuid={id}
-        />
-      </Show>
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  iconContainer: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    padding: 14,
-    alignItems: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#c2c2c2',
-    borderRadius: 30,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    shadowOffset: {
-      width: 1,
-      height: 1
-    }
-  },
-  container: {
-    backgroundColor: colors.ui_1,
-    height: 100,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: {
-      width: 1,
-      height: 10
-    },
-    width: '100%',
-    paddingLeft: 20
-  }
-})

@@ -7,7 +7,7 @@ import ListLabel from './ListLabel'
 import AppleStyleSwipeableRow, { Action } from './SwipeableRow'
 
 export type ActionType = {
-  title: string
+  title?: string
   id?: string
   uuid?: string
   icon?: string

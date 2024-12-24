@@ -10,12 +10,6 @@ export default function AccountLayout() {
           headerTitle: 'Minha Conta'
         }}
       />
-      <Stack.Screen
-        name='edit_name'
-        options={{
-          presentation: 'modal'
-        }}
-      />
     </Stack>
   )
 }

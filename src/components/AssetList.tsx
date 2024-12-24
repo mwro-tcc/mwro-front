@@ -48,7 +48,11 @@ function AssetList(props: Props) {
   const renderRow = ({ item }: any) => {
     return (
       <AppleStyleSwipeableRow actions={swipeActions(item)}>
-        <TouchableOpacity onPress={item.onPress} style={styles.listItem}>
+        <TouchableOpacity
+          onPress={item.onPress}
+          style={styles.listItem}
+          disabled={!item.onPress}
+        >
           <View style={styles.imageAndInfo}>
             <Image
               src={Routes.Image.src(item.uuid)}
@@ -149,7 +153,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    color: colors.ui_9
+    color: colors.ui_9,
+    alignItems: 'center'
   },
   averageScore: {
     fontWeight: 'bold',
@@ -159,7 +164,7 @@ const styles = StyleSheet.create({
   description: {
     color: colors.ui_7,
     fontSize: 13,
-    width: 141
+    width: 160
   },
   favoriteIcon: {
     marginBottom: 20
