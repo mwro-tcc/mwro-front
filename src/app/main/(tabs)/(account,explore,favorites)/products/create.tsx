@@ -1,16 +1,17 @@
 import ProductForm from '@forms/Product/ProductForm'
-import { Redirect, router, useLocalSearchParams } from 'expo-router'
+import useCache from '@hooks/useCache'
+import { Redirect, router } from 'expo-router'
 
 export default function CreateProduct() {
-  const { store } = useLocalSearchParams<{
-    store: string
-  }>()
+  const { get } = useCache()
 
-  if (!store) return <Redirect href='/main' />
+  const storeId = get('storeId') as string
+
+  if (!storeId) return <Redirect href='/main' />
 
   return (
     <ProductForm
-      storeId={store}
+      storeId={storeId}
       onFinish={router.back}
       onCancel={router.back}
     />
