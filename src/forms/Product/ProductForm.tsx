@@ -1,12 +1,10 @@
 import { useForm } from 'react-hook-form'
 import { Product, ProductForm as ProductFormType } from '@src/types/product'
 import VStack from '@ui/VStack'
-import Button from '@ui/Button'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
 import { Stack } from 'expo-router'
-import { ScrollView, TouchableOpacity } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { ScrollView } from 'react-native'
 import colors from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'
 
