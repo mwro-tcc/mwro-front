@@ -28,7 +28,10 @@ const base_form_variant: ViewStyle = {
   padding: spacings.md,
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+  borderWidth: 1,
+  borderColor: '#0000001A',
+  borderStyle: 'solid'
 }
 
 const input_variants = StyleSheet.create<Variants>({
@@ -73,9 +76,9 @@ const TextInput = forwardRef((props: Props, ref) => {
   return (
     <>
       <Show when={label}>
-        <VStack gap={5}>
-          <HStack px={5} gap={3}>
-            <Text weight='600' size={13}>
+        <VStack gap={3}>
+          <HStack px={7} gap={2} items='center'>
+            <Text weight='600' size={11}>
               {label}
             </Text>
             <Show when={required}>

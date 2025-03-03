@@ -19,7 +19,13 @@ class Auth {
       return
     }
 
-    Api.post<AuthResponse>(Routes.Auth.sign_up, { ...data })
+    const serializedData: Omit<SignUpForm, 'confirm_password'> = {
+      name: data.email,
+      email: data.email.toLowerCase(),
+      password: data.password
+    }
+
+    Api.post<AuthResponse>(Routes.Auth.sign_up, serializedData)
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
         Toast.error(error?.message)
@@ -27,7 +33,12 @@ class Auth {
   }
 
   static async signIn(data: SignInForm) {
-    Api.post<AuthResponse>(Routes.Auth.sign_in, data)
+    const serializedData: SignInForm = {
+      email: data.email.toLowerCase(),
+      password: data.password
+    }
+
+    Api.post<AuthResponse>(Routes.Auth.sign_in, serializedData)
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
         Toast.error(error?.message)

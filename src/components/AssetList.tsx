@@ -9,11 +9,12 @@ import {
 import { priceFormatter } from 'utils'
 import HStack from '@ui/HStack'
 import FavoriteIcon from './FavoriteIcon'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import AppleStyleSwipeableRow, { Action } from '../ui/SwipeableRow'
 import { Routes } from '@api/mwro'
 import Image from '@ui/Image'
 import rounded from '@ui/config/rounded'
+import { parse_style_shorthands } from '@ui/types/style_shorthands'
 
 type Props = Readonly<{
   favoritable?: boolean
@@ -105,9 +106,14 @@ function AssetList(props: Props) {
       }
       renderItem={renderRow}
       ItemSeparatorComponent={() => (
-        <HStack border={[0.5, 'solid', colors.ui_3]} />
+        <HStack
+          border={[StyleSheet.hairlineWidth, 'solid', `${ui.border}c0`]}
+        />
       )}
       contentContainerStyle={{
+        ...parse_style_shorthands({
+          border: [StyleSheet.hairlineWidth, 'solid', ui.border]
+        }),
         margin: 10,
         backgroundColor: colors.ui_1,
         borderRadius: rounded.sm,

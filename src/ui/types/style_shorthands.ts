@@ -1,3 +1,4 @@
+import filter_undefined_values from '@lib/filter_undefined_values';
 import _ from 'lodash';
 import {
     ColorValue,
@@ -188,7 +189,7 @@ export const parse_style_shorthands = (
 
 export const parse_text_style_shorthands = (
     shorthands: TextShorthands,
-): TextStyle => ({
+): TextStyle => filter_undefined_values({
     fontSize: shorthands.size,
     fontWeight: shorthands.weight,
     color: shorthands.color,

@@ -24,15 +24,15 @@ const UNFOCUSED_TAB: TabColorProperties = {
 const TAB_COLORS: Record<Tab, TabColorProperties> = {
   explore: {
     fill: 'transparent',
-    stroke: '#12B8FF'
+    stroke: '#5185C4'
   },
   favorites: {
-    fill: '#FF4E7A',
-    stroke: '#FF4E7A'
+    fill: '#DE4439',
+    stroke: '#DE4439'
   },
   account: {
     fill: 'transparent',
-    stroke: '#F2D21B'
+    stroke: '#CA8817'
   }
 }
 

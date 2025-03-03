@@ -1,10 +1,11 @@
-import { FlatList, FlatListProps } from 'react-native'
+import { FlatList, FlatListProps, StyleSheet } from 'react-native'
 import ActionListItem from './ActionListItem'
-import colors from './config/colors'
+import colors, { ui } from './config/colors'
 import HStack from './HStack'
 import VStack from './VStack'
 import ListLabel from './ListLabel'
 import AppleStyleSwipeableRow, { Action } from './SwipeableRow'
+import { parse_style_shorthands } from './types/style_shorthands'
 
 export type ActionType = {
   title?: string
@@ -36,9 +37,15 @@ function ActionList({
         data={props.data}
         scrollEnabled={props.scrollEnabled ?? false}
         ItemSeparatorComponent={() => (
-          <HStack border={[0.5, 'solid', colors.ui_3]} ml={16} />
+          <HStack
+            border={[StyleSheet.hairlineWidth, 'solid', `${ui.border}c0`]}
+            ml={16}
+          />
         )}
         contentContainerStyle={{
+          ...parse_style_shorthands({
+            border: [StyleSheet.hairlineWidth, 'solid', ui.border]
+          }),
           backgroundColor: colors.ui_1,
           borderRadius: 8,
           display: 'flex'

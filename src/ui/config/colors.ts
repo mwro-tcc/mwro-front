@@ -1,5 +1,5 @@
 enum colors {
-  ui_10 = '#000000',
+  ui_10 = '#272421',
   ui_9 = '#242424',
   ui_8 = '#6a6a6a',
   ui_7 = '#afafaf',
@@ -13,7 +13,7 @@ enum colors {
   red_2 = '#f78b8b',
   red_3 = '#fa7373',
   red_4 = '#f76060',
-  red_5 = '#f04343',
+  red_5 = '#E05235',
   red_6 = '#d42121',
   red_7 = '#a81616',
   red_8 = '#6e0909',
@@ -29,13 +29,21 @@ enum colors {
   green_5 = '#5dd55d',
   yellow_5 = '#fce17d',
   yellow_6 = '#eec11eeb',
-  primary = '#6abb21',
-  background = '#f2f2f7',
+  primary = '#436126',
+  primary_dark = '#436126',
+  background = '#F5F4F2',
   overlay = 'rgba(0, 0, 0, 0.4)'
 }
 
+export enum ui {
+  fg = colors.ui_10,
+  border = '#C9C8C5',
+  required = colors.red_5,
+  destructive = '#AF3931',
+}
+
 export const FavoriteIconStyle = {
-  FILLED: { fill: '#ff4e7a', stroke: '#ff4e7a' },
+  FILLED: { fill: '#DE4439', stroke: '#DE4439' },
   OUTLINED: { fill: colors.ui_1, stroke: colors.ui_7 }
 }
 

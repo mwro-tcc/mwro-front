@@ -5,7 +5,7 @@ import {
   TouchableOpacityProps,
   ViewStyle
 } from 'react-native'
-import colors from './config/colors'
+import colors, { ui } from './config/colors'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import rounded from './config/rounded'
 import spacings from './config/spacings'
@@ -36,20 +36,18 @@ const button_variants = StyleSheet.create<Variants>({
     color: colors.ui_1
   },
   default: {
-    ...base_button_variant,
-    borderRadius: rounded.sm
+    ...base_button_variant
   },
   disabled: {
     ...base_button_variant,
     backgroundColor: colors.ui_7,
     borderColor: colors.ui_6,
     borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: rounded.sm
+    borderWidth: 1
   },
   destructive: {
     ...base_button_variant,
-    backgroundColor: colors.red_6
+    backgroundColor: ui.destructive
   }
 })
 
@@ -69,7 +67,7 @@ const text_variants = StyleSheet.create<Variants>({
   },
   default: {
     fontWeight: '700',
-    color: colors.primary
+    color: colors.primary_dark
   },
   disabled: {
     fontWeight: '700',

@@ -8,6 +8,7 @@ import {
   parse_text_style_shorthands
 } from './types/style_shorthands'
 import { ReactNode } from 'react'
+import { ui } from './config/colors'
 
 export type TextProps = TextShorthands &
   Partial<{
@@ -28,6 +29,7 @@ export default ({
     <Text
       {...componentProps}
       style={{
+        color: ui.fg,
         ...parse_text_style_shorthands(shorthands),
         ...(style as TextStyle)
       }}
