@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import Image from '@ui/Image'
 import rounded from '@ui/config/rounded'
 import useImagePicker from '@hooks/useImagePicker'
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   averageScore: {
     fontWeight: 'bold',
     fontSize: 13,
-    color: colors.yellow_6
+    color: ui.yellow
   },
   description: {
     color: colors.ui_7,

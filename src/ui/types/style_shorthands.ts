@@ -143,7 +143,7 @@ const get_border_width = (border: Border | undefined): number | undefined => {
 
 export const parse_style_shorthands = (
     shorthands: StyleShorthands,
-): ViewStyle | TextStyle => ({
+): ViewStyle | TextStyle => filter_undefined_values({
     flex: shorthands?.flex,
     gap: shorthands?.gap,
     padding: shorthands?.p,

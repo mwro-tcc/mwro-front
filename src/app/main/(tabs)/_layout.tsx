@@ -1,9 +1,10 @@
 import { Redirect, Tabs } from 'expo-router'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, StyleSheet } from 'react-native'
 import useAuth from '@hooks/useAuth'
 import { CircleUserRound, Globe, Heart } from 'lucide-react-native'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import TabIcon from 'components/TabIcon'
+import { parse_style_shorthands } from '@ui/types/style_shorthands'
 
 type TabColorProperties = {
   fill: string
@@ -60,9 +61,11 @@ export default function MainLayout() {
           alignItems: 'center'
         },
         tabBarStyle: {
+          ...parse_style_shorthands({
+            border: [StyleSheet.hairlineWidth, 'solid', ui.border]
+          }),
           alignItems: 'center',
-          height: TAB_BAR_HEIGHT,
-          borderColor: 'transparent'
+          height: TAB_BAR_HEIGHT
         }
       }}
     >

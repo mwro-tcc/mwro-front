@@ -40,6 +40,7 @@ export enum ui {
   border = '#C9C8C5',
   required = colors.red_5,
   destructive = '#AF3931',
+  yellow = '#CA8817'
 }
 
 export const FavoriteIconStyle = {
