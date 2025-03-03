@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   averageScore: {
     fontWeight: 'bold',
     fontSize: 13,
-    color: colors.yellow_6
+    color: ui.yellow
   },
   description: {
     color: colors.ui_7,
