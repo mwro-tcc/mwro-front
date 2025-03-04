@@ -14,6 +14,18 @@ export default function AccountLayout() {
           }
         }}
       />
+      <Stack.Screen
+        name='edit_name'
+        options={{
+          presentation: 'modal'
+        }}
+      />
+      <Stack.Screen
+        name='edit_phone'
+        options={{
+          presentation: 'modal'
+        }}
+      />
     </Stack>
   )
 }

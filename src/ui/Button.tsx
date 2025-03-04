@@ -57,8 +57,8 @@ const text_variants = StyleSheet.create<Variants>({
     color: colors.ui_1
   },
   text: {
-    fontWeight: '700',
-    fontSize: 13,
+    fontWeight: '400',
+    fontSize: 17,
     color: colors.primary
   },
   destructive: {

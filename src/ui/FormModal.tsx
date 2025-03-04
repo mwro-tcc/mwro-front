@@ -1,6 +1,6 @@
 import { Stack, router } from 'expo-router'
 import HeaderTextButton from './HeaderTextButton'
-import colors from './config/colors'
+import colors, { ui } from './config/colors'
 import { useState } from 'react'
 import VStack from './VStack'
 import { TextInput } from 'react-native'
@@ -81,9 +81,11 @@ export default function FormModal(props: {
         options={{
           headerTitle: `Editar ${attributeLabel}`,
           contentStyle: { backgroundColor: colors.background },
+          headerTintColor: ui.fg,
           headerLeft: () => (
             <HeaderTextButton
               disabled={loading}
+              color={colors.primary}
               onPress={() => {
                 router.back()
               }}
@@ -95,6 +97,7 @@ export default function FormModal(props: {
             <HeaderTextButton
               disabled={loading}
               onPress={handleSubmit}
+              color={colors.primary}
               style={{
                 fontWeight: 600
               }}

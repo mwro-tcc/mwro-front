@@ -1,4 +1,4 @@
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import { useRouter } from 'expo-router'
 import ActionList from '@ui/ActionList'
 import { Auth, Routes } from '@api/mwro'
@@ -73,7 +73,6 @@ export default function Account() {
       contentContainerStyle={{
         padding: 20,
         gap: 20,
-        flex: 1,
         backgroundColor: colors.background
       }}
     >
@@ -139,7 +138,7 @@ export default function Account() {
           {
             title: 'Deletar Conta',
             onPress: handleDeleteAccount,
-            color: colors.red_5
+            color: ui.destructive
           }
         ]}
       />
