@@ -1,4 +1,4 @@
-import Text from '@ui/Text'
+import colors, { ui } from '@ui/config/colors'
 import { Stack } from 'expo-router'
 
 export default function AccountLayout() {
@@ -7,7 +7,11 @@ export default function AccountLayout() {
       <Stack.Screen
         name='index'
         options={{
-          headerTitle: 'Minha Conta'
+          headerTitle: 'Minha Conta',
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: ui.fg
+          }
         }}
       />
     </Stack>

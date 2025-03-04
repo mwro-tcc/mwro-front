@@ -3,6 +3,9 @@ import Api from '@api/mwro/api'
 import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from 'expo-router'
 import { useCallback, useMemo } from 'react'
+import { useDebounce } from 'use-debounce';
+
+const DEBOUNCE_TIME = 500
 
 type Options<Response> = {
   url: string
@@ -21,6 +24,11 @@ type Result<Response, Error> = {
 }
 
 function useCollection<Model>(options: Options<Model[]>): Result<Model[], Error> {
+  const key = useMemo(() => options?.url?.split('/')?.at(-1) ?? null, [options?.url])
+  const params = useMemo(() => options?.params ? Object.values(options.params) : [], [options?.params])
+
+  const [debouncedParams] = useDebounce(params, DEBOUNCE_TIME)
+
   const queryFn = async () => {
     return Api.get<Model[]>(options.url, { params: options?.params }).then((response) => response.data).catch((error) => {
       throw error
@@ -34,7 +42,7 @@ function useCollection<Model>(options: Options<Model[]>): Result<Model[], Error>
     refetch,
     isRefetching,
   } = useQuery({
-    queryKey: [options.url],
+    queryKey: [key, ...debouncedParams],
     queryFn,
   })
 

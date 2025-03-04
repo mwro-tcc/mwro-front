@@ -13,7 +13,7 @@ import AssetList from 'components/AssetList'
 import { ActivityIndicator, SafeAreaView } from 'react-native'
 import Show from '@ui/Show'
 import ScreenLoading from '@ui/ScreenLoading'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 
 type LocationValues = null | {
   latitude: number
@@ -56,7 +56,7 @@ export default function Explore() {
   } = useCollection<Community>({
     url: Routes.Community.list,
     params: {
-      term: searchTerm
+      term: `%${searchTerm}%`
     }
   })
 
@@ -82,12 +82,22 @@ export default function Explore() {
       )
     }
 
-    const assets = communities?.map(({ uuid, name, description }) => ({
-      uuid,
-      name,
-      description,
-      onPress: () => router.push(`/main/(explore)/communities/${uuid}`)
-    }))
+    const assets =
+      communities?.map(({ uuid, name, description }) => ({
+        uuid,
+        name,
+        description,
+        onPress: () => router.push(`/main/(explore)/communities/${uuid}`)
+      })) ?? []
+
+    if (assets.length === 0)
+      return (
+        <SafeAreaView style={{ flex: 1 }}>
+          <VStack items='center' justify='center' flex={1}>
+            <Text>Sem resultados</Text>
+          </VStack>
+        </SafeAreaView>
+      )
 
     if (searchTerm) {
       return (
@@ -112,7 +122,8 @@ export default function Explore() {
         options={{
           headerTitle: 'Explorar',
           headerSearchBarOptions: {
-            onChangeText: (event) => setSearchTerm(event?.nativeEvent?.text)
+            onChangeText: (event) => setSearchTerm(event?.nativeEvent?.text),
+            tintColor: colors.primary
           },
           contentStyle: { backgroundColor: colors.background }
         }}

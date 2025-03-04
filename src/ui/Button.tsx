@@ -67,7 +67,7 @@ const text_variants = StyleSheet.create<Variants>({
   },
   default: {
     fontWeight: '700',
-    color: colors.primary_dark
+    color: colors.primary
   },
   disabled: {
     fontWeight: '700',

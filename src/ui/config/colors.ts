@@ -30,7 +30,6 @@ enum colors {
   yellow_5 = '#fce17d',
   yellow_6 = '#eec11eeb',
   primary = '#436126',
-  primary_dark = '#436126',
   background = '#F5F4F2',
   overlay = 'rgba(0, 0, 0, 0.4)'
 }

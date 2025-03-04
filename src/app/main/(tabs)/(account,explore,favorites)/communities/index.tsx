@@ -4,7 +4,7 @@ import useCollection from '@hooks/useCollection'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { Community as CommunityType } from '@src/types/community'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import VStack from '@ui/VStack'
 import { Stack, useRouter } from 'expo-router'
 import { ActionListSwipeAction } from '@ui/ActionList'
@@ -63,7 +63,7 @@ export default function Communities() {
           headerBackTitle: 'Voltar',
           headerTintColor: colors.primary,
           headerTitleStyle: {
-            color: colors.ui_10
+            color: ui.fg
           },
           headerRight: ({ tintColor }) => (
             <HeaderTextButton
