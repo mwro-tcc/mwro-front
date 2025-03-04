@@ -1,6 +1,7 @@
 import { Routes } from '@api/mwro'
 import useCache from '@hooks/useCache'
 import useCollection from '@hooks/useCollection'
+import colors, { ui } from '@ui/config/colors'
 import AssetList from 'components/AssetList'
 import { Stack, useRouter } from 'expo-router'
 
@@ -34,7 +35,15 @@ export default function ReceivedRequests() {
     <>
       <Stack.Screen
         options={{
-          headerTitle: 'Solicitações Recebidas'
+          headerTitle: 'Solicitações Recebidas',
+          headerTintColor: colors.primary,
+          headerBackTitle: 'Voltar',
+          headerTitleStyle: {
+            color: colors.ui_10
+          },
+          contentStyle: {
+            backgroundColor: ui.bg
+          }
         }}
       />
       <AssetList data={requests} />

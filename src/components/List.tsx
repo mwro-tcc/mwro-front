@@ -49,9 +49,7 @@ export default function List({
         <TouchableOpacity style={styles.listing}>
           <Image
             source={{
-              uri:
-                item.image ??
-                'https://www.proclinic-products.com/build/static/default-product.30484205.png'
+              uri: item.image ?? ''
             }}
             resizeMode='cover'
             style={styles.image}

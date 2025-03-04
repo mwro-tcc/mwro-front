@@ -46,6 +46,8 @@ function AssetList(props: Props) {
     onRefresh
   } = props
 
+  if (!data || data.length === 0) return null
+
   const renderRow = ({ item }: any) => {
     return (
       <AppleStyleSwipeableRow actions={swipeActions(item)}>
@@ -61,6 +63,7 @@ function AssetList(props: Props) {
               w={63}
               h={63}
               rounded={rounded.sm}
+              bg={ui.bg}
             />
             <View style={styles.info}>
               <Text style={styles.title}>{item.name}</Text>

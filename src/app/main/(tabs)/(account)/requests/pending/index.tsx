@@ -1,5 +1,6 @@
 import { Routes } from '@api/mwro'
 import useCollection from '@hooks/useCollection'
+import colors, { ui } from '@ui/config/colors'
 import AssetList from 'components/AssetList'
 import { Stack } from 'expo-router'
 
@@ -18,7 +19,15 @@ export default function PendingRequests() {
     <>
       <Stack.Screen
         options={{
-          headerTitle: `Solicitações pendentes`
+          headerTitle: `Solicitações pendentes`,
+          headerTintColor: colors.primary,
+          headerBackTitle: 'Voltar',
+          headerTitleStyle: {
+            color: colors.ui_10
+          },
+          contentStyle: {
+            backgroundColor: ui.bg
+          }
         }}
       />
       <AssetList data={requests} />

@@ -8,8 +8,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
-  Image
+  TouchableOpacity
 } from 'react-native'
 import Text from '@ui/Text'
 import colors, { ui } from '@ui/config/colors'
@@ -18,6 +17,7 @@ import VStack from '@ui/VStack'
 import { priceFormatter } from 'utils'
 import Button from '@ui/Button'
 import scope from '@lib/scope'
+import Image from '@ui/Image'
 
 export default function ProductId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -54,12 +54,7 @@ export default function ProductId() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <VStack>
-          <Image
-            source={{
-              uri: 'https://www.proclinic-products.com/build/static/default-product.30484205.png'
-            }}
-            style={styles.image}
-          />
+          <Image src={Routes.Image.src(data.uuid)} style={styles.image} />
           <Text style={styles.name}>{data.name}</Text>
           <Text style={styles.price}>{`1x ${priceFormatter(data.price)}`}</Text>
           <Text style={styles.description}>{data.description}</Text>

@@ -40,6 +40,7 @@ export default function AssetHeader(props: Props) {
             w={92}
             h={92}
             rounded={rounded.circle}
+            border={[StyleSheet.hairlineWidth, 'solid', ui.border]}
           />
           {isOwner && (
             <Button variant='text' onPress={pickImage}>
