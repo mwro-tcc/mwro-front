@@ -5,7 +5,7 @@ import { Community as CommunityType } from '@src/types/community'
 import Show from '@ui/Show'
 import useCache from '@hooks/useCache'
 import Toast from '@lib/toast'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import { createURL } from 'expo-linking'
 import * as Clipboard from 'expo-clipboard'
 import { Store } from '@src/types/store'
@@ -103,6 +103,13 @@ export default function Community() {
           headerBackTitle: 'Voltar',
           headerTitle: '',
           headerTintColor: colors.primary,
+          statusBarBackgroundColor: ui.bg,
+          headerStyle: {
+            backgroundColor: ui.bg
+          },
+          contentStyle: {
+            backgroundColor: ui.bg
+          },
           headerShadowVisible: false,
           headerRight: ({ tintColor }) => (
             <Menu

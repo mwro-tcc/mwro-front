@@ -7,7 +7,7 @@ import useModel from '@hooks/useModel'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { ActionListSwipeAction } from '@ui/ActionList'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import Rating from '@api/mwro/rating'
 import { Store as StoreType } from '@src/types/store'
@@ -113,6 +113,12 @@ export default function StoreId() {
           headerTintColor: colors.primary,
           headerTitleStyle: {
             color: colors.ui_10
+          },
+          headerStyle: {
+            backgroundColor: ui.bg
+          },
+          contentStyle: {
+            backgroundColor: ui.bg
           },
           headerShadowVisible: false,
           headerRight: ({ tintColor }) => (

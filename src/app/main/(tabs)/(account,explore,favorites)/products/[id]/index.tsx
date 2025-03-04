@@ -12,11 +12,12 @@ import {
   Image
 } from 'react-native'
 import Text from '@ui/Text'
-import colors from '@ui/config/colors'
+import colors, { ui } from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'
 import VStack from '@ui/VStack'
 import { priceFormatter } from 'utils'
 import Button from '@ui/Button'
+import scope from '@lib/scope'
 
 export default function ProductId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -46,34 +47,11 @@ export default function ProductId() {
     )
   }
 
-  if (loading) return <ActivityIndicator style={{ flex: 1 }} />
-  if (error || !data) return <Text>{error?.message}</Text>
+  const content = scope(() => {
+    if (loading) return <ActivityIndicator style={{ flex: 1 }} />
+    if (error || !data) return <Text>{error?.message}</Text>
 
-  if (!id) return <Redirect href='/main/(account)/products' />
-
-  return (
-    <>
-      <Stack.Screen
-        options={{
-          headerBackTitle: 'Voltar',
-          headerTitle: '',
-          headerTintColor: colors.primary,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: colors.ui_10
-          },
-          contentStyle: { backgroundColor: colors.background },
-          headerRight: ({ tintColor }) => (
-            <HeaderTextButton
-              color={tintColor}
-              onPress={handleEdit}
-              weight='600'
-            >
-              Editar
-            </HeaderTextButton>
-          )
-        }}
-      />
+    return (
       <ScrollView contentContainerStyle={styles.container}>
         <VStack>
           <Image
@@ -97,6 +75,40 @@ export default function ProductId() {
           </Button>
         </TouchableOpacity>
       </ScrollView>
+    )
+  })
+
+  if (!id) return <Redirect href='/main/(account)/products' />
+
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          headerBackTitle: 'Voltar',
+          headerTitle: '',
+          headerTintColor: colors.primary,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            color: colors.ui_10
+          },
+          headerStyle: {
+            backgroundColor: ui.bg
+          },
+          contentStyle: {
+            backgroundColor: ui.bg
+          },
+          headerRight: () => (
+            <HeaderTextButton
+              color={colors.primary}
+              onPress={handleEdit}
+              weight='600'
+            >
+              Editar
+            </HeaderTextButton>
+          )
+        }}
+      />
+      {content}
     </>
   )
 }
