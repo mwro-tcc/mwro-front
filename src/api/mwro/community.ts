@@ -60,6 +60,9 @@ class Community {
       Routes.Community.get_community_stores(id)
     ])
   }
+  static async delete(id: string) {
+    return Api.delete(Routes.Community.get(id))
+  }
 }
 
 export default Community

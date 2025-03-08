@@ -14,8 +14,10 @@ import useCollection from '@hooks/useCollection'
 import ScreenLoading from '@ui/ScreenLoading'
 import AssetHeader from 'components/AssetHeader'
 import Menu from '@ui/Menu'
-import { Pencil } from 'lucide-react-native'
+import { Link, Pencil, Store as StoreIcon, Trash2 } from 'lucide-react-native'
 import useAuth from '@hooks/useAuth'
+import CommunityApi from '@api/mwro/community'
+import { Alert } from 'react-native'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -94,6 +96,36 @@ export default function Community() {
     Toast.success('O link foi copiado para sua área de transferência!')
   }
 
+  const handleDeleteCommunity = () => {
+    const title = 'Deletar comunidade'
+    const description =
+      'Tem certeza que deseja deletar essa comunidade? Essa ação é irreversível.'
+
+    const action = () => {
+      return CommunityApi.delete(id)
+        .then(() => {
+          Toast.success('Comunidade deletada com sucesso')
+          router.navigate('..')
+        })
+        .catch((error) => {
+          console.error(error)
+          Toast.error('Erro ao deletar a comunidade')
+        })
+    }
+
+    Alert.alert(title, description, [
+      {
+        text: 'Cancelar',
+        style: 'cancel'
+      },
+      {
+        text: 'Deletar',
+        onPress: action,
+        style: 'destructive'
+      }
+    ])
+  }
+
   if (error) return <Redirect href='/main' />
 
   return (
@@ -123,11 +155,19 @@ export default function Community() {
                 },
                 {
                   label: menuRequestLabel,
+                  icon: <StoreIcon />,
                   onPress: handleRequest
                 },
                 {
                   label: 'Copiar Link',
+                  icon: <Link />,
                   onPress: copyToClipboard
+                },
+                {
+                  label: 'Deletar',
+                  color: ui.destructive,
+                  icon: <Trash2 />,
+                  onPress: handleDeleteCommunity
                 }
               ]}
             />

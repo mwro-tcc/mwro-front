@@ -52,13 +52,14 @@ export default function Account() {
     const title = 'Deletar conta'
     const description =
       'Tem certeza que deseja deletar essa conta e todos os seus dados? Essa ação é irreversível.'
+
     Alert.alert(title, description, [
       {
-        text: 'Cancel',
+        text: 'Cancelar',
         style: 'cancel'
       },
       {
-        text: 'OK',
+        text: 'Deletar conta',
         onPress: async () => void (await User.delete()),
         style: 'destructive'
       }
