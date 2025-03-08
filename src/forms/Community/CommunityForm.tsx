@@ -336,6 +336,7 @@ export default function CommunityForm(props: Props) {
                         size={17}
                         flex={1}
                         placeholder='Buscar'
+                        variant='transparent'
                       />
                     </HStack>
                   </VStack>

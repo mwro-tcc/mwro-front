@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import rounded from './config/rounded'
 import spacings from './config/spacings'
-import colors from './config/colors'
+import colors, { ui } from './config/colors'
 import VStack from './VStack'
 import Show from './Show'
 import HStack from './HStack'
@@ -29,8 +29,8 @@ const base_form_variant: ViewStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  borderWidth: 1,
-  borderColor: '#0000001A',
+  borderWidth: StyleSheet.hairlineWidth,
+  borderColor: ui.border,
   borderStyle: 'solid'
 }
 
@@ -38,6 +38,12 @@ const input_variants = StyleSheet.create<Variants>({
   default: {
     ...base_form_variant,
     backgroundColor: colors.ui_1
+  },
+  transparent: {
+    ...base_form_variant,
+    backgroundColor: '#00000000',
+    borderWidth: 0,
+    padding: 0
   }
 })
 
