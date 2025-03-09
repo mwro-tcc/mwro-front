@@ -6,6 +6,7 @@ import useCache from '@hooks/useCache'
 import { openWhatsApp } from 'components/WhatsAppIcon'
 import {
   ActivityIndicator,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableOpacity
@@ -103,7 +104,7 @@ export default function ProductId() {
           )
         }}
       />
-      {content}
+      <SafeAreaView style={{ flex: 1 }}>{content}</SafeAreaView>
     </>
   )
 }

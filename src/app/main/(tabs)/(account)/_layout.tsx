@@ -26,6 +26,11 @@ export default function AccountLayout() {
           presentation: 'modal'
         }}
       />
+
+      <Stack.Screen
+        name='stores/[id]/products/[id]/index'
+        options={{ presentation: 'modal' }}
+      />
     </Stack>
   )
 }

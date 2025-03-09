@@ -60,19 +60,14 @@ export default function StoreId() {
     add('storeId', id)
     return router.push(
       {
-        pathname: `../../products/create`
+        pathname: `./products/create`
       },
       { relativeToDirectory: true }
     )
   }
 
   const goToProduct = (productId: any) => {
-    return router.push(
-      {
-        pathname: `../../products/${productId}`
-      },
-      { relativeToDirectory: true }
-    )
+    return router.push(`./products/${productId}`, { relativeToDirectory: true })
   }
 
   const {
