@@ -20,6 +20,8 @@ import HStack from '@ui/HStack'
 import Menu from '@ui/Menu'
 import Show from '@ui/Show'
 import useCache from '@hooks/useCache'
+import Store from '@api/mwro/store'
+import { AxiosError } from 'axios'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -76,6 +78,14 @@ export default function StoreId() {
     setFalse: disabledEditMode
   } = useBoolean(false)
 
+  const handleDeleteStore = async () => {
+    await Store.delete(id).catch((error: AxiosError) => {
+      Toast.error(error?.message)
+    })
+
+    router.back()
+  }
+
   const handleDelete = async (id: string) => {
     Lib.error_callback(
       await Lib.safe_call(Api.delete, [Routes.Product.delete(id)]),
@@ -129,12 +139,15 @@ export default function StoreId() {
                   {
                     label: 'Adicionar Produto',
                     onPress: createProduct
+                  },
+                  {
+                    label: 'Deletar Loja',
+                    onPress: handleDeleteStore
                   }
                 ]}
               />
             </HStack>
           ),
-          contentStyle: { backgroundColor: colors.background },
           headerTitle: ''
         }}
       />

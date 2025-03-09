@@ -1,7 +1,6 @@
 import { Routes } from '@api/mwro'
-import Api from '@api/mwro/api'
+import Store from '@api/mwro/store'
 import useCollection from '@hooks/useCollection'
-import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { Store as StoreType } from '@src/types/store'
 import { ActionListSwipeAction } from '@ui/ActionList'
@@ -9,6 +8,7 @@ import HeaderTextButton from '@ui/HeaderTextButton'
 import Show from '@ui/Show'
 import VStack from '@ui/VStack'
 import colors from '@ui/config/colors'
+import { AxiosError } from 'axios'
 import AssetList from 'components/AssetList'
 import { Redirect, Stack, useRouter } from 'expo-router'
 import { ActivityIndicator } from 'react-native'
@@ -29,10 +29,9 @@ export default function Stores() {
   if (error) return <Redirect href='/main' />
 
   const handleDelete = async (id: string) => {
-    Lib.error_callback(
-      await Lib.safe_call(Api.delete, [Routes.Store.delete(id)]),
-      Toast.error
-    )
+    await Store.delete(id).catch((error: AxiosError) => {
+      Toast.error(error?.message)
+    })
     handleRefresh()
   }
 
