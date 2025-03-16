@@ -33,6 +33,7 @@ export default () => {
 
   return {
     token: token.data,
+    user: user.data,
     isAssetOwner,
     isCommunityOwner,
     loading: token.loading || user.loading

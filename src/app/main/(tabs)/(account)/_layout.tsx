@@ -29,7 +29,7 @@ export default function AccountLayout() {
 
       <Stack.Screen
         name='stores/[id]/products/[id]/index'
-        options={{ presentation: 'modal' }}
+        options={{ presentation: 'modal', headerShown: false }}
       />
     </Stack>
   )

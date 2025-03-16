@@ -1,6 +1,6 @@
 import ProductForm from '@forms/Product/ProductForm'
 import useCache from '@hooks/useCache'
-import { Redirect, router } from 'expo-router'
+import { Redirect } from 'expo-router'
 
 export default function CreateProduct() {
   const { get } = useCache()
@@ -9,11 +9,5 @@ export default function CreateProduct() {
 
   if (!storeId) return <Redirect href='/main' />
 
-  return (
-    <ProductForm
-      storeId={storeId}
-      onFinish={router.back}
-      onCancel={router.back}
-    />
-  )
+  return <ProductForm storeId={storeId} />
 }

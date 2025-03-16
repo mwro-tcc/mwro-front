@@ -36,6 +36,7 @@ enum colors {
 
 export enum ui {
   fg = colors.ui_10,
+  subtle = colors.ui_8,
   bg = colors.background,
   border = '#C9C8C5',
   required = colors.red_5,

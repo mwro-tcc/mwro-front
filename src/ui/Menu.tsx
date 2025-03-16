@@ -16,6 +16,10 @@ import VStack from './VStack'
 import useBoolean from '@hooks/useBoolean'
 import Show from './Show'
 import { BlurView } from 'expo-blur'
+import {
+  parse_style_shorthands,
+  StyleShorthands
+} from './types/style_shorthands'
 
 export type MenuItemProps = {
   label: string
@@ -24,10 +28,11 @@ export type MenuItemProps = {
   onPress?: () => void
 }
 
-type Props = {
+type Props = Omit<StyleShorthands, 'items'> & {
   color?: string
   items?: MenuItemProps[]
   debug?: boolean
+  containerStyle?: StyleShorthands
 }
 
 function MenuItem(props: MenuItemProps) {
@@ -120,8 +125,10 @@ function Menu(props: Props) {
 
   const items = props.items?.map((item, index) => {
     const handlePress = () => {
-      item.onPress?.()
       handleHide()
+      setTimeout(() => {
+        item.onPress?.()
+      }, 300)
     }
 
     return (
@@ -136,12 +143,19 @@ function Menu(props: Props) {
 
   return (
     <>
-      <TouchableOpacity ref={menuRef} onPress={handleOpen}>
+      <TouchableOpacity
+        onPress={handleOpen}
+        style={{
+          ...parse_style_shorthands(props.containerStyle ?? {})
+        }}
+      >
         <Ellipsis
+          ref={menuRef}
           color={color}
           style={{
             backgroundColor: `${color}28`,
-            borderRadius: 50
+            borderRadius: 50,
+            ...parse_style_shorthands(props)
           }}
         />
       </TouchableOpacity>
@@ -166,7 +180,7 @@ function Menu(props: Props) {
               },
               position: 'absolute',
               top: position.y + 100,
-              right: position.x + 10,
+              right: position.x + 20,
               width: 200,
               opacity,
               transformOrigin: 'top right',

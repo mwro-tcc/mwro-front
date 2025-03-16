@@ -4,38 +4,35 @@ import VStack from '@ui/VStack'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
 import { router, Stack } from 'expo-router'
-import { ScrollView, StyleSheet } from 'react-native'
-import colors, { ui } from '@ui/config/colors'
+import { ScrollView } from 'react-native'
+import colors from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'
-import useImagePicker from '@hooks/useImagePicker'
+import { useQuery } from '@tanstack/react-query'
 import { Routes } from '@api/mwro'
-import ImageUploader from '@api/mwro/image_uploader'
-import Image from '@ui/Image'
-import rounded from '@ui/config/rounded'
-import useAuth from '@hooks/useAuth'
+import Api from '@api/mwro/api'
 
 type Props = {
-  onCancel?: () => void
-  onFinish: () => void
   storeId: string
   product?: Product
 }
 
 export default function ProductForm(props: Props) {
-  const { storeId, product, onFinish } = props
-  const { isAssetOwner } = useAuth()
+  const { storeId, product } = props
 
-  const isOwner = isAssetOwner(product!)
+  const { refetch } = useQuery({
+    queryKey: ['product', product?.uuid],
+    queryFn: () =>
+      product?.uuid ? Api.get(Routes.Product.get(product?.uuid)) : null
+  })
+
+  const handleFinish = () => {
+    if (product?.uuid) refetch()
+    router.push('..')
+  }
 
   const form = useForm<ProductFormType>({
     defaultValues: product,
     values: product
-  })
-
-  const { image, loading, pickImage } = useImagePicker({
-    aspectRatio: [1, 1],
-    initialImage: Routes.Image.src(product?.uuid),
-    onPick: ImageUploader.createUploader(product?.uuid)
   })
 
   const { create_product, update_product } = useProduct()
@@ -46,7 +43,7 @@ export default function ProductForm(props: Props) {
       storeUuid: storeId,
       price: parseInt(productData.price)
     })
-    onFinish()
+    handleFinish()
   }
 
   const handleCreate = async (productData: any) => {
@@ -55,7 +52,7 @@ export default function ProductForm(props: Props) {
       storeUuid: storeId,
       price: parseInt(productData.price)
     })
-    onFinish()
+    handleFinish()
   }
 
   const handleSubmit = form.handleSubmit(product ? handleUpdate : handleCreate)
@@ -85,7 +82,6 @@ export default function ProductForm(props: Props) {
               color={tintColor}
               onPress={() => router.push('..')}
               weight='600'
-              disabled={!form.formState.isValid}
             >
               Cancelar
             </HeaderTextButton>
@@ -104,22 +100,6 @@ export default function ProductForm(props: Props) {
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
-        <VStack items='center' gap={5}>
-          <Image
-            loading={loading}
-            src={image}
-            hasAuthenticationHeaders
-            w={92}
-            h={92}
-            rounded={rounded.circle}
-            border={[StyleSheet.hairlineWidth, 'solid', ui.border]}
-          />
-          {isOwner && (
-            <Button variant='text' onPress={pickImage}>
-              Alterar
-            </Button>
-          )}
-        </VStack>
         <VStack gap={30} flex={1}>
           {body}
         </VStack>

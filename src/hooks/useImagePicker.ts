@@ -1,6 +1,6 @@
 import createConsoleErrorHandler from '@lib/create_console_error_handler';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useBoolean from './useBoolean';
 
 type Options = {
@@ -27,6 +27,10 @@ function useImagePicker(options?: Options): {
   const { value: loading, setTrue: setLoadingTrue, setFalse: setLoadingFalse } = useBoolean(false)
   const [image, setImage] = useState<string | null>(options?.initialImage ?? null)
 
+  useEffect(() => {
+    if (options?.initialImage) setImage(options.initialImage)
+  }, [options?.initialImage])
+
   const onPick = options?.onPick
 
   const handlePickImage = (result: ImagePicker.ImagePickerResult) => {
@@ -43,7 +47,7 @@ function useImagePicker(options?: Options): {
   }
 
   const pickImage = () => {
-    const config = {
+    const config: ImagePicker.ImagePickerOptions = {
       ...DEFAULT_CONFIG,
       aspect: options?.aspectRatio ?? DEFAULT_ASPECT_RATIO,
     }
