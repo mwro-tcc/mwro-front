@@ -24,8 +24,7 @@ export default function AssetHeader(props: Props) {
 
   const { image, loading, pickImage } = useImagePicker({
     initialImage: Routes.Image.src(id),
-    onPick: ImageUploader.createUploader(id),
-    debug: true
+    onPick: ImageUploader.createUploader(id)
   })
 
   return (

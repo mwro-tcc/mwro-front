@@ -3,10 +3,16 @@ import { Product, ProductForm as ProductFormType } from '@src/types/product'
 import VStack from '@ui/VStack'
 import ProductFormStep1 from './components/ProductFormStep1'
 import { useProduct } from '@hooks/useProduct'
-import { Stack } from 'expo-router'
-import { ScrollView } from 'react-native'
-import colors from '@ui/config/colors'
+import { router, Stack } from 'expo-router'
+import { ScrollView, StyleSheet } from 'react-native'
+import colors, { ui } from '@ui/config/colors'
 import HeaderTextButton from '@ui/HeaderTextButton'
+import useImagePicker from '@hooks/useImagePicker'
+import { Routes } from '@api/mwro'
+import ImageUploader from '@api/mwro/image_uploader'
+import Image from '@ui/Image'
+import rounded from '@ui/config/rounded'
+import useAuth from '@hooks/useAuth'
 
 type Props = {
   onCancel?: () => void
@@ -17,10 +23,19 @@ type Props = {
 
 export default function ProductForm(props: Props) {
   const { storeId, product, onFinish } = props
+  const { isAssetOwner } = useAuth()
+
+  const isOwner = isAssetOwner(product!)
 
   const form = useForm<ProductFormType>({
     defaultValues: product,
     values: product
+  })
+
+  const { image, loading, pickImage } = useImagePicker({
+    aspectRatio: [1, 1],
+    initialImage: Routes.Image.src(product?.uuid),
+    onPick: ImageUploader.createUploader(product?.uuid)
   })
 
   const { create_product, update_product } = useProduct()
@@ -65,7 +80,16 @@ export default function ProductForm(props: Props) {
           contentStyle: {
             backgroundColor: colors.background
           },
-          headerLeft: () => null,
+          headerLeft: ({ tintColor }) => (
+            <HeaderTextButton
+              color={tintColor}
+              onPress={() => router.push('..')}
+              weight='600'
+              disabled={!form.formState.isValid}
+            >
+              Cancelar
+            </HeaderTextButton>
+          ),
           headerRight: ({ tintColor }) => (
             <HeaderTextButton
               color={tintColor}
@@ -80,7 +104,22 @@ export default function ProductForm(props: Props) {
         }}
       />
       <VStack p={20} flex={1} gap={30} h={'100%'}>
-        <VStack items='center' gap={20}></VStack>
+        <VStack items='center' gap={5}>
+          <Image
+            loading={loading}
+            src={image}
+            hasAuthenticationHeaders
+            w={92}
+            h={92}
+            rounded={rounded.circle}
+            border={[StyleSheet.hairlineWidth, 'solid', ui.border]}
+          />
+          {isOwner && (
+            <Button variant='text' onPress={pickImage}>
+              Alterar
+            </Button>
+          )}
+        </VStack>
         <VStack gap={30} flex={1}>
           {body}
         </VStack>

@@ -57,7 +57,7 @@ export default function ProductId() {
         <VStack>
           <Image src={Routes.Image.src(data.uuid)} style={styles.image} />
           <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.price}>{`1x ${priceFormatter(data.price)}`}</Text>
+          <Text style={styles.price}>{priceFormatter(data.price)}</Text>
           <Text style={styles.description}>{data.description}</Text>
         </VStack>
         <TouchableOpacity>
