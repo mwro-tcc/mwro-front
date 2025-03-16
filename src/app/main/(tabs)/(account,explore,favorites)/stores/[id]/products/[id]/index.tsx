@@ -139,7 +139,7 @@ export default function ProductId() {
             absolute
             z={1}
             w='100%'
-            p={8}
+            p={12}
           >
             <TouchableOpacity
               onPress={() => router.push('..')}
