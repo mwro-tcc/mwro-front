@@ -18,15 +18,15 @@ export default () => {
     })
 
   const isAssetOwner = useCallback(
-    (asset: Asset) => {
-      return asset.owner?.uuid === user.data
+    (asset?: Asset) => {
+      return asset?.owner?.uuid === user.data
     },
     [user.data]
   )
 
   const isCommunityOwner = useCallback(
     (community: any) => {
-      return community?.admins.some((admin: any) => admin.uuid === user.data)
+      return Boolean(community?.admins.some((admin: any) => admin.uuid === user.data))
     },
     [user.data]
   )

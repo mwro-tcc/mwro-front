@@ -175,7 +175,11 @@ export default function Community() {
         }}
       />
       <Show unless={loading}>
-        <AssetHeader asset={data!} childCategory='Lojas' />
+        <AssetHeader
+          asset={data!}
+          childCategory='Lojas'
+          hasPermissionsToEdit={isCommunityOwner(data)}
+        />
 
         <Show unless={isLoadingStores} placeholder={<ScreenLoading />}>
           <AssetList

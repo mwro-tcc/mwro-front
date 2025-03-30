@@ -11,6 +11,11 @@ export default function FavoritesLayout() {
           contentStyle: { backgroundColor: colors.background }
         }}
       />
+
+      <Stack.Screen
+        name='stores/[id]/products/[id]/index'
+        options={{ presentation: 'modal', headerShown: false }}
+      />
     </Stack>
   )
 }

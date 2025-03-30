@@ -22,9 +22,12 @@ import Show from '@ui/Show'
 import useCache from '@hooks/useCache'
 import Store from '@api/mwro/store'
 import { AxiosError } from 'axios'
+import useAuth from '@hooks/useAuth'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
+
+  const { isAssetOwner } = useAuth()
 
   const { add } = useCache()
 
@@ -156,6 +159,7 @@ export default function StoreId() {
           asset={store!}
           averageScore={store?.averageScore}
           childCategory='Produtos'
+          hasPermissionsToEdit={isAssetOwner(store)}
         />
       </Show>
       <AssetList

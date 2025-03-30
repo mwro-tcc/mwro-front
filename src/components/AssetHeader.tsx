@@ -7,20 +7,18 @@ import ImageUploader from '@api/mwro/image_uploader'
 import { Routes } from '@api/mwro'
 import Button from '@ui/Button'
 import VStack from '@ui/VStack'
-import useAuth from '@hooks/useAuth'
 import { Asset } from '@src/types/asset'
 
 type Props = Readonly<{
   asset: Asset
   averageScore?: number | null
   childCategory: string
+  hasPermissionsToEdit?: boolean
 }>
 
 export default function AssetHeader(props: Props) {
-  const { asset, averageScore, childCategory } = props
+  const { asset, averageScore, childCategory, hasPermissionsToEdit } = props
   const { uuid: id, name, description } = asset
-  const { isAssetOwner } = useAuth()
-  const isOwner = isAssetOwner(asset)
 
   const { image, loading, pickImage } = useImagePicker({
     initialImage: Routes.Image.src(id),
@@ -41,7 +39,7 @@ export default function AssetHeader(props: Props) {
             rounded={rounded.circle}
             border={[StyleSheet.hairlineWidth, 'solid', ui.border]}
           />
-          {isOwner && (
+          {hasPermissionsToEdit && (
             <Button variant='text' onPress={pickImage}>
               Alterar
             </Button>
@@ -57,13 +55,7 @@ export default function AssetHeader(props: Props) {
               <Text style={styles.averageScore}>Novidade!</Text>
             )}
             {description && (
-              <Text
-                numberOfLines={1}
-                ellipsizeMode='tail'
-                style={styles.description}
-              >
-                {description}
-              </Text>
+              <Text style={styles.description}>{description}</Text>
             )}
           </View>
         </View>
@@ -108,7 +100,8 @@ const styles = StyleSheet.create({
   description: {
     color: colors.ui_7,
     fontSize: 13,
-    maxWidth: 141
+    textAlign: 'center',
+    maxWidth: 300
   },
   scoreAndDescription: {
     display: 'flex',

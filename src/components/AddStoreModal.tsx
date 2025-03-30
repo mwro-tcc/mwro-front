@@ -5,7 +5,6 @@ import colors from '@ui/config/colors'
 import VStack from '@ui/VStack'
 import { Stack } from 'expo-router'
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import AssetList from './AssetList'
 
 const AddStoreModal = ({ handleSubmit }: any) => {
