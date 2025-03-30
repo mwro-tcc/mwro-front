@@ -1,4 +1,5 @@
 import { ProductForm } from '@src/types/product'
+import CurrencyInput from '@ui/CurrencyInput'
 import TextInput from '@ui/TextInput'
 import { UseFormReturn } from 'react-hook-form'
 
@@ -25,8 +26,7 @@ export default function ProductFormStep1(props: Props) {
         multiline={true}
         height={150}
       />
-      <TextInput
-        keyboardType='numeric'
+      <CurrencyInput
         control={form.control}
         name={'price'}
         label='Valor'
