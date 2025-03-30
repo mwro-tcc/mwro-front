@@ -132,12 +132,12 @@ function Menu(props: Props) {
     }
 
     return (
-      <>
-        <MenuItem key={index} {...item} onPress={handlePress} />
+      <VStack key={index}>
+        <MenuItem {...item} onPress={handlePress} />
         <Show unless={index === props.items!.length - 1}>
           <HStack bg={colors.ui_7} h={StyleSheet.hairlineWidth} />
         </Show>
-      </>
+      </VStack>
     )
   })
 

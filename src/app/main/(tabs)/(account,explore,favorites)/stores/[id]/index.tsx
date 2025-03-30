@@ -23,6 +23,7 @@ import useCache from '@hooks/useCache'
 import Store from '@api/mwro/store'
 import { AxiosError } from 'axios'
 import useAuth from '@hooks/useAuth'
+import { Pencil, Plus, Star, Trash2 } from 'lucide-react-native'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -128,6 +129,8 @@ export default function StoreId() {
           contentStyle: {
             backgroundColor: ui.bg
           },
+          headerBackVisible: true,
+          headerLeft: undefined,
           headerShadowVisible: false,
           headerRight: ({ tintColor }) => (
             <HStack gap={13} items='center'>
@@ -137,15 +140,24 @@ export default function StoreId() {
                 items={[
                   {
                     label: 'Avaliar',
+                    icon: <Star />,
                     onPress: openRatingModal
                   },
                   {
+                    label: 'Editar',
+                    icon: <Pencil />,
+                    onPress: enableEditMode
+                  },
+                  {
                     label: 'Adicionar Produto',
+                    icon: <Plus />,
                     onPress: createProduct
                   },
                   {
                     label: 'Deletar Loja',
-                    onPress: handleDeleteStore
+                    icon: <Trash2 />,
+                    onPress: handleDeleteStore,
+                    color: ui.destructive
                   }
                 ]}
               />

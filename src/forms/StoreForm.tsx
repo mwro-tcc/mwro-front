@@ -119,6 +119,12 @@ export default function StoreForm(props: Props) {
           headerTitleStyle: {
             color: colors.ui_10
           },
+          headerBackVisible: false,
+          headerLeft: () => (
+            <HeaderTextButton color={colors.primary} onPress={onFinish}>
+              Cancelar
+            </HeaderTextButton>
+          ),
           headerRight: ({ tintColor }) => (
             <HeaderTextButton
               color={tintColor}
