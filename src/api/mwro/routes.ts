@@ -56,6 +56,9 @@ const Routes = {
     src: (assetId?: string) =>
       assetId ? `${MWRO_API_BASE_URL}images/${assetId}` : undefined,
     create: (assetId: string) => `/images/${assetId}`
+  },
+  Subscription: {
+    session: `/stripe/checkout-session`
   }
 }
 

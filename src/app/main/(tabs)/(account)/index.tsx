@@ -2,25 +2,48 @@ import colors, { ui } from '@ui/config/colors'
 import { useRouter } from 'expo-router'
 import ActionList from '@ui/ActionList'
 import { Auth, Routes } from '@api/mwro'
-import useModel from '@hooks/useModel'
 import { Alert, RefreshControl, ScrollView } from 'react-native'
 import Toast from '@lib/toast'
 import { User as UserType } from '@src/types/user'
 import User from '@api/mwro/user'
 import ScreenLoading from '@ui/ScreenLoading'
+import useBoolean from '@hooks/useBoolean'
+import { useEffect } from 'react'
+import Show from '@ui/Show'
+import { useQuery } from '@tanstack/react-query'
+import Api from '@api/mwro/api'
+import { Shield } from 'lucide-react-native'
 
 export default function Account() {
   const router = useRouter()
 
+  const isSubscribed = useBoolean(false)
+
   const {
     data: user,
-    loading,
-    refreshing,
-    handleRefresh,
+    isLoading: loading,
+    isRefetching: refreshing,
+    refetch: handleRefresh,
     error
-  } = useModel<UserType>({
-    url: Routes.Auth.me
+  } = useQuery<
+    UserType & {
+      isSubscribed: boolean
+    }
+  >({
+    queryKey: ['me'],
+    queryFn: () => Api.get(Routes.Auth.me).then((res) => res.data)
   })
+
+  useEffect(() => {
+    if (!user || user?.isSubscribed !== isSubscribed.value) return
+
+    if (user?.isSubscribed) {
+      Toast.success('Sua assinatura foi ativada com sucesso!')
+      isSubscribed.setTrue()
+    } else {
+      isSubscribed.setFalse()
+    }
+  }, [user, isSubscribed])
 
   if (loading) return <ScreenLoading />
 
@@ -66,6 +89,28 @@ export default function Account() {
     ])
   }
 
+  const handleSubscribe = () => {
+    router.push('/main/(account)/subscribe')
+  }
+
+  const handleUnsubscribe = () => {
+    const title = 'Encerrar Assinatura'
+    const description =
+      'Tem certeza que deseja encerrar a assinatura? Caso encerre, todas as suas comunidades serão removidas. Essa ação é irreversível.'
+
+    Alert.alert(title, description, [
+      {
+        text: 'Cancelar',
+        style: 'cancel'
+      },
+      {
+        text: 'Encerrar assinatura',
+        onPress: () => {},
+        style: 'destructive'
+      }
+    ])
+  }
+
   return (
     <ScrollView
       refreshControl={
@@ -104,19 +149,44 @@ export default function Account() {
           }
         ]}
       />
-      <ActionList
-        label='Gerenciar'
-        data={[
-          {
-            title: 'Minhas Comunidades',
-            onPress: () => router.push('/main/(account)/communities')
-          },
-          {
-            title: 'Minhas Lojas',
-            onPress: () => router.push('/main/(account)/stores')
-          }
-        ]}
-      />
+      <Show
+        when={isSubscribed.value}
+        placeholder={
+          <ActionList
+            label='Gerenciar'
+            data={[
+              {
+                title: 'Minhas Lojas',
+                onPress: () => router.push('/main/(account)/stores')
+              },
+              {
+                title: 'Tornar-se Administrador',
+                onPress: handleSubscribe,
+                color: ui.yellow
+              }
+            ]}
+          />
+        }
+      >
+        <ActionList
+          label='Gerenciar'
+          data={[
+            {
+              title: 'Minhas Comunidades',
+              onPress: () => router.push('/main/(account)/communities')
+            },
+            {
+              title: 'Minhas Lojas',
+              onPress: () => router.push('/main/(account)/stores')
+            },
+            {
+              title: 'Encerrar Assinatura',
+              onPress: handleUnsubscribe,
+              color: ui.destructive
+            }
+          ]}
+        />
+      </Show>
       <ActionList
         label='Solicitações'
         data={[

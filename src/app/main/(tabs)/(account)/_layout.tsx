@@ -28,6 +28,22 @@ export default function AccountLayout() {
       />
 
       <Stack.Screen
+        name='subscribe'
+        options={{ presentation: 'modal', headerShown: false }}
+      />
+
+      <Stack.Screen
+        name='manage_subscription'
+        options={{
+          headerTitle: 'Gerenciar Assinatura',
+          headerTintColor: colors.primary,
+          headerTitleStyle: {
+            color: ui.fg
+          }
+        }}
+      />
+
+      <Stack.Screen
         name='stores/[id]/products/[id]/index'
         options={{ presentation: 'modal', headerShown: false }}
       />
