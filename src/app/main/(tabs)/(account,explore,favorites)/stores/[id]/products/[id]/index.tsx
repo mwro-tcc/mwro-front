@@ -75,7 +75,7 @@ export default function ProductId() {
 
   const handleOpenWhatsApp = () => {
     openWhatsApp({
-      phoneNumber: '5521997025550',
+      phoneNumber: data.store.owner.phoneNumber,
       message: 'Olá, gostaria de fazer um pedido'
     })
   }
