@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import { StyleSheet, TextInputProps, View, ViewStyle } from 'react-native'
 import Text from './Text'
