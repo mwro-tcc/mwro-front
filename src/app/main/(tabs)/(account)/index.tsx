@@ -7,17 +7,15 @@ import Toast from '@lib/toast'
 import { User as UserType } from '@src/types/user'
 import User from '@api/mwro/user'
 import ScreenLoading from '@ui/ScreenLoading'
-import useBoolean from '@hooks/useBoolean'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Show from '@ui/Show'
 import { useQuery } from '@tanstack/react-query'
 import Api from '@api/mwro/api'
-import { Shield } from 'lucide-react-native'
 
 export default function Account() {
   const router = useRouter()
 
-  const isSubscribed = useBoolean(false)
+  const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
 
   const {
     data: user,
@@ -35,15 +33,14 @@ export default function Account() {
   })
 
   useEffect(() => {
-    if (!user || user?.isSubscribed !== isSubscribed.value) return
+    if (loading) return
 
-    if (user?.isSubscribed) {
+    if (user!.isSubscribed && isSubscribed === false) {
       Toast.success('Sua assinatura foi ativada com sucesso!')
-      isSubscribed.setTrue()
-    } else {
-      isSubscribed.setFalse()
     }
-  }, [user, isSubscribed])
+
+    setIsSubscribed(user!.isSubscribed)
+  }, [loading, user, isSubscribed])
 
   if (loading) return <ScreenLoading />
 
@@ -105,7 +102,18 @@ export default function Account() {
       },
       {
         text: 'Encerrar assinatura',
-        onPress: () => {},
+        onPress: () => {
+          Api.post(Routes.Subscription.cancel)
+            .then(() => {
+              Toast.success('Assinatura encerrada')
+            })
+            .catch((error) => {
+              Toast.error('Erro ao encerrar a assinatura')
+            })
+            .finally(() => {
+              setTimeout(handleRefresh, 1000)
+            })
+        },
         style: 'destructive'
       }
     ])
@@ -150,7 +158,7 @@ export default function Account() {
         ]}
       />
       <Show
-        when={isSubscribed.value}
+        when={isSubscribed}
         placeholder={
           <ActionList
             label='Gerenciar'

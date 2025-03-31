@@ -58,7 +58,8 @@ const Routes = {
     create: (assetId: string) => `/images/${assetId}`
   },
   Subscription: {
-    session: `/stripe/checkout-session`
+    session: `/stripe/checkout-session`,
+    cancel: `/stripe/cancel-subscription`
   }
 }
 
