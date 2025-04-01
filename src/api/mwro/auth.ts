@@ -28,7 +28,7 @@ class Auth {
     Api.post<AuthResponse>(Routes.Auth.sign_up, serializedData)
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
-        Toast.error(error?.message)
+        Toast.error('Não foi possível criar a conta')
       })
   }
 
@@ -41,8 +41,7 @@ class Auth {
     Api.post<AuthResponse>(Routes.Auth.sign_in, serializedData)
       .then(Auth.onSuccess)
       .catch((error: AxiosError) => {
-        Toast.error(error?.message)
-        console.log(error?.response)
+        Toast.error('Credenciais inválidas')
       })
   }
 

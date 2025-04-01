@@ -9,7 +9,7 @@ import { KeyboardAvoidingView } from 'react-native'
 import { Auth } from '@api/mwro'
 
 export default function SignIn() {
-  const { control, handleSubmit } = useForm<SignInForm>()
+  const { control, handleSubmit, formState } = useForm<SignInForm>()
   const router = useRouter()
 
   return (
@@ -44,7 +44,11 @@ export default function SignIn() {
           />
         </VStack>
         <VStack gap={10}>
-          <Button onPress={handleSubmit(Auth.signIn)} variant='primary'>
+          <Button
+            onPress={handleSubmit(Auth.signIn)}
+            variant='primary'
+            disabled={!formState.isValid}
+          >
             Próximo
           </Button>
           <Button onPress={() => router.replace('/welcome')}>Voltar</Button>

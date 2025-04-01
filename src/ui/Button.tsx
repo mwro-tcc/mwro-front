@@ -40,10 +40,7 @@ const button_variants = StyleSheet.create<Variants>({
   },
   disabled: {
     ...base_button_variant,
-    backgroundColor: colors.ui_7,
-    borderColor: colors.ui_6,
-    borderStyle: 'solid',
-    borderWidth: 1
+    backgroundColor: colors.ui_7
   },
   destructive: {
     ...base_button_variant,

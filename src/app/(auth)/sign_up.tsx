@@ -5,12 +5,11 @@ import { useRouter } from 'expo-router'
 import Button from '../../ui/Button'
 import VStack from '../../ui/VStack'
 import Text from '@ui/Text'
-import colors from '@ui/config/colors'
 import { Auth } from '@api/mwro'
 import PhoneInput from '@ui/PhoneInput'
 
 export default function SignUp() {
-  const { control, handleSubmit } = useForm<SignUpForm>()
+  const { control, handleSubmit, formState } = useForm<SignUpForm>()
   const router = useRouter()
 
   return (
@@ -65,7 +64,11 @@ export default function SignUp() {
         />
       </VStack>
       <VStack gap={10} pt={20}>
-        <Button onPress={handleSubmit(Auth.signUp)} variant='primary'>
+        <Button
+          onPress={handleSubmit(Auth.signUp)}
+          variant='primary'
+          disabled={!formState.isValid}
+        >
           Próximo
         </Button>
         <Button onPress={() => router.replace('/welcome')}>Voltar</Button>

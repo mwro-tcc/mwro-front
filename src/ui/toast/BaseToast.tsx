@@ -1,7 +1,7 @@
 import { ToastTypes } from './types'
 import Text from '../Text'
 import VStack from '../VStack'
-import colors from '../config/colors'
+import colors, { ui } from '../config/colors'
 
 type ToastProps = {
   type: ToastTypes
@@ -16,7 +16,7 @@ const toast_color = (type: ToastTypes) => {
     case 'warning':
       return colors.yellow_5
     case 'error':
-      return colors.ui_10
+      return ui.destructive
   }
 }
 

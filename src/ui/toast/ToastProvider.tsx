@@ -8,7 +8,7 @@ export default () => {
   return toasts?.length === 0 ? null : (
     <VStack absolute p={10} t={60} z={2} w='100%' gap={10}>
       {toasts.map((toastProps) => (
-        <BaseToast {...toastProps} />
+        <BaseToast key={toastProps?.key} {...toastProps} />
       ))}
     </VStack>
   )

@@ -27,7 +27,6 @@ Api.interceptors.response.use(
       return Promise.reject(error)
     }
 
-    console.error(error?.response?.data?.message ?? 'Server Error')
     return Promise.reject(error)
   }
 )
