@@ -16,6 +16,7 @@ import scope from '@lib/scope'
 import HStack from './HStack'
 import colors, { ui } from './config/colors'
 import { useEffect, useState } from 'react'
+import placeholderImage from '../assets/placeholder.png'
 
 type Props = StyleShorthands & {
   src?: string | null
@@ -25,7 +26,7 @@ type Props = StyleShorthands & {
   loading?: boolean
 }
 
-const PLACEHOLDER_IMAGE = ''
+const PLACEHOLDER_IMAGE = placeholderImage
 
 export default function Image(props: Props) {
   const {
@@ -57,10 +58,7 @@ export default function Image(props: Props) {
 
   const source = scope((): ImageSourcePropType => {
     if (!src || error) {
-      return {
-        uri: PLACEHOLDER_IMAGE,
-        cache: 'reload'
-      }
+      return PLACEHOLDER_IMAGE
     }
 
     if (hasAuthenticationHeaders && token) {
