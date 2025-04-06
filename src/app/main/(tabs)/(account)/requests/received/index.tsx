@@ -26,8 +26,8 @@ export default function ReceivedRequests() {
 
   const requests = data?.map((request) => ({
     ...request,
-    name: `Loja ${request.store.name}`,
-    description: `Deseja entrar em > ${request.community.name}`,
+    name: request.store.name,
+    description: request.community.name,
     onPress: () => handleOnPress(request)
   }))
 
