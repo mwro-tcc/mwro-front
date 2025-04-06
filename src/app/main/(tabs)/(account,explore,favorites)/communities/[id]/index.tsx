@@ -18,6 +18,8 @@ import { Link, Pencil, Store as StoreIcon, Trash2 } from 'lucide-react-native'
 import useAuth from '@hooks/useAuth'
 import CommunityApi from '@api/mwro/community'
 import { Alert } from 'react-native'
+import { useQuery } from '@tanstack/react-query'
+import Api from '@api/mwro/api'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -28,12 +30,13 @@ export default function Community() {
 
   const {
     data: community,
-    loading,
-    refreshing: isCommunityRefreshing,
+    isLoading: loading,
+    isRefetching: isCommunityRefreshing,
     error,
-    handleRefresh: handleCommunityRefresh
-  } = useModel<CommunityType>({
-    url: Routes.Community.get(id)
+    refetch: handleCommunityRefresh
+  } = useQuery<CommunityType>({
+    queryKey: ['community', id],
+    queryFn: () => Api.get(Routes.Community.get(id)).then((res) => res.data)
   })
 
   const {

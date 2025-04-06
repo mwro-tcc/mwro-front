@@ -3,7 +3,6 @@ import Api from '@api/mwro/api'
 import StoreForm from '@forms/StoreForm'
 import useBoolean from '@hooks/useBoolean'
 import useCollection from '@hooks/useCollection'
-import useModel from '@hooks/useModel'
 import Lib from '@lib/index'
 import Toast from '@lib/toast'
 import { ActionListSwipeAction } from '@ui/ActionList'
@@ -31,6 +30,7 @@ import {
   DoorOpen,
   CircleX
 } from 'lucide-react-native'
+import { useQuery } from '@tanstack/react-query'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -42,11 +42,12 @@ export default function StoreId() {
   const {
     data: store,
     error: storeError,
-    handleRefresh: handleStoreRefresh,
-    refreshing: refreshingStore,
-    loading: loadingStore
-  } = useModel<StoreType>({
-    url: Routes.Store.get(id)
+    refetch: handleStoreRefresh,
+    isRefetching: refreshingStore,
+    isLoading: loadingStore
+  } = useQuery<StoreType>({
+    queryKey: ['store', id],
+    queryFn: () => Api.get(Routes.Store.get(id)).then((res) => res.data)
   })
 
   const hasCommunity = store?.communityUuid !== null
@@ -140,8 +141,13 @@ export default function StoreId() {
     }
   ]
 
+  const handleFinishEditing = () => {
+    disabledEditMode()
+    handleStoreRefresh()
+  }
+
   if (edit) {
-    return <StoreForm store={store} onFinish={disabledEditMode} />
+    return <StoreForm store={store} onFinish={handleFinishEditing} />
   }
 
   if (!id) return <Redirect href='/main/(account)/stores' />
