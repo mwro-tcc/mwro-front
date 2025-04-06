@@ -199,7 +199,7 @@ export default function Account() {
         label='Solicitações'
         data={[
           {
-            title: 'Solicitações Pendentes',
+            title: 'Solicitações Enviadas',
             onPress: () => router.push('/main/(account)/requests/pending')
           },
           {
