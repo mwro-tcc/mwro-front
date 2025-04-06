@@ -27,7 +27,7 @@ export default function Community() {
   const { isCommunityOwner } = useAuth()
 
   const {
-    data,
+    data: community,
     loading,
     refreshing: isCommunityRefreshing,
     error,
@@ -63,7 +63,7 @@ export default function Community() {
 
   const handleEdit = () => {
     if (id) {
-      add(id, data)
+      add(id, community)
       router.push(`./edit`, {
         relativeToDirectory: true
       })
@@ -84,7 +84,7 @@ export default function Community() {
     )
   }
 
-  const menuRequestLabel = isCommunityOwner(data)
+  const menuRequestLabel = isCommunityOwner(community)
     ? 'Adicionar Loja'
     : 'Solicitar para ingressar'
 
@@ -151,7 +151,8 @@ export default function Community() {
                 {
                   label: 'Editar',
                   onPress: handleEdit,
-                  icon: <Pencil />
+                  icon: <Pencil />,
+                  condition: isCommunityOwner(community)
                 },
                 {
                   label: menuRequestLabel,
@@ -167,7 +168,8 @@ export default function Community() {
                   label: 'Deletar',
                   color: ui.destructive,
                   icon: <Trash2 />,
-                  onPress: handleDeleteCommunity
+                  onPress: handleDeleteCommunity,
+                  condition: isCommunityOwner(community)
                 }
               ]}
             />
@@ -176,9 +178,9 @@ export default function Community() {
       />
       <Show unless={loading}>
         <AssetHeader
-          asset={data!}
+          asset={community!}
           childCategory='Lojas'
-          hasPermissionsToEdit={isCommunityOwner(data)}
+          hasPermissionsToEdit={isCommunityOwner(community)}
         />
 
         <Show unless={isLoadingStores} placeholder={<ScreenLoading />}>

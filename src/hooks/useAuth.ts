@@ -26,7 +26,9 @@ export default () => {
 
   const isCommunityOwner = useCallback(
     (community: any) => {
-      return Boolean(community?.admins.some((admin: any) => admin.uuid === user.data))
+      return Boolean(
+        community?.admins?.some((admin: any) => admin.uuid === user.data)
+      )
     },
     [user.data]
   )

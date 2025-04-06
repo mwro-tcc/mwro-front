@@ -33,7 +33,9 @@ const Routes = {
     get_community_products: (id: string | undefined | null) =>
       `/communities/${id}/products`,
     get_community_stores: (uuid: string | undefined | null) =>
-      `/communities/${uuid}/stores`
+      `/communities/${uuid}/stores`,
+    kick_store: (uuid: string | undefined | null) =>
+      `/communities/${uuid}/kick-store`
   },
   Store: {
     list_user_stores: '/stores/mine',

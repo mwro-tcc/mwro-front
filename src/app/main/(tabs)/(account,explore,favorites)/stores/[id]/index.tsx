@@ -1,4 +1,4 @@
-import { Routes } from '@api/mwro'
+import { Community, Routes } from '@api/mwro'
 import Api from '@api/mwro/api'
 import StoreForm from '@forms/StoreForm'
 import useBoolean from '@hooks/useBoolean'
@@ -23,12 +23,19 @@ import useCache from '@hooks/useCache'
 import Store from '@api/mwro/store'
 import { AxiosError } from 'axios'
 import useAuth from '@hooks/useAuth'
-import { Pencil, Plus, Star, Trash2, DoorOpen } from 'lucide-react-native'
+import {
+  Pencil,
+  Plus,
+  Star,
+  Trash2,
+  DoorOpen,
+  CircleX
+} from 'lucide-react-native'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const { isAssetOwner } = useAuth()
+  const { isAssetOwner, isCommunityOwner } = useAuth()
 
   const { add } = useCache()
 
@@ -107,6 +114,16 @@ export default function StoreId() {
     handleStoreRefresh()
   }
 
+  const handleKickStore = async () => {
+    await Community.kick_store(store).catch((error: AxiosError) => {
+      Toast.error(error?.message)
+    })
+
+    Toast.success('Loja removida da comunidade com sucesso')
+
+    handleStoreRefresh()
+  }
+
   const handleDelete = async (id: string) => {
     Lib.error_callback(
       await Lib.safe_call(Api.delete, [Routes.Product.delete(id)]),
@@ -158,17 +175,20 @@ export default function StoreId() {
                   {
                     label: 'Avaliar',
                     icon: <Star />,
-                    onPress: openRatingModal
+                    onPress: openRatingModal,
+                    condition: !isAssetOwner(store)
                   },
                   {
                     label: 'Editar',
                     icon: <Pencil />,
-                    onPress: enableEditMode
+                    onPress: enableEditMode,
+                    condition: isAssetOwner(store)
                   },
                   {
                     label: 'Adicionar Produto',
                     icon: <Plus />,
-                    onPress: createProduct
+                    onPress: createProduct,
+                    condition: isAssetOwner(store)
                   },
                   {
                     label: `Sair da comunidade (${store?.community?.name})`,
@@ -178,10 +198,19 @@ export default function StoreId() {
                     condition: hasCommunity && isAssetOwner(store)
                   },
                   {
+                    label: `Remover da comunidade (${store?.community?.name})`,
+                    icon: <CircleX />,
+                    onPress: handleKickStore,
+                    color: ui.destructive,
+                    condition:
+                      hasCommunity && isCommunityOwner(store?.community)
+                  },
+                  {
                     label: 'Deletar Loja',
                     icon: <Trash2 />,
                     onPress: handleDeleteStore,
-                    color: ui.destructive
+                    color: ui.destructive,
+                    condition: isAssetOwner(store)
                   }
                 ]}
               />
