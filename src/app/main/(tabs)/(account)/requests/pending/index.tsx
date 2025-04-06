@@ -11,8 +11,8 @@ export default function PendingRequests() {
 
   const requests = data?.map((request) => ({
     ...request,
-    name: `Comunidade ${request.community.name}`,
-    description: `Loja > ${request.store.name}`
+    name: `${request.community.name}`,
+    description: `${request.store.name}`
   }))
 
   return (
