@@ -42,6 +42,8 @@ export default function StoreId() {
     url: Routes.Store.get(id)
   })
 
+  const hasCommunity = store?.communityUuid !== null
+
   const {
     data: products,
     error: productsError,
@@ -97,8 +99,6 @@ export default function StoreId() {
       ...store,
       communityUuid: null
     }
-
-    console.log(storeData)
 
     await Store.update(storeData).catch((error: AxiosError) => {
       Toast.error(error?.message)
@@ -175,7 +175,7 @@ export default function StoreId() {
                     icon: <DoorOpen />,
                     onPress: handleLeaveCommunity,
                     color: ui.destructive,
-                    condition: store?.communityUuid !== null
+                    condition: hasCommunity && isAssetOwner(store)
                   },
                   {
                     label: 'Deletar Loja',
