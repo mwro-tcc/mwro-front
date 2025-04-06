@@ -23,7 +23,7 @@ import useCache from '@hooks/useCache'
 import Store from '@api/mwro/store'
 import { AxiosError } from 'axios'
 import useAuth from '@hooks/useAuth'
-import { Pencil, Plus, Star, Trash2 } from 'lucide-react-native'
+import { Pencil, Plus, Star, Trash2, DoorOpen } from 'lucide-react-native'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -53,13 +53,15 @@ export default function StoreId() {
   const router = useRouter()
 
   const {
-    value: ratingModalIsOpen,
+    value: ratingModal,
     setTrue: openRatingModal,
     setFalse: closeRatingModal
   } = useBoolean(false)
 
   const submitRating = async (ratingScore: number) => {
-    return await Rating.submit_rating(id, ratingScore)
+    await Rating.submit_rating(id, ratingScore)
+
+    handleStoreRefresh()
   }
 
   const createProduct = () => {
@@ -88,6 +90,21 @@ export default function StoreId() {
     })
 
     router.back()
+  }
+
+  const handleLeaveCommunity = async () => {
+    const storeData = {
+      ...store,
+      communityUuid: null
+    }
+
+    console.log(storeData)
+
+    await Store.update(storeData).catch((error: AxiosError) => {
+      Toast.error(error?.message)
+    })
+
+    handleStoreRefresh()
   }
 
   const handleDelete = async (id: string) => {
@@ -154,6 +171,13 @@ export default function StoreId() {
                     onPress: createProduct
                   },
                   {
+                    label: `Sair da comunidade (${store?.community?.name})`,
+                    icon: <DoorOpen />,
+                    onPress: handleLeaveCommunity,
+                    color: ui.destructive,
+                    condition: store?.communityUuid !== null
+                  },
+                  {
                     label: 'Deletar Loja',
                     icon: <Trash2 />,
                     onPress: handleDeleteStore,
@@ -184,7 +208,7 @@ export default function StoreId() {
         swipeActions={swipeActions}
       />
       <RatingModal
-        visible={ratingModalIsOpen}
+        visible={ratingModal}
         onClose={closeRatingModal}
         onSubmit={submitRating}
         assetLabel='Loja'

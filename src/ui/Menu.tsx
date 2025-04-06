@@ -26,6 +26,7 @@ export type MenuItemProps = {
   icon?: ReactElement
   color?: string
   onPress?: () => void
+  condition?: boolean
 }
 
 type Props = Omit<StyleShorthands, 'items'> & {
@@ -131,9 +132,11 @@ function Menu(props: Props) {
       }, 300)
     }
 
+    const shouldRender = item.condition ?? true
+
     return (
       <VStack key={index}>
-        <MenuItem {...item} onPress={handlePress} />
+        {shouldRender && <MenuItem {...item} onPress={handlePress} />}
         <Show unless={index === props.items!.length - 1}>
           <HStack bg={colors.ui_7} h={StyleSheet.hairlineWidth} />
         </Show>
