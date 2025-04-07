@@ -125,7 +125,9 @@ function AssetList(props: Props) {
       data={data ?? []}
       keyExtractor={(item) => item.uuid}
       showsVerticalScrollIndicator={false}
-      style={{ flex: 1 }}
+      style={{
+        flex: 1
+      }}
     />
   )
 }

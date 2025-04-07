@@ -1,5 +1,4 @@
 import { Redirect, Stack, router, useLocalSearchParams } from 'expo-router'
-import useModel from '@hooks/useModel'
 import { Routes } from '@api/mwro'
 import { Community as CommunityType } from '@src/types/community'
 import Show from '@ui/Show'
@@ -20,6 +19,7 @@ import CommunityApi from '@api/mwro/community'
 import { Alert } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import Api from '@api/mwro/api'
+import Empty from '@ui/Empty'
 
 export default function Community() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -151,12 +151,16 @@ export default function Community() {
               debug
               color={tintColor}
               items={[
-                {
-                  label: 'Editar',
-                  onPress: handleEdit,
-                  icon: <Pencil />,
-                  condition: isCommunityOwner(community)
-                },
+                ...(isCommunityOwner(community)
+                  ? [
+                      {
+                        label: 'Editar',
+                        onPress: handleEdit,
+                        icon: <Pencil />,
+                        condition: isCommunityOwner(community)
+                      }
+                    ]
+                  : []),
                 {
                   label: menuRequestLabel,
                   icon: <StoreIcon />,
@@ -167,13 +171,17 @@ export default function Community() {
                   icon: <Link />,
                   onPress: copyToClipboard
                 },
-                {
-                  label: 'Deletar',
-                  color: ui.destructive,
-                  icon: <Trash2 />,
-                  onPress: handleDeleteCommunity,
-                  condition: isCommunityOwner(community)
-                }
+                ...(isCommunityOwner(community)
+                  ? [
+                      {
+                        label: 'Deletar',
+                        color: ui.destructive,
+                        icon: <Trash2 />,
+                        onPress: handleDeleteCommunity,
+                        condition: isCommunityOwner(community)
+                      }
+                    ]
+                  : [])
               ]}
             />
           )
@@ -182,16 +190,21 @@ export default function Community() {
       <Show unless={loading}>
         <AssetHeader
           asset={community!}
-          childCategory='Lojas'
+          childCategory={stores?.length ?? 0 > 0 ? 'Lojas' : ''}
           hasPermissionsToEdit={isCommunityOwner(community)}
         />
 
         <Show unless={isLoadingStores} placeholder={<ScreenLoading />}>
-          <AssetList
-            data={stores}
-            onRefresh={handleRefresh}
-            refreshing={refreshing}
-          />
+          <Show
+            when={stores?.length ?? 0 > 0}
+            placeholder={<Empty message='Sem lojas' />}
+          >
+            <AssetList
+              data={stores}
+              onRefresh={handleRefresh}
+              refreshing={refreshing}
+            />
+          </Show>
         </Show>
       </Show>
     </>

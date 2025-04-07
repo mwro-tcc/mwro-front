@@ -1,4 +1,5 @@
 import Request from '@api/mwro/requests'
+import Toast from '@lib/toast'
 import AddStoreModal from 'components/AddStoreModal'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 
@@ -8,15 +9,15 @@ export default function AddStore() {
   const router = useRouter()
 
   const handleSubmit = async (storeId: string) => {
-    try {
-      await Request.send_request({
-        communityUuid: communityId,
-        storeUuid: storeId
+    return Request.send_request({
+      communityUuid: communityId,
+      storeUuid: storeId
+    })
+      .catch((error) => {
+        Toast.error('Não foi possível realizar a ação')
+        console.log(error)
       })
-      router.back()
-    } catch (error) {
-      console.log(error)
-    }
+      .finally(router.back)
   }
 
   return <AddStoreModal handleSubmit={handleSubmit} communityId={communityId} />

@@ -51,11 +51,13 @@ function MenuItem(props: MenuItemProps) {
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <HStack justify='between' items='center' px={16} py={10}>
-        <Text color={props.color ?? colors.ui_10} size={17}>
-          {props.label}
-        </Text>
-        {icon}
+      <HStack justify='between' items='center' px={16} py={10} gap={5}>
+        <HStack flex={1}>
+          <Text color={props.color ?? colors.ui_10} size={17}>
+            {props.label}
+          </Text>
+        </HStack>
+        <HStack>{icon}</HStack>
       </HStack>
     </TouchableOpacity>
   )
@@ -184,7 +186,7 @@ function Menu(props: Props) {
               position: 'absolute',
               top: position.y + 100,
               right: position.x + 20,
-              width: 200,
+              width: 230,
               opacity,
               transformOrigin: 'top right',
               transform: [

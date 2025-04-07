@@ -2,6 +2,7 @@ import Request from '@api/mwro/requests'
 import useCache from '@hooks/useCache'
 import Button from '@ui/Button'
 import colors from '@ui/config/colors'
+import HStack from '@ui/HStack'
 import Text from '@ui/Text'
 import VStack from '@ui/VStack'
 import AssetList from 'components/AssetList'
@@ -38,14 +39,17 @@ export default function RequestId() {
     router.back()
   }
 
+  const message = `A loja "${request?.store?.name}" deseja participar da comunidade ${request?.community?.name}`
+
   return (
     <>
       <Stack.Screen
         options={{
-          headerTitle: ''
+          headerTitle: '',
+          headerTintColor: colors.primary
         }}
       />
-      <VStack flex={1} justify='start' bg={colors.background} mt={35}>
+      <VStack flex={1} bg={colors.background} mt={35}>
         <VStack flex={1} gap={20}>
           <Text
             weight='600'
@@ -56,48 +60,32 @@ export default function RequestId() {
               paddingHorizontal: 19
             }}
           >
-            A loja {request?.store?.name} deseja participar da comunidade
-            {request?.community?.name}
+            {message}
           </Text>
           <AssetList data={storeRequestedFormatted} />
         </VStack>
 
-        <VStack gap={10} p={19}>
+        <HStack gap={10} p={19} justify='evenly'>
+          <Button
+            onPress={handleReject}
+            variant='destructive'
+            style={{
+              flex: 1
+            }}
+          >
+            Rejeitar
+          </Button>
           <Button
             onPress={handleApprove}
-            style={styles.acceptButton}
             variant='primary'
+            style={{
+              flex: 1
+            }}
           >
             Aprovar
           </Button>
-          <Button onPress={handleReject} variant='destructive'>
-            Rejeitar
-          </Button>
-        </VStack>
+        </HStack>
       </VStack>
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  acceptButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    padding: 12,
-    borderRadius: 8,
-    color: colors.ui_3,
-    backgroundColor: colors.primary
-  },
-  rejectButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    padding: 12,
-    borderRadius: 8,
-    color: colors.red_3,
-    backgroundColor: colors.primary
-  }
-})

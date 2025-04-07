@@ -26,6 +26,7 @@ export default function ReceivedRequests() {
 
   const requests = data?.map((request) => ({
     ...request,
+    uuid: request.storeUuid,
     name: request.store.name,
     description: request.community.name,
     onPress: () => handleOnPress(request)

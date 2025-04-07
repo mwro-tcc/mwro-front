@@ -11,6 +11,7 @@ export default function PendingRequests() {
 
   const requests = data?.map((request) => ({
     ...request,
+    uuid: request.communityUuid,
     name: request.community.name,
     description: request.store.name
   }))
@@ -19,7 +20,7 @@ export default function PendingRequests() {
     <>
       <Stack.Screen
         options={{
-          headerTitle: `Solicitações pendentes`,
+          headerTitle: `Solicitações Enviadas`,
           headerTintColor: colors.primary,
           headerBackTitle: 'Voltar',
           headerTitleStyle: {

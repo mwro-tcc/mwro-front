@@ -31,6 +31,9 @@ import {
   CircleX
 } from 'lucide-react-native'
 import { useQuery } from '@tanstack/react-query'
+import scope from '@lib/scope'
+import returnlog from '@lib/returnlog'
+import Empty from '@ui/Empty'
 
 export default function StoreId() {
   const { id } = useLocalSearchParams<{ id: string }>()
@@ -108,21 +111,27 @@ export default function StoreId() {
       communityUuid: null
     }
 
-    await Store.update(storeData).catch((error: AxiosError) => {
-      Toast.error(error?.message)
-    })
-
-    handleStoreRefresh()
+    Store.update(storeData)
+      .then(() => {
+        Toast.success('Sua loja saiu da comunidade')
+      })
+      .catch(() => {
+        Toast.error('Não foi possível sair da comunidade')
+      })
+      .finally(() => {
+        handleStoreRefresh()
+      })
   }
 
   const handleKickStore = async () => {
-    await Community.kick_store(store).catch((error: AxiosError) => {
-      Toast.error(error?.message)
-    })
-
-    Toast.success('Loja removida da comunidade com sucesso')
-
-    handleStoreRefresh()
+    await Community.kick_store(store)
+      .then(() => {
+        Toast.success('Loja removida da comunidade com sucesso')
+      })
+      .catch(() => {
+        Toast.error('Não foi possível remover da comunidade')
+      })
+      .finally(handleStoreRefresh)
   }
 
   const handleDelete = async (id: string) => {
@@ -132,6 +141,61 @@ export default function StoreId() {
     )
     handleProductsRefresh()
   }
+
+  const menuItems = scope(() => {
+    const isOwner = isAssetOwner(store)
+
+    return returnlog(
+      [
+        {
+          label: 'Avaliar',
+          icon: <Star />,
+          onPress: openRatingModal
+        },
+        {
+          label: 'Editar',
+          icon: <Pencil />,
+          onPress: enableEditMode
+        },
+        {
+          label: 'Adicionar Produto',
+          icon: <Plus />,
+          onPress: createProduct
+        },
+        {
+          label: `Sair da comunidade "${store?.community?.name}"`,
+          icon: <DoorOpen />,
+          onPress: handleLeaveCommunity,
+          color: ui.destructive
+        },
+        {
+          label: `Remover da comunidade "${store?.community?.name}"`,
+          icon: <CircleX />,
+          onPress: handleKickStore,
+          color: ui.destructive
+        },
+        {
+          label: 'Deletar Loja',
+          icon: <Trash2 />,
+          onPress: handleDeleteStore,
+          color: ui.destructive
+        }
+      ].filter((_, index) => {
+        switch (index) {
+          case 1:
+          case 2:
+          case 5:
+            return isOwner
+          case 3:
+            return hasCommunity && isAssetOwner(store)
+          case 4:
+            return hasCommunity && isCommunityOwner(store?.community)
+          default:
+            return true
+        }
+      })
+    )
+  })
 
   const swipeActions: ActionListSwipeAction = (item) => [
     {
@@ -175,51 +239,7 @@ export default function StoreId() {
           headerRight: ({ tintColor }) => (
             <HStack gap={13} items='center'>
               <FavoriteIcon asset={store!} onAfterClick={handleStoreRefresh} />
-              <Menu
-                color={tintColor}
-                items={[
-                  {
-                    label: 'Avaliar',
-                    icon: <Star />,
-                    onPress: openRatingModal,
-                    condition: !isAssetOwner(store)
-                  },
-                  {
-                    label: 'Editar',
-                    icon: <Pencil />,
-                    onPress: enableEditMode,
-                    condition: isAssetOwner(store)
-                  },
-                  {
-                    label: 'Adicionar Produto',
-                    icon: <Plus />,
-                    onPress: createProduct,
-                    condition: isAssetOwner(store)
-                  },
-                  {
-                    label: `Sair da comunidade (${store?.community?.name})`,
-                    icon: <DoorOpen />,
-                    onPress: handleLeaveCommunity,
-                    color: ui.destructive,
-                    condition: hasCommunity && isAssetOwner(store)
-                  },
-                  {
-                    label: `Remover da comunidade (${store?.community?.name})`,
-                    icon: <CircleX />,
-                    onPress: handleKickStore,
-                    color: ui.destructive,
-                    condition:
-                      hasCommunity && isCommunityOwner(store?.community)
-                  },
-                  {
-                    label: 'Deletar Loja',
-                    icon: <Trash2 />,
-                    onPress: handleDeleteStore,
-                    color: ui.destructive,
-                    condition: isAssetOwner(store)
-                  }
-                ]}
-              />
+              <Menu color={tintColor} items={menuItems} />
             </HStack>
           ),
           headerTitle: ''
@@ -229,19 +249,24 @@ export default function StoreId() {
         <AssetHeader
           asset={store!}
           averageScore={store?.averageScore}
-          childCategory='Produtos'
+          childCategory={products?.length ?? 0 > 0 ? 'Produtos' : ''}
           hasPermissionsToEdit={isAssetOwner(store)}
         />
       </Show>
-      <AssetList
-        onRefresh={handleStoreRefresh}
-        refreshing={refreshingStore}
-        data={products?.map((product) => ({
-          ...product,
-          onPress: () => goToProduct(product.uuid)
-        }))}
-        swipeActions={swipeActions}
-      />
+      <Show
+        when={products?.length ?? 0 > 0}
+        placeholder={<Empty message='Sem produtos' />}
+      >
+        <AssetList
+          onRefresh={handleStoreRefresh}
+          refreshing={refreshingStore}
+          data={products?.map((product) => ({
+            ...product,
+            onPress: () => goToProduct(product.uuid)
+          }))}
+          swipeActions={swipeActions}
+        />
+      </Show>
       <RatingModal
         visible={ratingModal}
         onClose={closeRatingModal}

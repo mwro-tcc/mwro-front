@@ -12,7 +12,7 @@ type ToastProps = {
 const toast_color = (type: ToastTypes) => {
   switch (type) {
     case 'success':
-      return colors.green_5
+      return colors.primary
     case 'warning':
       return colors.yellow_5
     case 'error':
