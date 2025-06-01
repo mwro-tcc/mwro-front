@@ -1,12 +1,5 @@
 import { Routes } from '@api/mwro'
-import useModel from '@hooks/useModel'
-import {
-  Redirect,
-  Stack,
-  useFocusEffect,
-  useLocalSearchParams,
-  useRouter
-} from 'expo-router'
+import { Redirect, Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { Product as ProductType } from '@src/types/product'
 import useCache from '@hooks/useCache'
 import { openWhatsApp } from 'components/WhatsAppIcon'

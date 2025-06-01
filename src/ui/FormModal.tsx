@@ -13,7 +13,7 @@ export default function FormModal(props: {
   actionLabel: string
   cancelLabel: string
   attributeLabel: string
-  onSubmit?: (value: string) => Promise<any>
+  onSubmit?: (value: string) => any
   inputType?: 'phone'
 }) {
   const {
